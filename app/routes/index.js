@@ -1,8 +1,10 @@
-const { Router } = require('express');
-const router = Router();
-// const TesteController = require('../controllers');
+const base = require('./base');
+const usuarios = require('./usuarios');
 
-router
-    // .get('/', TesteController.exibeVariavel);
 
-module.exports = router;    
+module.exports = app => {
+    app.use(
+        base,
+        usuarios
+    );
+};

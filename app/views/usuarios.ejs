@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lista de Usuários</title>
+    <link rel='stylesheet' href='/styles/main.css' />
+</head>
+
+<body>
+    <main>
+        <h1>Lista de Usuários</h1>
+        <p>Bem vindo(a) a <strong>lista de usuários</strong>.</p>
+        <p>Exibindo informações do banco de dados com o <strong>Sequelize</strong> através do Controller para a View EJS:</p>
+        <ul>
+            <% usuarios.forEach(function(usuarios) { %>
+            <li>
+                <%= usuarios.nome %><span>:</span>
+                <%= usuarios.email %>
+            </li>
+            <% }) %>
+        </ul>
+    </main>
+</body>
+
+</html>

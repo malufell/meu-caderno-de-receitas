@@ -1,22 +1,30 @@
 const express = require('express');
+const port = 3000;
+const path = require('path');
+const createError = require('http-errors');
+const routes = require('./routes');
+
+
 const app = express();
-const bodyParser = require('body-parser');
-const path =  require('path');
+routes(app);
 
-//para receber informações HTML + json
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
 
-// set the view engine to ejs
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// provide the complete path of the views folder  
-app.set('views', path.resolve('app','views'));
-
-// index page
-app.get('/', function(req, res) {
-    res.render('pages/index');
+    
+//erros
+app.use((req, res, next) => {
+    next(createError(404));
 });
 
-app.listen(3000, () => console.log('servidor rodando na porta 3000'));
+app.use((err, req, res, next) => {
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.status(err.status || 500);
+    res.render('error');
+});
+
+app.listen(`${port}`, () => console.log(`servidor rodando na porta ${port}`))

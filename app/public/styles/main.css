@@ -1,0 +1,9 @@
+body {
+    font: 18px "Segoe UI";
+    line-height: 2;
+}
+
+main, footer {
+    max-width: 960px;
+    margin: 0 auto;
+}
