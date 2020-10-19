@@ -9,6 +9,6 @@ class Usuarios {
             return resp.render('error');
         };
     }; 
-}
+};
 
 module.exports = Usuarios;

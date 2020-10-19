@@ -1,0 +1,20 @@
+<head>
+    <title>Dados Cadastrais</title>
+    <link rel='stylesheet' href='/styles/main.css' />
+</head>
+
+<h1>Dados do usuário <%=usuario.nome%></h1>
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><%= usuario.nome %></td>
+            <td><%= usuario.email %></td>
+        </tr>
+    </tbody>
+</table>
