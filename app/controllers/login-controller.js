@@ -13,6 +13,7 @@ class Login {
                     return res.render('login', { alert: true, mensagem: 'senha incorreta' });
                 } else {
                     return res.render('dados-cadastro', { usuario });
+                }
             } else {
                 return res.render('login', { alert: true, mensagem: 'cadastro não localizado' });
             };
