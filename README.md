@@ -15,10 +15,12 @@ Meu foco será aprimorar a minha capacidade de aprendizado, pesquisa e resoluç�
 
 
 ## Conteúdo
-- [Descrição do Projeto](#descrição-do-projeto)
-- [Definindo o caminho: análise do negócio, análise técnica, wireframe](#definindo-o-caminho)
-- [Criação da página temporária "em breve"](#criação-da-página-temporária)
-- [O que está em andamento](#o-que-está-em-andamento)
+1. [Descrição do Projeto](#descrição-do-projeto)
+2. [Definindo o caminho: análise do negócio, análise técnica, wireframe](#definindo-o-caminho)
+3. [Criação da página temporária "em breve"](#criação-da-página-temporária)
+4. [Primeiros passos com EJS e Sequelize juntos](#primeiros-passos-com-ejs-e-sequelize-juntos)
+5. [Criação da tela de login: verifica e-mail e senha](#criação-da-tela-de-login-verifica-e-mail-e-senha-mag)
+6. [O que está em andamento](#o-que-está-em-andamento)
 
 
 ---
@@ -65,10 +67,20 @@ Hey! Acho que ficou bem bonita :heart_eyes:
 
 Em breve irei compartilhar como montei, desde a inspiração até a configuração para ela ir para o ar com o uso do gh-pages :grinning:
 
+## Primeiros passos com EJS e Sequelize juntos
+
+Done!
+
+Em breve o texto :)
+
+## Criação da tela de login: verifica e-mail e senha :mag:
+
+Done!
+
+Em breve o texto :)
+
 ---
 
 ## O que está em andamento
 
-Neste momento estou configurando o meu ambiente para o desenvolvimento do projeto e montando a configuração inicial da aplicação (instalação das dependências e etc).
-
-
+Neste momento estou estudando sobre o [passport](http://www.passportjs.org/docs/) e [express-session](https://github.com/expressjs/session) para implementar a autenticação de usuários da aplicação.
