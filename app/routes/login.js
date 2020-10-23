@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Login = require('../controllers/login-controller')
 
 router.get('/login', (req, res, next) => {
-    res.render('login', {alert: {}});
+    const errors = req.flash().error || [];
+    res.render('login', { errors });
 });
-
-router.post('/login', Login.buscaPorId);
 
 module.exports = router;
