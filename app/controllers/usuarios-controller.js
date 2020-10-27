@@ -14,7 +14,7 @@ class Usuarios {
         const { email } = req.params;
         try {
             const usuario = await database.Usuarios.findOne({ where: { email: email }});
-            console.log(usuario)
+            console.log(usuario.nome)
             return resp.render('dados-cadastro', { usuario: usuario });
         } catch (error) {
             return resp.render('error', { error, message: error.message });
@@ -23,5 +23,3 @@ class Usuarios {
 };
 
 module.exports = Usuarios;
-
-//passar o ID na req ao invés de e-mail...

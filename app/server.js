@@ -5,7 +5,7 @@ const createError = require('http-errors');
 const routes = require('./routes');
 const app = express();
 const bodyParser = require('body-parser');
-
+const expressLayouts = require('express-ejs-layouts')
 
 const autenticacao = require('../app/config/autenticacao');
 autenticacao(app);
@@ -19,6 +19,7 @@ routes(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(expressLayouts);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
