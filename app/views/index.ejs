@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 
 <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/styles/main.css'/> 
+    <link rel='stylesheet' href='/styles/main.css' />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 
 <body>
+    <%- include('../views/partials/nav-geral.ejs') %>
     <main>
         <h1><%= title %></h1>
         <p>Bem vindo(a) ao <strong><%= product %></strong>!</p>
@@ -14,9 +17,7 @@
         <a href="/login">Login</a><br>
         <a href="/autenticada">Teste autenticação</a>
     </main>
-    <footer>
-        <p>Versão <%= version %></p>
-    </footer>
+    <%- include('../views/partials/footer.ejs') %>
 </body>
 
 </html>
