@@ -3,8 +3,9 @@ const router = express.Router();
 const passport = require('passport');
 
 router.get('/login', (req, res, next) => {
-    const errors = req.flash().error || [];
-    res.render('login', { errors });
+    const msgs = req.flash();
+    const errors = msgs.error || [];
+    res.render('login', { errors, msgUsuario: {}, cadastro: msgs.cadastroEfetuado }); 
 });
 
 
@@ -12,7 +13,7 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true,
     failureRedirect: '/login',
 }), (req, res, next) => {
-    res.redirect('/dados-cadastro/' + req.user.email);
+    res.redirect('/dados-cadastro/' + req.user.id);
 })
 
 
@@ -21,6 +22,5 @@ router.get('/logout', function (req, res) {
         res.redirect('/')
     })
 });
-
 
 module.exports = router;

@@ -5,8 +5,9 @@
   "main": "./app/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --inspect ./app/server.js",
-    "debug": "nodemon --inspect ./app/server.js"
+    "start": "nodemon ./app/server.js",
+    "debug": "nodemon --inspect ./app/server.js",
+    "console": "node --experimental-repl-await console"
   },
   "keywords": [],
   "author": "Malu Fell",

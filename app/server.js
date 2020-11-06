@@ -6,6 +6,7 @@ const routes = require('./routes');
 const app = express();
 const bodyParser = require('body-parser');
 const expressLayouts = require('express-ejs-layouts')
+const flash = require('connect-flash')
 
 const autenticacao = require('../app/config/autenticacao');
 autenticacao(app);
@@ -13,6 +14,8 @@ autenticacao(app);
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
+app.use(flash());
 
 //precisa ficar depois do bodyparser!! se não da erro no flash
 routes(app);

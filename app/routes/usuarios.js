@@ -4,8 +4,13 @@ const Usuarios = require('../controllers/usuarios-controller');
 
 router.get('/usuarios', Usuarios.buscaUsuarios);
 
-router.get('/dados-cadastro/:email', Usuarios.buscaUmUsuario);
+router.get('/dados-cadastro/:id', Usuarios.buscaUmUsuario);
 
+router.get('/cadastro', (req, res, next) => {
+    res.render('form-cadastro', { error: false, dados: {} })
+});
+
+router.post('/cadastro', Usuarios.cadastraUsuario);
 
 //rota utilizada para teste da autenticação
 router.get('/autenticada', function (req, res, next) {

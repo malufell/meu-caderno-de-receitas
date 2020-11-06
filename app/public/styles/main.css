@@ -1,13 +1,45 @@
 body, table {
     font: 18px "Segoe UI";
     line-height: 2;
+
 }
 
 main {
     max-width: 960px;
-    margin: 10% auto 15% auto;
+    margin: 5% auto 5%;
+}
+
+label {
+    font-weight: bold;
 }
 
 .dropdown-menu {
     left: -120px !important;
+}
+
+h3 {
+    text-align: center;
+}
+
+.imagem-cadastro {
+    background: url("../images/cadastro.jpg");
+    background-size: cover;
+    background-color: black;
+    opacity: 0.8;
+    height: 100vh;    
+    
+}
+
+.imagem-cadastro:hover {
+    /* color: #777676; */
+    opacity: 1;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.logo {
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    padding-bottom: 5%;
+    color: darkred;
 }
