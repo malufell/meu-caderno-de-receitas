@@ -24,11 +24,11 @@ module.exports = (app) => {
         function (email, senha, done) {
             database.Usuarios.findOne({ where: { email: email } }).then(function (usuario) {
                 if (!usuario) {
-                    return done(null, false, { message: 'usuário não encontrado' });
+                    return done(null, false, { message: 'Usuário não encontrado' });
                 }
                 if (usuario.senha != senha) {
 
-                    return done(null, false, { message: 'senha inválida' });
+                    return done(null, false, { message: 'Senha inválida' });
                 }
                 return done(null, usuario)
             })
