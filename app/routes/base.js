@@ -8,4 +8,8 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/caderno', (req, res, next) => {
+    res.render('caderno-receitas', { usuario: 'malu' });
+});
+
 module.exports = router;

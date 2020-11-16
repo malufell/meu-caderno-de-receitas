@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Caderno de Receitas</title>
+    <link rel='stylesheet' href='/styles/caderno-receitas.css' />
+    <link rel='stylesheet' href='/styles/main.css' />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+</head>
+
+<body>
+    <%- include('../views/partials/nav-user.ejs') %>
+    <main>
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <div class="col-sm-12">
+
+                    <div class="container-fluid p-0 ordenacao">
+
+                        <!-- ordenação no desktop e ipad com botões -->
+                        <div class="d-none d-sm-block">
+                            <div class="btn-toolbar mb-3 justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                                <div class="btn-group" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm ml-1">A-Z</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm">Z-A</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm">Data de inclusão</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm">Data de atualização</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm">Cadastrar nova receita</button>
+                                </div>
+                                <div class="input-group w-25 pl-3">
+                                    <input type="text" class="form-control" placeholder="Ex.: brownie" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ordenação no mobile com dropdown -->
+                        <menu class="dropdown d-block d-sm-none mt-1 p-0">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle col-12" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Ordenar receitas
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" type="button">A-Z</button>
+                                <button class="dropdown-item" type="button">Z-A</button>
+                                <button class="dropdown-item" type="button">Data de inclusão</button>
+                                <button class="dropdown-item" type="button">Data de atualização</button>
+                            </div>
+
+                            <!-- categorias no mobilie com dropdown -->
+                            <div class="dropdown d-block d-sm-none mt-1">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle col-12" type="button"
+                                    id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Filtrar por categoria
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button">Todas as receitas</button>
+                                    <div class="dropdown-divider"></div>
+                                    <button class="dropdown-item" type="button">Receitas Favoritas</button>
+                                    <button class="dropdown-item" type="button">Lowcarb</button>
+                                    <button class="dropdown-item" type="button">FIT</button>
+                                    <button class="dropdown-item" type="button">Vegana</button>
+                                    <button class="dropdown-item" type="button">Vegetariana</button>
+                                    <button class="dropdown-item" type="button">Doces</button>
+                                    <button class="dropdown-item" type="button">Salgados</button>
+                                    <button class="dropdown-item" type="button">Bebidas</button>
+                                </div>
+                            </div>
+
+                            <!-- cadastro no mobile -->
+                            <div class="p-0 col-12">
+                                <button type="button" class="btn btn-sm btn-outline-secondary col-12 mt-1">Cadastrar nova receita</button>
+                            </div>
+                            </menu>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8 col-lg-9">
+                    <div class="row row-cols-md-2 row-cols-lg-3">
+
+                        <article class="col-12 mb-3 ">
+                            <div class="card d-flex justify-content-center">
+                                <img src="/images/card-receita-1.jpg" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Pão de leite</h5>
+                                </div>
+                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
+                            </div>
+                        </article>
+
+                        <article class="col-12 mb-3 ">
+                            <div class="card d-flex justify-content-center">
+                                <img src="/images/card-receita-2.jpg" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Cookies com gotas de chocolate</h5>
+                                </div>
+                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
+                            </div>
+                        </article>
+
+                        <article class="col-12 mb-3 ">
+                            <div class="card d-flex justify-content-center">
+                                <img src="/images/card-receita-3.jpg" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Pizza caseira</h5>
+                                </div>
+                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
+                            </div>
+                        </article>
+
+                        <article class="col-12 mb-3">
+                            <div class="card d-flex justify-content-center">
+                                <img src="/images/card-receita-4.jpg" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sorvete de baunilha com cobertura de frutas vermelhas
+                                    </h5>
+                                </div>
+                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
+                            </div>
+                        </article>
+
+                        <article class="col-12 mb-3">
+                            <div class="card d-flex justify-content-center">
+                                <img src="/images/card-receita-5.jpg" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Avocado toast</h5>
+                                </div>
+                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
+                            </div>
+                        </article>
+
+                        <article class="col-12 mb-3">
+                            <div class="card d-flex justify-content-center">
+                                <img src="/images/card-receita-6.png" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Pão artesano</h5>
+                                </div>
+                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
+                            </div>
+                        </article>
+
+                        <article class="col-12 mb-3">
+                            <div class="card d-flex justify-content-center">
+                                <img src="/images/card-receita-7.jpg" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Espaguete à bolonhesa</h5>
+                                </div>
+                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-lg-3">
+
+                    <!-- categorias no desktop com lista -->
+                    <h4 class="d-none d-sm-block categorias mt-1 mb-3">Categorias</h4>
+                    <div class="row d-none d-sm-block">
+                        <div class="col-12 ">
+                            <div class="list-group" role="tablist">
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Todas as receitas
+                                    <span class="badge badge-secondary badge-pill">28</span></a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Receitas Favoritas 
+                                    <span class="badge badge-secondary badge-pill">7</span></a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Lowcarb 
+                                        <span class="badge badge-secondary badge-pill">7</span></a>
+                                <a class="list-group-item list-group-item-action"     data-toggle="list" href=" " role="tab">FIT
+                                    <span class="badge badge-secondary badge-pill">6</span></a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Vegana
+                                    <span class="badge badge-secondary badge-pill">5</span></a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Vegetariana 
+                                    <span class="badge badge-secondary badge-pill">4</span></a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Doces 
+                                    <span class="badge badge-secondary badge-pill">3</span></a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab" >Salgados 
+                                    <span class="badge badge-secondary badge-pill">2</span></a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Bebidas 
+                                    <span class="badge badge-secondary badge-pill">1</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+    <%- include('../views/partials/footer.ejs') %>
+
+
+</body>
+
+</html>
