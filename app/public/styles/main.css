@@ -5,21 +5,18 @@ body, table {
 }
 
 main {
-    max-width: 960px;
-    margin: 5% auto 5%;
+    max-width: 95%;
+    margin: 1% auto 5%;
+}
+
+h3 {
+    text-align: center;
 }
 
 label {
     font-weight: bold;
 }
 
-.dropdown-menu {
-    left: -120px !important;
-}
-
-h3 {
-    text-align: center;
-}
 
 .imagem-cadastro {
     background: url("../images/cadastro.jpg");
@@ -27,11 +24,9 @@ h3 {
     background-color: black;
     opacity: 0.8;
     height: 100vh;    
-    
 }
 
 .imagem-cadastro:hover {
-    /* color: #777676; */
     opacity: 1;
     cursor: pointer;
     transition: 300ms;
@@ -41,5 +36,23 @@ h3 {
     font-family: 'Pacifico', cursive;
     text-align: center;
     padding-bottom: 5%;
-    color: darkred;
+    color: darkred !important;
+    font-size: 2rem !important;
+}
+
+
+footer {
+    padding: 2.5rem 0;
+    color:whitesmoke;
+    text-align: center;
+    background-color: #333;
+    border-top: .05rem solid #e5e5e5;
+}
+
+footer p:last-child {
+    margin-bottom: 0;
+}
+
+footer a {
+    color: whitesmoke;
 }
