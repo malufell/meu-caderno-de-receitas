@@ -1,4 +1,7 @@
 .imagem-receita {
     width: 500px !important;
+}
 
+.categoria {
+    font-weight: normal;
 }
