@@ -16,11 +16,8 @@
     <main>
 
         <div class="container-fluid">
-
             <div class="row">
-
                 <div class="col-sm-12">
-
                     <div class="container-fluid p-0 ordenacao">
 
                         <!-- ordenação no desktop e ipad com botões -->
@@ -31,7 +28,11 @@
                                     <button type="button" class="btn btn-outline-secondary btn-sm">Z-A</button>
                                     <button type="button" class="btn btn-outline-secondary btn-sm">Data de inclusão</button>
                                     <button type="button" class="btn btn-outline-secondary btn-sm">Data de atualização</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm">Cadastrar nova receita</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#cadastro-receita">Cadastrar nova receita</button>
+                                    <%- include('../views/partials/modal-cadastro-receita.ejs') %>
+
+
+
                                 </div>
                                 <div class="input-group w-25 pl-3">
                                     <input type="search" id="search" name="search" class="form-control" placeholder="Ex.: brownie" aria-label="Input group example" aria-describedby="btnGroupAddon2">
@@ -76,13 +77,11 @@
 
                             <!-- cadastro no mobile -->
                             <div class="p-0 col-12">
-                                <button type="button" class="btn btn-sm btn-outline-secondary col-12 mt-1">Cadastrar nova receita</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary col-12 mt-1" data-toggle="modal" data-target="#cadastro-receita">Cadastrar nova receita</button>
                             </div>
-                            </menu>
-
+                        </menu>
                     </div>
                 </div>
-
             </div>
 
             <div class="row">
@@ -191,15 +190,12 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>
-
         </div>
     </main>
     <%- include('../views/partials/footer.ejs') %>
-
 
 </body>
 
