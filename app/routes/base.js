@@ -21,6 +21,10 @@ router.get('/cadastro-receita', (req, res, next) => {
     res.render('cadastro-receita', { usuario: 'malu' });
 });
 
+router.get('/cadastro-receita-foto', (req, res, next) => {
+    res.render('cadastro-receita-via-foto', { usuario: 'malu' });
+});
+
 //upload de imagens:
 
 // cria uma instância do middleware configurado
