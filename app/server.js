@@ -5,8 +5,9 @@ const createError = require('http-errors');
 const routes = require('./routes');
 const app = express();
 const bodyParser = require('body-parser');
-const expressLayouts = require('express-ejs-layouts')
-const flash = require('connect-flash')
+const expressLayouts = require('express-ejs-layouts');
+const flash = require('connect-flash');
+const multer = require('multer');
 
 const autenticacao = require('../app/config/autenticacao');
 autenticacao(app);
