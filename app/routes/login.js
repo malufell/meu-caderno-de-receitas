@@ -13,7 +13,7 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true,
     failureRedirect: '/login',
 }), (req, res, next) => {
-    res.redirect('/dados-cadastro-usuario/' + req.user.id);
+    res.redirect('/usuario/' + req.user.id);
 })
 
 
