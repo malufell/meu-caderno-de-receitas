@@ -22,24 +22,27 @@
 
                     <div class="container-fluid d-flex justify-content-center">
                         <div class="row mb-1 mt-2">
-                            <h4 class='text-center'>Sorvete de baunilha com cobertura de frutas vermelhas</h4>
+                            <h4 class='text-center'><%= receita.nome %></h4>
                         </div>
                     </div>
 
                     <div class="container-fluid d-flex justify-content-center">
                         <div class="row mb-3">
                             <h5>
-                                <span class="badge badge-secondary">Lowcarb</span>
-                                <span class="badge badge-secondary">Doce</span>
+                                <% receita.categorias.forEach(function(categoria) { %>
+                                    <span class="badge badge-secondary"><%= categoria.categoria %></span>
+                                <% }) %>
                             </h5>
                         </div>
                     </div>
 
+                    <% if (receita.imagem) { %>
                     <div class="container-fluid">
                         <div class="row d-flex justify-content-center">
-                            <img src="/images/card-receita-4.jpg" alt="..." class="img-fluid border rounded-lg imagem-receita">
+                            <img src="<%= imagem %>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
                         </div>
                     </div>
+                   <% } %>
 
 
                     <div class="container-fluid mt-3">
@@ -47,13 +50,9 @@
                             <h4>Lista de Ingredientes:</h4>
                         </div>
                         <div class="row d-flex justify-content-center mt-3 lista-ingredientes">
-                            <ul>
-                                <li>2 xícaras (chá) de castanha de caju crua hidratada</li>
-                                <li>4 colheres (sopa) de coco ralado</li>
-                                <li>2 gotas de extrato de baunilha</li>
-                                <li>2 colheres (sopa) de açúcar demerara ou açúcar de coco</li>
-                                <li>100g de chocolate amargo para cobertura</li>
-                            </ul>
+                            <p>
+                                <%= receita.ingredientes %>
+                            </p>
                         </div>
                     </div>
 
@@ -62,57 +61,31 @@
                             <h4>Modo de preparo:</h4>
                         </div>
                         <div class="row d-flex justify-content-center mt-3 lista-ingredientes">
-                            <ol>
-                                <li>
-                                    Deixar a castanha de caju hidratando por pelo menos 3 horas.
-                                </li>
-                                <li>
-                                    Escorrer a água e bater a castanha hidratada em um liquidificador com as gotas de
-                                    extrato de
-                                    baunilha até virar um creme bem pastoso.
-                                </li>
-                                <li>
-                                    Em uma tigela, misturar essa "massa" com os demais ingredientes e misturar bem.
-                                </li>
-                                <li>
-                                    Preencher as forminhas e levar ao freezer.
-                                </li>
-                                <li>
-                                    Para a cobertura, coloque em um recipiente de vidro, o chocolate amargo picado em
-                                    pedaços pequenos.
-                                </li>
-                                <li>
-                                    Derreta no micro-ondas por cerca de 30 segundos (para não queimar) ou coloque em
-                                    banho maria.
-                                </li>
-                                <li>
-                                    Retire o sorvete do freezer e cubra com o chocolate.
-                                </li>
-                            </ol>
+                            <%= receita.preparo %>
                         </div>
                     </div>
 
                     <div class="container-fluid mt-3">
                         <div class="row d-flex justify-content-center">
                             <h4>O pulo do gato :)</h4>
-
                         </div>
                         <div class="row d-flex justify-content-center mt-3 lista-ingredientes">
                             <p>
-                                Evite colocar o chocolate muito quente, deixe esfriar um pouco antes de cobrir o
-                                sorvete;
+                                <%= receita.dicas %>
                             </p>
                         </div>
                     </div>
 
+                    <% if (receita.video) { %>
                     <div class="container-fluid">
                         <div class="row d-flex justify-content-center mt-5">
                             <h4>Vídeo da receita:</h4>
                         </div>
                             <div class="row d-flex justify-content-center mt-3">
-                                <iframe width="560" height="315" src="https://www.youtube.com/embed/njrEK7iAvDA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe width="560" height="315" src=<%= video %> frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                     </div>
+                    <% } %>
                 </div>
 
                 <div class="col-md-4">
@@ -128,7 +101,7 @@
 
                         <div class="mt-3">
                             <i class="fas fa-book"></i>
-                            <a href="/caderno">Voltar ao caderno de receitas</a>
+                            <a href="/receitas">Voltar ao caderno de receitas</a>
                         </div>
                                              
                         <small>

@@ -12,12 +12,22 @@
     <%- include('../views/partials/nav-geral.ejs') %>
     <main>
         <h1 class="mt-5 pt-5">Boas vindas</h1>
+
         <p>Bem vindo(a) ao <strong>Meu Caderno de Receitas</strong>!</p>
-        <a href="/cadastro">Cadastro usuario</a><br>
+
+        <a href="/usuario-cadastro">Cadastro usuario</a><br>
+
         <a href="/login">Login</a><br>
-        <a href="/autenticada">Teste autenticação</a><br>
-        <a href="/caderno">Ver caderno de receitas</a><br>
-        <a href="/receita">Exibe uma receita</a><br>
+
+        <a href="/usuario/4">Exibe dados do usuario</a><br>
+        
+
+        <!-- PENDENTE: -->
+        <a href='/receitas'>Ver caderno de receitas</a><br> 
+
+        <a href="/receitas-cadastro">Cadastrar receita</a><br>
+        
+        <a href="/receitas/55">Exibe uma receita</a><br>
 
     </main>
     <%- include('../views/partials/footer.ejs') %>
