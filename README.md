@@ -37,3 +37,5 @@ Assim surgiu a inspiração que deu origem ao projeto :bulb:
 ## O que está em andamento
 
 Neste momento estou estruturando o cadastro de novas receitas no site!
+
+![gif](https://media.giphy.com/media/LmNwrBhejkK9EFP504/giphy.gif)
