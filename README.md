@@ -20,7 +20,7 @@ Meus textos estão na [wiki aqui do github](https://github.com/malufell/meu-cade
 3. [Meus primeiros passos com EJS](https://github.com/malufell/meu-caderno-de-receitas/wiki/3.-Primeiros-passos-com-EJS)
 4. [Configurações para uso do Sequelize com o PostgreSQL](https://github.com/malufell/meu-caderno-de-receitas/wiki/4.-Sequelize-com-PostgreSQL)
 5. [EJS e Sequelize juntos, no padrão MVC!](https://github.com/malufell/meu-caderno-de-receitas/wiki/5.-EJS-e-Sequelize-juntos)
-
+6. [Autenticacação de usuários com passport e express-session](https://github.com/malufell/meu-caderno-de-receitas/wiki/6.-Autentica%C3%A7%C3%A3o-de-usu%C3%A1rios)
 
 ---
  
