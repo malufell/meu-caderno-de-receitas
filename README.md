@@ -12,7 +12,7 @@ Este é o meu primeiro projeto autoral, onde irei praticar o que estou estudando
 
 Meu foco será aprimorar a minha capacidade de aprendizado, pesquisa e resolução de problemas. Irei documentar o meu processo de desenvolvimento e compartilhar alguns registros com base no que aprendi!
 
-Meus textos estão na [wiki aqui do github](https://github.com/malufell/meu-caderno-de-receitas/wiki).
+Meus textos estão na [wiki aqui do github](https://github.com/malufell/meu-caderno-de-receitas/wiki) e nestes links também:
 
 ### Conteúdo
 1. [Definindo o caminho: análise do negócio, análise técnica, wireframe](https://github.com/malufell/meu-caderno-de-receitas/wiki/1.-Definindo-o-caminho)
