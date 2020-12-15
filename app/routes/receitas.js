@@ -22,21 +22,31 @@ router.get('/', (req, res, next) => {
     });
 });
 
+//caderno de receitas
 router.get('/receitas/', (req, res, next) => {
     res.render('receitas', { usuario: 'malu' });
 });
 
-router.get('/receitas/:id', Receitas.buscaUmaReceita);
+//cria objeto receitas vazio
+router.get('/receitas-cadastro', Receitas.exibeFormularioReceita);
 
-router.get('/receitas-cadastro', Receitas.buscaTodasCategorias);
-    
+//cadastra uma nova receita
 router.post('/receitas-cadastro', upload.single('file'), Receitas.cadastraReceita);
+
+//busca os dados da receita no BD para edição
+router.get('/receitas/:id/edicao', Receitas.editaReceita);
+
+//atualiza uma receita na base
+router.put('/receitas/:id/edicao', upload.single('file'), Receitas.atualizaReceita);
+
+//exibe a receita na tela - findOne
+router.get('/receitas/:id', Receitas.buscaUmaReceita);
 
 router.get('/receitas-cadastro-foto', (req, res, next) => {
     res.render('receitas-cadastro-foto', { usuario: 'malu' });
 });
 
-// ***** teste inclusão em tabela many-to-many *****
-router.get('/receitas-teste', Receitas.buscaTodasReceitas);
+//lista de receitas - teste
+router.get('/todas-receitas', Receitas.buscaTodasReceitas)
 
 module.exports = router;
