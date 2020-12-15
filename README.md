@@ -24,7 +24,7 @@ Meus textos estão na [wiki aqui do github](https://github.com/malufell/meu-cade
 
 ---
  
-## Descrição do Projeto
+### Descrição do Projeto
 
 **"Meu caderno de receitas": uma aplicação web para registro e gestão de receitas culinárias.** Inspirado nos costumes antigos, onde um caderno na cozinha continha as relíquias gastronômicas da família. 
 
@@ -34,7 +34,7 @@ Assim surgiu a inspiração que deu origem ao projeto :bulb:
 
 ---
 
-## O que está em andamento
+### O que está em andamento
 
 Neste momento estou estruturando a exibição do repositório de receitas no site - nessa versão será através dos cards do bootstrap. Ah, nunca fiz a parte de paginação, estou aprendendo agora tbm!
 
