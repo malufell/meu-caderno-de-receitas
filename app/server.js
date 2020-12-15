@@ -7,14 +7,17 @@ const app = express();
 const bodyParser = require('body-parser');
 const expressLayouts = require('express-ejs-layouts');
 const flash = require('connect-flash');
-const multer = require('multer');
-
-const autenticacao = require('../app/config/autenticacao');
-autenticacao(app);
+const methodOverride = require("method-override");
 
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
+//middleware para os métodos PUT do HTML 
+app.use(methodOverride('_method'))
+
+const autenticacao = require('../app/config/autenticacao');
+autenticacao(app);
 
 app.use(flash());
 
