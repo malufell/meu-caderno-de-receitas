@@ -36,6 +36,6 @@ Assim surgiu a inspiração que deu origem ao projeto :bulb:
 
 ## O que está em andamento
 
-Neste momento estou estruturando o cadastro de novas receitas no site!
+Neste momento estou estruturando a exibição do repositório de receitas no site - nessa versão será através dos cards do bootstrap. Ah, nunca fiz a parte de paginação, estou aprendendo agora tbm!
 
 ![gif](https://media.giphy.com/media/LmNwrBhejkK9EFP504/giphy.gif)
