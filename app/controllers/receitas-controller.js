@@ -1,4 +1,6 @@
 const database = require('../models');
+// const Sequelize = require('sequelize');
+const { Op } = require("sequelize");
 
 class Receitas {
 
@@ -7,7 +9,7 @@ class Receitas {
             autenticadas: '/receita*',
         }
     };
-    
+
     static async exibeFormularioReceita(req, resp) {
 
         try {
@@ -19,14 +21,14 @@ class Receitas {
                 ingredientes: "",
                 preparo: "",
                 dicas: ""
-            }); 
-
-            return resp.render('receitas-cadastro', { 
-                receita: receita, 
-                categorias: categorias, 
-                usuario: req.user.id 
             });
-            
+
+            return resp.render('receitas-cadastro', {
+                receita: receita,
+                categorias: categorias,
+                usuario: req.user.id
+            });
+
         } catch (error) {
             return resp.render('error', { error, message: error.message });
         }
@@ -36,27 +38,28 @@ class Receitas {
         const { id } = req.params;
 
         try {
-            const receita = await database.Receitas.findOne({ 
-                where: { id: id },  
+            const receita = await database.Receitas.findOne({
+                where: { id: id, usuario_id: req.user.id },
                 include: [
                     {
-                    model: database.Categorias,
-                    as: 'categorias',
-                    through: { attributes: [] },
+                        model: database.Categorias,
+                        as: 'categorias',
+                        through: { attributes: [] },
                     },
                 ],
             });
-            
+
             const imagem = ("/uploads/" + receita.imagem);
             const video = ("https://www.youtube.com/embed/" + receita.video);
             const categorias = await database.Categorias.findAll();
 
-            return resp.render('receitas-cadastro', { 
-                receita: receita, 
-                categorias: categorias, 
-                imagem: imagem, 
-                video: video, 
-                usuario: req.user.id });
+            return resp.render('receitas-cadastro', {
+                receita: receita,
+                categorias: categorias,
+                imagem: imagem,
+                video: video,
+                usuario: req.user.id
+            });
 
         } catch (error) {
             return resp.render('error', { error, message: error.message });
@@ -64,42 +67,87 @@ class Receitas {
     };
 
     static async atualizaReceita(req, resp) {
-            const { id } = req.params;
-            const novaInformacao = req.body;
-            novaInformacao.imagem = (req.file ? req.file.filename : req.body.imagem);
-            const categorias = req.body.categorias;
+        const { id } = req.params;
+        const novaInformacao = req.body;
+        novaInformacao.imagem = (req.file ? req.file.filename : req.body.imagem);
+        novaInformacao.video = req.body.video;
+        const categorias = req.body.categorias;
 
-            try {
-                await database.Receitas.update(novaInformacao, { where: { id: id } });
-                const receitaAtualizada = await database.Receitas.findOne({ where: { id: id }});
+        try {
+            await database.Receitas.update(novaInformacao, { where: { id: id, usuario_id: req.user.id } });
+            const receitaAtualizada = await database.Receitas.findOne({ where: { id: id } });
 
-                if (categorias && categorias.length > 0) {
-                    receitaAtualizada.setCategorias(categorias);
-                }       
+            if (categorias && categorias.length > 0) {
+                receitaAtualizada.setCategorias(categorias);
+            }
 
-                return resp.redirect('/receitas/' + id)
+            return resp.redirect('/receitas/' + id)
 
-            } catch (error) {
-                return resp.render('error', { error, message: error.message });
-            };
+        } catch (error) {
+            return resp.render('error', { error, message: error.message });
         };
+    };
 
 
     static async buscaTodasReceitas(req, resp) {
+        
+        //ordenação das receitas no caderno
+        let ordenacao = [[req.query.order]]
+        req.query.order ? ordenacao = [[req.query.order]] : ordenacao = [['nome', 'ASC']];
+        
+        const busca = req.query.q ? req.query.q : '';
+
+        // filtros
+        const { categoriaSelecionada } = req.query;
+        const whereCondicoes = { 
+            usuario_id: req.user.id,
+            nome: { [Op.iLike]: '%'+ busca + '%'} 
+        };
+        if (categoriaSelecionada) {
+            whereCondicoes['$categorias.id$'] = categoriaSelecionada;
+        }
 
         try {
-            const receitas = await database.Receitas.findAll({
-            include: [
-                {
-                model: database.Categorias,
-                as: 'categorias',
-                through: { attributes: [] },
-                },
-            ],
-            order: [['id', 'DESC']]
+            //conta quantas receitas tem por categoria
+            const categorias = await database.Receitas.count({
+                include: [{ 
+                    model: database.Categorias, 
+                    as: 'categorias', 
+                    attributes: [], 
+                }], 
+                group: ['categorias.categoria', 'categorias.id'],
+                where: { usuario_id: req.user.id }
             });
-        
-            return resp.status(200).json(receitas);
+
+            //conta o total de receitas do usuário
+            const contagemTotal = await database.Receitas.findAndCountAll({
+                where: { usuario_id: req.user.id },
+            });
+
+            //busca todas as receitas
+            const receitas = await database.Receitas.findAll({ 
+                attributes: ['id', 'nome', 'imagem'],
+                include: [{ 
+                    model: database.Categorias,
+                    as: 'categorias', 
+                    through: { attributes: [] }, 
+                }], 
+                where: whereCondicoes, 
+                order: ordenacao,
+            });
+
+            return resp.render('receitas', { 
+                receitas: receitas,
+                contagemTotal: contagemTotal.count, 
+                categorias: categorias, 
+                usuario: req.user.id, 
+                categoriaAtiva: categoriaSelecionada,
+                paginaAtual: 1,
+                paginaAnterior: 1,
+                proximaPagina: 2,
+                totalPaginas: 5,
+                busca: busca
+            });
 
         } catch (error) {
             return resp.render('error', { error, message: error.message });
@@ -111,23 +159,26 @@ class Receitas {
 
         try {
             const receita = await database.Receitas.findOne({
-            where: { id: id },  
-            include: [
-                {
-                model: database.Categorias,
-                as: 'categorias',
-                through: { attributes: [] },
+                where: { 
+                    id: id,
+                    usuario_id: req.user.id
                 },
-            ],
+                include: [
+                    {
+                        model: database.Categorias,
+                        as: 'categorias',
+                        through: { attributes: [] },
+                    },
+                ],
             });
 
             const imagem = ("/uploads/" + receita.imagem);
             const video = ("https://www.youtube.com/embed/" + receita.video);
 
-            return resp.render('receitas-id', { 
-                receita: receita, 
-                imagem: imagem, 
-                video: video, 
+            return resp.render('receitas-id', {
+                receita: receita,
+                imagem: imagem,
+                video: video,
                 usuario: req.user.id
             });
 
@@ -136,7 +187,7 @@ class Receitas {
         }
     };
 
-    static async cadastraReceita (req, resp) {
+    static async cadastraReceita(req, resp) {
         const categorias = req.body.categorias;
 
         try {
@@ -150,7 +201,7 @@ class Receitas {
                 usuario_id: req.user.id,
                 categorias: req.body.categorias
             });
-    
+
             if (categorias && categorias.length > 0) {
                 receita.setCategorias(categorias);
             }

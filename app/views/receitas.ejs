@@ -23,21 +23,20 @@
                         <!-- ordenação no desktop e ipad com botões -->
                         <div class="d-none d-sm-block">
                             <div class="btn-toolbar mb-3 justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                                <div class="btn-group" role="group" aria-label="First group">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm ml-1">A-Z</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm">Z-A</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm">Data de inclusão</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm">Data de atualização</button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#cadastro-receita">Cadastrar nova receita</button>
+                                <div class="input-group" role="group" aria-label="First group">
+                                    <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">A-Z</a>
+                                    <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">Z-A</a>
+                                    <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">Data de inclusão</a>
+                                    <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">Data de atualização</a>
+                                    <a class="btn btn-outline-secondary ml-1" data-toggle="modal" data-target="#cadastro-receita">Cadastrar nova receita</a>
                                     <%- include('../views/partials/modal-cadastro-receita.ejs') %>
                                 </div>
-                                
-                                <div class="input-group w-25 pl-3">
-                                    <input type="search" id="search" name="search" class="form-control" placeholder="Ex.: brownie" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+                                <form action='/receitas?' class="search input-group w-25 pl-3">
+                                    <input type="search" id="search" name="q" class="form-control" placeholder="Ex.: brownie">
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button">Buscar</button>
+                                        <button class="btn btn-outline-secondary">Buscar</button>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
 
@@ -47,10 +46,20 @@
                                 Ordenar receitas
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <button class="dropdown-item" type="button">A-Z</button>
-                                <button class="dropdown-item" type="button">Z-A</button>
-                                <button class="dropdown-item" type="button">Data de inclusão</button>
-                                <button class="dropdown-item" type="button">Data de atualização</button>
+                                <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" class="dropdown-item" type="button">A-Z</a>
+                                <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" class="dropdown-item" type="button">Z-A</a>
+                                <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" class="dropdown-item" type="button">Data de inclusão</a>
+                                <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" class="dropdown-item" type="button">Data de atualização</a>
+                            </div>
+
+                            <!-- busca no mobile -->
+                            <div class="d-block d-sm-none mt-1 p-0">
+                                <form action='/receitas?' class="search input-group">
+                                    <input type="search" id="search" name="q" class="form-control" placeholder="Ex.: brownie">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary btn-sm">Buscar</button>
+                                    </div>
+                                </form>
                             </div>
 
                             <!-- categorias no mobilie com dropdown -->
@@ -60,22 +69,23 @@
                                     Filtrar por categoria
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <button class="dropdown-item" type="button">Todas as receitas</button>
+                                    <a class="dropdown-item" type="button" href="/receitas">Todas as receitas
+                                        <span class="badge badge-secondary badge-pill"><%= contagemTotal %></span></a>
                                     <div class="dropdown-divider"></div>
-                                    <button class="dropdown-item" type="button">Receitas Favoritas</button>
-                                    <button class="dropdown-item" type="button">Lowcarb</button>
-                                    <button class="dropdown-item" type="button">FIT</button>
-                                    <button class="dropdown-item" type="button">Vegana</button>
-                                    <button class="dropdown-item" type="button">Vegetariana</button>
-                                    <button class="dropdown-item" type="button">Doces</button>
-                                    <button class="dropdown-item" type="button">Salgados</button>
-                                    <button class="dropdown-item" type="button">Bebidas</button>
+
+                                    <% categorias.forEach(function(categoria) { %>
+                                        <% if (categoria.id != null) { %>
+                                            <a class="dropdown-item" type="button" href="/receitas?categoriaSelecionada=<%=categoria.id%>"><%= categoria.categoria %>
+                                            <span class="badge badge-secondary badge-pill"><%=categoria.count %></span></a>
+                                        <% } %>
+                                    <% }) %>
                                 </div>
                             </div>
 
                             <!-- cadastro no mobile -->
                             <div class="p-0 col-12">
-                                <button type="button" class="btn btn-sm btn-outline-secondary col-12 mt-1" data-toggle="modal" data-target="#cadastro-receita">Cadastrar nova receita</button>
+                                <a class="btn btn-sm btn-outline-secondary col-12 mt-1" data-toggle="modal" data-target="#cadastro-receita">Cadastrar nova receita</a>
+                                <%- include('../views/partials/modal-cadastro-receita.ejs') %>
                             </div>
                         </menu>
                     </div>
@@ -85,106 +95,50 @@
             <div class="row">
                 <div class="col-sm-8 col-lg-9">
                     <div class="row row-cols-md-2 row-cols-lg-3">
-
-                        <article class="col-12 mb-3 ">
-                            <div class="card d-flex justify-content-center">
-                                <img src="/images/card-receita-1.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Pão de leite</h5>
+                        <% receitas.forEach(function(receita) { %>
+                            <article class="col-12 mb-3 ">
+                                <div class="card d-flex justify-content-center">
+                                    <img src="/uploads/<%= receita.imagem ? receita.imagem : "sem-imagem.jpg" %>" class="card-img-top">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= receita.nome %></h5>
+                                    </div>
+                                    <a href="/receitas/<%= receita.id %>" class="btn btn-secondary mt-3">Ver receita</a>
                                 </div>
-                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
-                            </div>
-                        </article>
-
-                        <article class="col-12 mb-3 ">
-                            <div class="card d-flex justify-content-center">
-                                <img src="/images/card-receita-2.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Cookies com gotas de chocolate</h5>
-                                </div>
-                                <a href="" class="btn btn-info mt-3">Ver receita</a>
-                            </div>
-                        </article>
-
-                        <article class="col-12 mb-3 ">
-                            <div class="card d-flex justify-content-center">
-                                <img src="/images/card-receita-3.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Pizza caseira</h5>
-                                </div>
-                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
-                            </div>
-                        </article>
-
-                        <article class="col-12 mb-3">
-                            <div class="card d-flex justify-content-center">
-                                <img src="/images/card-receita-4.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sorvete de baunilha com cobertura de frutas vermelhas
-                                    </h5>
-                                </div>
-                                <a href="/receitas/55" class="btn btn-info mt-3">Ver receita</a>
-                            </div>
-                        </article>
-
-                        <article class="col-12 mb-3">
-                            <div class="card d-flex justify-content-center">
-                                <img src="/images/card-receita-5.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Avocado toast</h5>
-                                </div>
-                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
-                            </div>
-                        </article>
-
-                        <article class="col-12 mb-3">
-                            <div class="card d-flex justify-content-center">
-                                <img src="/images/card-receita-6.png" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Pão artesano</h5>
-                                </div>
-                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
-                            </div>
-                        </article>
-
-                        <article class="col-12 mb-3">
-                            <div class="card d-flex justify-content-center">
-                                <img src="/images/card-receita-7.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Espaguete à bolonhesa</h5>
-                                </div>
-                                <a href="#" class="btn btn-info mt-3">Ver receita</a>
-                            </div>
-                        </article>
-
+                            </article>
+                        <% }) %>
                     </div>
+
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <% if(totalPaginas > 1) { %>      
+                                <a class="page-link" href="/receitas?paginaAtual=<%=paginaAnterior%>" tabindex="-1" aria-disabled="true">Anterior</a>
+                            </li>
+                            <% for (let i=1; i < (totalPaginas + 1); i++) { %>
+                                <li class="page-item <%=(paginaAtual == i) ? "active" : "" %>"><a class="page-link " href="/receitas?paginaAtual=<%=i%>"><%=i%></a></li>
+                            <% } %>
+                                <a class="page-link" href="/receitas?paginaAtual=<%=proximaPagina%>">Próxima</a>
+                            <% } %>  
+                          </li>
+                        </ul>
+                    </nav>
                 </div>
 
                 <div class="col-sm-4 col-lg-3">
-
                     <!-- categorias no desktop com lista -->
                     <h4 class="d-none d-sm-block categorias mt-1 mb-3">Categorias</h4>
                     <div class="row d-none d-sm-block">
                         <div class="col-12 ">
                             <div class="list-group" role="tablist">
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Todas as receitas
-                                    <span class="badge badge-secondary badge-pill">28</span></a>
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Receitas Favoritas 
-                                    <span class="badge badge-secondary badge-pill">7</span></a>
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Lowcarb 
-                                        <span class="badge badge-secondary badge-pill">7</span></a>
-                                <a class="list-group-item list-group-item-action"     data-toggle="list" href=" " role="tab">FIT
-                                    <span class="badge badge-secondary badge-pill">6</span></a>
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Vegana
-                                    <span class="badge badge-secondary badge-pill">5</span></a>
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Vegetariana 
-                                    <span class="badge badge-secondary badge-pill">4</span></a>
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Doces 
-                                    <span class="badge badge-secondary badge-pill">3</span></a>
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab" >Salgados 
-                                    <span class="badge badge-secondary badge-pill">2</span></a>
-                                <a class="list-group-item list-group-item-action" data-toggle="list" href=" " role="tab">Bebidas 
-                                    <span class="badge badge-secondary badge-pill">1</span></a>
+                                <a class="list-group-item list-group-item-action <%= categoriaAtiva ? "" : "active" %>" href="/receitas" role="tab">Todas as receitas
+                                    <span class="badge badge-secondary badge-pill"><%= contagemTotal %></span></a>
+
+                                <% categorias.forEach(function(categoria) { %>
+                                    <% if (categoria.id != null) { %>
+                                    <a href="/receitas?categoriaSelecionada=<%=categoria.id%>" role="tab" class="list-group-item list-group-item-action <%= (categoriaAtiva == categoria.id) ? "active" : ""%>"><%= categoria.categoria %>
+                                        <span class="badge badge-secondary badge-pill"><%=categoria.count %></span></a> 
+                                    <% } %>
+                                <% }) %>
                             </div>
                         </div>
                     </div>
@@ -194,6 +148,12 @@
         </div>
     </main>
     <%- include('../views/partials/footer.ejs') %>
+
+    <script>
+
+    </script>
+
+
 
 </body>
 

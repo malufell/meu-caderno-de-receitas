@@ -28,13 +28,13 @@
                         <form action='/receitas-cadastro' method='post' encType="multipart/form-data">
                     <% } %>
 
-                        <input type="hidden" name="video" id="idVideo">
-                        <input type="hidden" name="categoriasSelecionadas" id="categoriasSelecionadas">
                         <input type="hidden" name="imagem" id="imagem" value=<%= receita.imagem %>>
+                        <input type="hidden" name="video" id="video">
+                        <input type="hidden" name="categoriasSelecionadas" id="categoriasSelecionadas">
 
                         <div class="form-group mt-4">
                             <label>Nome da receita</label>
-                            <input type="text" name="nome" class="form-control" maxlength="55" value="<%= receita.nome %>" required>
+                            <input type="text" name="nome" class="form-control" maxlength="50" value="<%= receita.nome %>" required>
                         </div>
 
                         <div class="form-group mt-4">
@@ -57,7 +57,7 @@
                             </div>
 
                             <div id="preview-video" hidden>
-                                <iframe  class="mt-3 pr-5"  width="400" height="300" id="video"  frameborder="0" allowfullscreen></iframe>
+                                <iframe  class="mt-3 pr-5"  width="400" height="300" id="video-youtube"  frameborder="0" allowfullscreen></iframe>
                             </div>
                         </div>
 
@@ -66,7 +66,7 @@
                             <div class="categorias mt-2 mb-2">                
                                 <div class="form-check-inline">
                                     <% categorias.forEach(function(categoria) { %>
-                                        <%  let categoriaExiste = false %>
+                                        <% let categoriaExiste = false %>
                                         <% if (receita.categorias) { %>
                                             <% receita.categorias.forEach(function(categoriaSalva) {  %>
                                                 <% if (categoria.id == categoriaSalva.id) { %>
@@ -82,12 +82,12 @@
                         </div>
 
                         <div class="form-group mt-4">
-                            <label>Lista de Ingredientes</label>
+                            <label>Lista de ingredientes</label>
                             <textarea class="form-control" name="ingredientes" rows="5" placeholder="Exemplo: 1 colher de sopa de fermento"
                                 ><%= receita.ingredientes %></textarea>
                         </div>
                         <div class="form-group mt-4">
-                            <label>Modo de Preparo</label>
+                            <label>Modo de preparo</label>
                             <textarea class="form-control" name="preparo" rows="5"
                                 placeholder="Exemplo: Bater no liquidificador os ingredientes líquidos por 3 minutos"
                                 ><%= receita.preparo %></textarea>
@@ -150,15 +150,15 @@
             const urlEmbed = "https://www.youtube.com/embed/" + ID;
 
             //inclui link no source do iframe  
-            document.getElementById('video').src = urlEmbed;
-
+            document.getElementById('video-youtube').src = urlEmbed;
+         
             //exibe a div com o vídeo
-            document.getElementById("preview-video").hidden = false;
-            return urlEmbed;
+            document.getElementById('preview-video').hidden = false;
 
             //inclui o ID no hidden pra salvar no bd
-            document.getElementById('idVideo').value = ID;
+            document.getElementById('video').value = ID;
 
+            return urlEmbed;
         }
 
         //categorias selecionadas
