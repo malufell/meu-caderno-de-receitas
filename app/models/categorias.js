@@ -20,8 +20,3 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Categorias;
 };
-
-
-
-  // const Receitas = sequelize.define('Receitas', { name: DataTypes.STRING });
-  // Categorias.belongsToMany(Receitas, { through: 'ReceitasCategorias' });

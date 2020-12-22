@@ -23,9 +23,7 @@ router.get('/', (req, res, next) => {
 });
 
 //caderno de receitas
-router.get('/receitas/', (req, res, next) => {
-    res.render('receitas', { usuario: 'malu' });
-});
+router.get('/receitas/', Receitas.buscaTodasReceitas);
 
 //cria objeto receitas vazio
 router.get('/receitas-cadastro', Receitas.exibeFormularioReceita);
