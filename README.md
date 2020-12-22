@@ -5,14 +5,13 @@
   <img src="https://img.shields.io/github/issues/malufell/meu-caderno-de-receitas?style=flat-square"/>
 </p>
 
-Olá!
+Olá! :)
 
-Eu sou a Malu e estou em um processo de transição de carreira para TI! 
-Este é o meu primeiro projeto autoral, onde irei praticar o que estou estudando.
+Este é o meu primeiro projeto autoral, onde irei praticar o que estou estudando: JavaScript, NodeJS e algumas de suas várias bibliotecas, HTML, CSS, Bootstrap, SQL, Sequelize e etc. 
 
 Meu foco será aprimorar a minha capacidade de aprendizado, pesquisa e resolução de problemas. Irei documentar o meu processo de desenvolvimento e compartilhar alguns registros com base no que aprendi!
 
-Meus textos estão na [wiki aqui do github](https://github.com/malufell/meu-caderno-de-receitas/wiki) e nestes links também:
+Meus textos estão [aqui na wiki](https://github.com/malufell/meu-caderno-de-receitas/wiki) e nestes links também:
 
 ### Conteúdo
 1. [Definindo o caminho: análise do negócio, análise técnica, wireframe](https://github.com/malufell/meu-caderno-de-receitas/wiki/1.-Definindo-o-caminho)
@@ -20,7 +19,11 @@ Meus textos estão na [wiki aqui do github](https://github.com/malufell/meu-cade
 3. [Meus primeiros passos com EJS](https://github.com/malufell/meu-caderno-de-receitas/wiki/3.-Primeiros-passos-com-EJS)
 4. [Configurações para uso do Sequelize com o PostgreSQL](https://github.com/malufell/meu-caderno-de-receitas/wiki/4.-Sequelize-com-PostgreSQL)
 5. [EJS e Sequelize juntos, no padrão MVC!](https://github.com/malufell/meu-caderno-de-receitas/wiki/5.-EJS-e-Sequelize-juntos)
-6. [Autenticacação de usuários com passport e express-session](https://github.com/malufell/meu-caderno-de-receitas/wiki/6.-Autentica%C3%A7%C3%A3o-de-usu%C3%A1rios)
+6. [Interagindo com o usuário - método POST e findOne (sequelize)](https://github.com/malufell/meu-caderno-de-receitas/wiki/6.-Interagindo-com-o-usu%C3%A1rio,-POST-e-findOne)
+7. [Autenticacação de usuários com passport e express-session](https://github.com/malufell/meu-caderno-de-receitas/wiki/6.-Autentica%C3%A7%C3%A3o-de-usu%C3%A1rios)
+8. [Como implementei o cadastro de usuários com validação de dados no back-end (com sequelize)!](https://github.com/malufell/meu-caderno-de-receitas/wiki/8.-Cadastro-de-usu%C3%A1rios-com-valida%C3%A7%C3%A3o-de-dados-no-back-end)
+9. [Como implementei o método de busca (sequelize)!](https://github.com/malufell/meu-caderno-de-receitas/wiki/9.-Implementando-o-m%C3%A9todo-de-busca)
+
 
 ---
  
@@ -36,6 +39,7 @@ Assim surgiu a inspiração que deu origem ao projeto :bulb:
 
 ### O que está em andamento
 
-Neste momento estou estruturando a exibição do repositório de receitas no site - nessa versão será através dos cards do bootstrap. Ah, nunca fiz a parte de paginação, estou aprendendo agora tbm!
+Neste momento estou implementando a exclusão de receitas e escrevendo novos textos :) 
 
 ![gif](https://media.giphy.com/media/LmNwrBhejkK9EFP504/giphy.gif)
+
