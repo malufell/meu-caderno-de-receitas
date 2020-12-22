@@ -31,20 +31,20 @@ router.get('/receitas-cadastro', Receitas.exibeFormularioReceita);
 //cadastra uma nova receita
 router.post('/receitas-cadastro', upload.single('file'), Receitas.cadastraReceita);
 
+//exibe a receita na tela - findOne
+router.get('/receitas/:id', Receitas.buscaUmaReceita);
+
 //busca os dados da receita no BD para edição
 router.get('/receitas/:id/edicao', Receitas.editaReceita);
 
 //atualiza uma receita na base
 router.put('/receitas/:id/edicao', upload.single('file'), Receitas.atualizaReceita);
 
-//exibe a receita na tela - findOne
-router.get('/receitas/:id', Receitas.buscaUmaReceita);
+router.delete('/receitas/:id', Receitas.deletaReceita);
 
 router.get('/receitas-cadastro-foto', (req, res, next) => {
     res.render('receitas-cadastro-foto', { usuario: 'malu' });
 });
 
-//lista de receitas - teste
-router.get('/todas-receitas', Receitas.buscaTodasReceitas)
 
 module.exports = router;

@@ -107,6 +107,9 @@ class Receitas {
             whereCondicoes['$categorias.id$'] = categoriaSelecionada;
         }
 
+        //mensagem de receita excluída
+        const msgs = req.flash();
+
         try {
             //conta quantas receitas tem por categoria
             const categorias = await database.Receitas.count({
@@ -146,7 +149,8 @@ class Receitas {
                 paginaAnterior: 1,
                 proximaPagina: 2,
                 totalPaginas: 5,
-                busca: busca
+                busca: busca,
+                mensagem: msgs.receitaExcluida
             });
 
         } catch (error) {
@@ -206,6 +210,21 @@ class Receitas {
                 receita.setCategorias(categorias);
             }
             return resp.redirect('/receitas/' + receita.id);
+
+        } catch (error) {
+            return resp.render('error', { error, message: error.message });
+        };
+    };
+
+    static async deletaReceita(req, resp) {
+        const { id } = req.params;
+        try {
+            await database.Receitas.destroy({ 
+                where: { id: Number(id) }
+            });
+
+            req.flash('receitaExcluida','Receita excluída com sucesso :)');
+            return resp.redirect('/receitas');
 
         } catch (error) {
             return resp.render('error', { error, message: error.message });

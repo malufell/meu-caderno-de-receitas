@@ -90,20 +90,22 @@
 
                 <div class="col-md-4">
                     <div class="container-fluid mt-5 pt-5">
-                        <div>
-                            <i class="far fa-edit"></i>
-                            <a href="/receitas/<%= receita.id %>/edicao">Editar receita</a>
-                        </div>
-                        <div class="mt-3">
-                            <i class="far fa-trash-alt"></i>
-                            <a href=" ">Excluir receita</a>
-                        </div>                       
-
                         <div class="mt-3">
                             <i class="fas fa-book"></i>
                             <a href="/receitas">Voltar ao caderno de receitas</a>
                         </div>
-                                             
+
+                        <div class="mt-3">
+                            <i class="far fa-edit"></i>
+                            <a href="/receitas/<%= receita.id %>/edicao">Editar receita</a>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <i class="far fa-trash-alt"></i>
+                            <a href="#" data-toggle="modal" data-target="#modalExclusao">
+                                Excluir receita</a>                              
+                        </div>               
+
                         <small>
                             <ul class="list-unstyled mb-0 mt-3">
                                 <li class="d-flex mb-2">
@@ -123,7 +125,32 @@
             </div>
         </div>
         
+        <!-- Modal confirmação de exclusão -->
+        <div class="modal fade" id="modalExclusao" tabindex="-1" aria-labelledby="modalExclusaoLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="modalExclusaoLabel">Confirmar exclusão</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                Tem certeza que deseja excluir a receita <%= receita.nome %>?
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="/receitas/<%= receita.id %>/?_method=DELETE">
+                        <button class="btn btn-danger" type="submit">Confirmar exclusão</button>
+                    </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
     </main>
     <%- include('../views/partials/footer.ejs') %>
 </body>
 </html>
+
+
