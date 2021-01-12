@@ -11,6 +11,11 @@ class Receitas {
     };
 
     static async exibeFormularioReceita(req, resp) {
+        let cadastroFoto = false;
+        
+        if(req.query.cadastro) {
+            cadastroFoto = true;
+        };
 
         try {
             const categorias = await database.Categorias.findAll();
@@ -26,7 +31,8 @@ class Receitas {
             return resp.render('receitas-cadastro', {
                 receita: receita,
                 categorias: categorias,
-                usuario: req.user.id
+                usuario: req.user.id,
+                cadastroFoto: cadastroFoto
             });
 
         } catch (error) {
@@ -49,16 +55,15 @@ class Receitas {
                 ],
             });
 
-            const imagem = ("/uploads/" + receita.imagem);
             const video = ("https://www.youtube.com/embed/" + receita.video);
             const categorias = await database.Categorias.findAll();
 
             return resp.render('receitas-cadastro', {
                 receita: receita,
                 categorias: categorias,
-                imagem: imagem,
                 video: video,
-                usuario: req.user.id
+                usuario: req.user.id,
+                cadastroFoto: false
             });
 
         } catch (error) {
@@ -68,10 +73,18 @@ class Receitas {
 
     static async atualizaReceita(req, resp) {
         const { id } = req.params;
+        const tipoCadastro = req.body.tipoCadastro;
         const novaInformacao = req.body;
-        novaInformacao.imagem = (req.file ? req.file.filename : req.body.imagem);
-        novaInformacao.video = req.body.video;
         const categorias = req.body.categorias;
+        novaInformacao.video = req.body.video;
+        
+        if (req.files.length > 0) {
+            if(tipoCadastro) {
+                novaInformacao.imagemReceita = req.files.map(obj => obj.filename)
+            } else { 
+                novaInformacao.imagem = req.files.map(obj => obj.filename)
+            }
+        }
 
         try {
             await database.Receitas.update(novaInformacao, { where: { id: id, usuario_id: req.user.id } });
@@ -129,7 +142,7 @@ class Receitas {
 
             //busca todas as receitas
             const receitas = await database.Receitas.findAll({ 
-                attributes: ['id', 'nome', 'imagem'],
+                attributes: ['id', 'nome', 'imagem', 'imagemReceita'],
                 include: [{ 
                     model: database.Categorias,
                     as: 'categorias', 
@@ -160,7 +173,7 @@ class Receitas {
 
     static async buscaUmaReceita(req, resp) {
         const { id } = req.params;
-
+        
         try {
             const receita = await database.Receitas.findOne({
                 where: { 
@@ -176,14 +189,16 @@ class Receitas {
                 ],
             });
 
-            const imagem = ("/uploads/" + receita.imagem);
             const video = ("https://www.youtube.com/embed/" + receita.video);
-
+            const dataCriacao = receita.createdAt.toLocaleDateString().split('-').reverse().join("/");
+            const dataEdicao = receita.updatedAt.toLocaleDateString().split('-').reverse().join("/");
+            
             return resp.render('receitas-id', {
                 receita: receita,
-                imagem: imagem,
                 video: video,
-                usuario: req.user.id
+                usuario: req.user.id,
+                dataCriacao: dataCriacao,
+                dataEdicao: dataEdicao
             });
 
         } catch (error) {
@@ -193,15 +208,17 @@ class Receitas {
 
     static async cadastraReceita(req, resp) {
         const categorias = req.body.categorias;
+        const tipoCadastro = req.body.tipoCadastro;
 
         try {
             const receita = await database.Receitas.create({
                 nome: req.body.nome,
-                imagem: (req.file ? req.file.filename : null),
+                imagem: (tipoCadastro) ? [] : req.files.map(obj => obj.filename),
                 video: req.body.video,
                 ingredientes: req.body.ingredientes,
                 preparo: req.body.preparo,
                 dicas: req.body.dicas,
+                imagemReceita: (tipoCadastro) ? req.files.map(obj => obj.filename) : [],
                 usuario_id: req.user.id,
                 categorias: req.body.categorias
             });
