@@ -28,8 +28,7 @@
                                     <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">Z-A</a>
                                     <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">Data de inclusão</a>
                                     <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">Data de atualização</a>
-                                    <a class="btn btn-outline-secondary ml-1" data-toggle="modal" data-target="#cadastro-receita">Cadastrar nova receita</a>
-                                    <%- include('../views/partials/modal-cadastro-receita.ejs') %>
+                                    <a class="btn btn-outline-secondary ml-1" href="/receitas-cadastro">Cadastrar nova receita</a>
                                 </div>
                                 <form action='/receitas?' class="search input-group w-25 pl-3">
                                     <input type="search" id="search" name="q" class="form-control" placeholder="Ex.: brownie">
@@ -84,8 +83,7 @@
 
                             <!-- cadastro no mobile -->
                             <div class="p-0 col-12">
-                                <a class="btn btn-sm btn-outline-secondary col-12 mt-1" data-toggle="modal" data-target="#cadastro-receita">Cadastrar nova receita</a>
-                                <%- include('../views/partials/modal-cadastro-receita.ejs') %>
+                                <a class="btn btn-sm btn-outline-secondary col-12 mt-1" href="/receitas-cadastro">Cadastrar nova receita</a>
                             </div>
                         </menu>
                     </div>
@@ -104,7 +102,13 @@
                         <% receitas.forEach(function(receita) { %>
                         <article class="col-12 mb-3 ">
                             <div class="card d-flex justify-content-center">
-                                <img src="/uploads/<%= receita.imagem ? receita.imagem : "sem-imagem.jpg" %>" class="card-img-top">
+
+                                <% if(receita.imagem.length == 0 && receita.imagemReceita.length == 0) { %>
+                                    <img src="/uploads/sem-imagem.jpg" class="card-img-top">
+                                <% } else { %>
+                                    <img src="/uploads/<%= receita.imagem.length > 0 ? receita.imagem[0] : `cadastroFoto3.jpg` %>" class="card-img-top">
+                                <% } %>    
+
                                 <div class="card-body">
                                     <h5 class="card-title"><%= receita.nome %></h5>
                                 </div>

@@ -20,11 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     };
     Receitas.init({
       nome: DataTypes.STRING(50),
-      imagem: DataTypes.STRING,
+      imagem: DataTypes.JSON,
       video: DataTypes.STRING,
       ingredientes: DataTypes.TEXT,
       preparo: DataTypes.TEXT,
-      dicas: DataTypes.TEXT
+      dicas: DataTypes.TEXT,
+      imagemReceita: DataTypes.JSON,
     }, {
       sequelize,
       modelName: 'Receitas',

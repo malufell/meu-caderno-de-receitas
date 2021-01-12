@@ -5,3 +5,12 @@
 .categoria {
     font-weight: normal;
 }
+
+.linkCadastroFoto {
+    color: black;
+}
+
+.imagem-carrossel {
+    object-fit: cover; 
+    object-position: 0 70%;
+}

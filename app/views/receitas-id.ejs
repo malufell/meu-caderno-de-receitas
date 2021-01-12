@@ -36,16 +36,45 @@
                         </div>
                     </div>
 
-                    <% if (receita.imagem) { %>
-                    <div class="container-fluid">
-                        <div class="row d-flex justify-content-center">
-                            <img src="<%= imagem %>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
-                        </div>
-                    </div>
-                   <% } %>
+                    <!-- EXIBE IMAGEM -->
+                    <% if(receita.imagem.length > 0 || receita.imagemReceita.length > 0) { %>
+                        
+                        <% if(receita.imagem.length > 1 || receita.imagemReceita.length > 1) { %>
+                            <div class="container-fluid">
+                                <div class="row d-flex justify-content-center">
 
+                                    <div id="carousel" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active" data-interval="10000">
+                                                <img src="/uploads/<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
+                                            </div>
+                                            <div class="carousel-item" data-interval="2000">
+                                                <img src="/uploads/<%=receita.imagem.length > 0 ? receita.imagem[1] : receita.imagemReceita[1]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
+                                            </div>
+                                    
+                                            <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div> 
+                                    </div> 
 
-                    <div class="container-fluid mt-3">
+                                </div> 
+                            </div> 
+                        <% } else { %>
+                                <div class="container-fluid">
+                                    <div class="row d-flex justify-content-center">
+                                        <img src="/uploads/<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
+                                    </div>
+                                </div>
+                        <% } %>
+                    <% } %>
+
+                    <div class="container-fluid mt-3" <%= receita.ingredientes ? " " : "hidden"%>>
                         <div class="row d-flex justify-content-center">
                             <h4>Lista de ingredientes:</h4>
                         </div>
@@ -56,7 +85,7 @@
                         </div>
                     </div>
 
-                    <div class="container-fluid mt-3">
+                    <div class="container-fluid mt-3" <%= receita.preparo ? " " : "hidden"%>>
                         <div class="row d-flex justify-content-center">
                             <h4>Modo de preparo:</h4>
                         </div>
@@ -65,7 +94,7 @@
                         </div>
                     </div>
 
-                    <div class="container-fluid mt-3">
+                    <div class="container-fluid mt-3" <%= receita.dicas ? " " : "hidden"%>>
                         <div class="row d-flex justify-content-center">
                             <h4>O pulo do gato :)</h4>
                         </div>
@@ -76,16 +105,17 @@
                         </div>
                     </div>
 
-                    <% if (receita.video) { %>
-                    <div class="container-fluid">
-                        <div class="row d-flex justify-content-center mt-5">
-                            <h4>Vídeo da receita:</h4>
-                        </div>
+                    <% if (receita.video) { %>  
+                        <div class="container-fluid">
+                            <div class="row d-flex justify-content-center mt-5">
+                                <h4>Vídeo da receita:</h4>
+                            </div>
                             <div class="row d-flex justify-content-center mt-3">
                                 <iframe width="560" height="315" src=<%= video %> frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
-                    </div>
+                        </div>
                     <% } %>
+
                 </div>
 
                 <div class="col-md-4">
@@ -93,6 +123,11 @@
                         <div class="mt-3">
                             <i class="fas fa-book"></i>
                             <a href="/receitas">Voltar ao caderno de receitas</a>
+                        </div>
+
+                        <div class="mt-3">
+                            <i class="far fa-plus-square"></i>
+                            <a href="/receitas-cadastro">Cadastrar outra receita</a>
                         </div>
 
                         <div class="mt-3">
@@ -110,11 +145,11 @@
                             <ul class="list-unstyled mb-0 mt-3">
                                 <li class="d-flex mb-2">
                                     <h6 class="mb-0">Última atualização:</h6>
-                                    <p class="ml-3 text-muted mb-0"><%=receita.updateAt%></p>
+                                    <p class="ml-3 text-muted mb-0"><%=dataEdicao%></p>
                                 </li>
                                 <li class="d-flex mb-2">
                                     <h6 class="mb-0">Receita cadastrada em:</h6>
-                                    <p class="ml-3 text-muted mb-0"><%=receita.createdAt%></p>
+                                    <p class="ml-3 text-muted mb-0"><%=dataCriacao%></p>
                                 </li>
                             </ul>    
                         </small>
