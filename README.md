@@ -23,6 +23,15 @@ Meus textos estão [aqui na wiki](https://github.com/malufell/meu-caderno-de-rec
 7. [Autenticacação de usuários com passport e express-session](https://github.com/malufell/meu-caderno-de-receitas/wiki/6.-Autentica%C3%A7%C3%A3o-de-usu%C3%A1rios)
 8. [Como implementei o cadastro de usuários com validação de dados no back-end (com sequelize)!](https://github.com/malufell/meu-caderno-de-receitas/wiki/8.-Cadastro-de-usu%C3%A1rios-com-valida%C3%A7%C3%A3o-de-dados-no-back-end)
 9. [Como implementei o método de busca (sequelize)!](https://github.com/malufell/meu-caderno-de-receitas/wiki/9.-Implementando-o-m%C3%A9todo-de-busca)
+10. [Ajustando os tipos de dados e limite de caracteres no modelo Sequelize](https://github.com/malufell/meu-caderno-de-receitas/wiki/a.-Atualizando-um-modelo-Sequelize)
+11. [Criando índice no modelo (sequelize e postgres)](https://github.com/malufell/meu-caderno-de-receitas/wiki/b.-Criando-%C3%ADndice-no-modelo-(sequelize-e-postgres))
+12. [Como criar relacionamentos entre tabelas - Sequelize (many-to-many e one-to-many)](https://github.com/malufell/meu-caderno-de-receitas/wiki/c.-Tabelas-com-relacionamentos-many-to-many-e-one-to-many)
+13. [Métodos build e create em tabela many-to-many, com upload de imagens e inclusão de vídeo do youtube através de URL](https://github.com/malufell/meu-caderno-de-receitas/wiki/d.-Create-em-tabela-many-to-many,-com-upload-de-imagem-e-inclus%C3%A3o-de-v%C3%ADdeo-do-youtube)
+
+
+
+
+
 
 
 ---
@@ -39,7 +48,9 @@ Assim surgiu a inspiração que deu origem ao projeto :bulb:
 
 ### O que está em andamento
 
-Neste momento estou implementando a exclusão de receitas e escrevendo novos textos :) 
+Neste momento estou implementando a paginação na exibição das receitas! 
+
+Ah, também estou escrevendo novos textos :) 
 
 ![gif](https://media.giphy.com/media/LmNwrBhejkK9EFP504/giphy.gif)
 
