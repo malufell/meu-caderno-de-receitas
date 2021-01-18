@@ -1,13 +1,22 @@
 'use strict';
 const { Model } = require('sequelize');
+const receitasCategorias = require('./receitasCategorias');
 
 module.exports = (sequelize, DataTypes) => {
   class Categorias extends Model {
 
     static associate(models) {
-      Categorias.belongsToMany(models.Receitas, {
-        through: 'ReceitasCategorias',
-        as: 'receitas',
+
+      //super muitos para muitos
+
+      Categorias.belongsToMany(models.Receitas, { 
+        as: 'receitas', 
+        through: 'ReceitasCategorias', 
+        foreignKey: 'categoriaId'
+      });
+
+      Categorias.hasMany(models.ReceitasCategorias, {
+        as:'CategoriasReceitas',
         foreignKey: 'categoriaId'
       });
     }

@@ -75,8 +75,8 @@ class Receitas {
         const { id } = req.params;
         const tipoCadastro = req.body.tipoCadastro;
         const novaInformacao = req.body;
-        const categorias = req.body.categorias;
         novaInformacao.video = req.body.video;
+        const categorias = req.body.categorias;
         
         if (req.files.length > 0) {
             if(tipoCadastro) {
@@ -84,15 +84,30 @@ class Receitas {
             } else { 
                 novaInformacao.imagem = req.files.map(obj => obj.filename)
             }
-        }
+        };
 
         try {
-            await database.Receitas.update(novaInformacao, { where: { id: id, usuario_id: req.user.id } });
-            const receitaAtualizada = await database.Receitas.findOne({ where: { id: id } });
+            await database.Receitas.update(novaInformacao, { 
+                where: { 
+                    id: id, 
+                    usuario_id: req.user.id 
+                } 
+            });
 
-            if (categorias && categorias.length > 0) {
-                receitaAtualizada.setCategorias(categorias);
-            }
+            const receitaAtualizada = await database.Receitas.findOne({
+                 where: { 
+                     id: id 
+                    } 
+                });
+
+            //atualiza tabela de junção    
+            await receitaAtualizada.addCategorias(categorias, { 
+                through: { 
+                    receitaId: receitaAtualizada.id,
+                    categoriaId: categorias, 
+                } 
+            })
+
 
             return resp.redirect('/receitas/' + id)
 
@@ -101,69 +116,102 @@ class Receitas {
         };
     };
 
-
     static async buscaTodasReceitas(req, resp) {
         
-        //ordenação das receitas no caderno
-        let ordenacao = [[req.query.order]]
+        // ordenação das receitas no caderno
+        let ordenacao = [[req.query.order]];
         req.query.order ? ordenacao = [[req.query.order]] : ordenacao = [['nome', 'ASC']];
+     
+        let ordenacaoNome;
+        let ordenacaoDirecao;
         
+        if(ordenacao[0][0][0].length == 1) {
+            ordenacaoNome = 'nome'
+            ordenacaoDirecao = 'ASC'
+        } else {
+            ordenacaoNome = ordenacao[0][0][0]
+            ordenacaoDirecao = ordenacao[0][0][1]      
+        };
+        
+        // filtro - busca
         const busca = req.query.q ? req.query.q : '';
-
-        // filtros
-        const { categoriaSelecionada } = req.query;
         const whereCondicoes = { 
             usuario_id: req.user.id,
             nome: { [Op.iLike]: '%'+ busca + '%'} 
         };
-        if (categoriaSelecionada) {
-            whereCondicoes['$categorias.id$'] = categoriaSelecionada;
-        }
+        
+        // filtro - seleção de categoria
+        const { categoriaSelecionada } = req.query;
+        const whereCategoria = {};
+            if (categoriaSelecionada) {
+                whereCategoria['$categoriaId$'] = categoriaSelecionada;
+            }
 
-        //mensagem de receita excluída
+        // mensagem de receita excluída
         const msgs = req.flash();
 
         try {
-            //conta quantas receitas tem por categoria
-            const categorias = await database.Receitas.count({
-                include: [{ 
-                    model: database.Categorias, 
-                    as: 'categorias', 
-                    attributes: [], 
-                }], 
-                group: ['categorias.categoria', 'categorias.id'],
+            // conta quantas receitas tem por categoria
+            const totalReceitasPorCategoria = await database.Receitas.count({
+                include: [{
+                    model: database.Categorias,
+                    as: 'categorias',
+                    attributes: ['categoria', 'id'],
+                }],
+                group: ['categorias.id', 'categorias.categoria'],
                 where: { usuario_id: req.user.id }
             });
 
-            //conta o total de receitas do usuário
+            // conta o total de receitas do usuário
             const contagemTotal = await database.Receitas.findAndCountAll({
                 where: { usuario_id: req.user.id },
             });
 
-            //busca todas as receitas
+            // paginação
+            const paginaAtual = req.query.paginaAtual ? req.query.paginaAtual : 1;
+            const limite = 4;
+            const offset = paginaAtual == 1 ? 0 : (Number(paginaAtual) - 1) * limite; 
+            let totalPaginas = Math.ceil(contagemTotal.count / limite);
+            const categoriasComRegitros = totalReceitasPorCategoria.map(obj => obj.id);
+
+            //total de páginas por categoria
+            if(categoriaSelecionada) {
+                for(let i=0; i < categoriasComRegitros.length; i++){
+                    if(categoriaSelecionada == categoriasComRegitros[i]){
+                        totalPaginas = Math.ceil(totalReceitasPorCategoria[i].count / limite)
+                    }
+                }
+            };
+
+            // busca todas as receitas
             const receitas = await database.Receitas.findAll({ 
-                attributes: ['id', 'nome', 'imagem', 'imagemReceita'],
+                attributes: ['id', 'nome', 'imagem', 'imagemReceita', 'createdAt', 'updatedAt'],
                 include: [{ 
-                    model: database.Categorias,
-                    as: 'categorias', 
-                    through: { attributes: [] }, 
+                    model: database.ReceitasCategorias, 
+                    as: 'ReceitasCategorias',
+                    attributes: ['categoriaId'],
+                    where: whereCategoria
                 }], 
                 where: whereCondicoes, 
                 order: ordenacao,
+                limit: limite,
+                offset: offset,
             });
 
             return resp.render('receitas', { 
                 receitas: receitas,
                 contagemTotal: contagemTotal.count, 
-                categorias: categorias, 
+                categorias: totalReceitasPorCategoria, 
                 usuario: req.user.id, 
                 categoriaAtiva: categoriaSelecionada,
-                paginaAtual: 1,
-                paginaAnterior: 1,
-                proximaPagina: 2,
-                totalPaginas: 5,
+                paginaAtual: paginaAtual,
+                paginaAnterior: (paginaAtual == 1) ? paginaAtual : (Number(paginaAtual) - 1),
+                proximaPagina: (paginaAtual == totalPaginas) ? paginaAtual : (Number(paginaAtual) + 1),
+                totalPaginas: totalPaginas,
                 busca: busca,
-                mensagem: msgs.receitaExcluida
+                mensagem: msgs.receitaExcluida,
+                ordenacaoNome: ordenacaoNome,
+                ordenacaoDirecao: ordenacaoDirecao
             });
 
         } catch (error) {
@@ -220,12 +268,16 @@ class Receitas {
                 dicas: req.body.dicas,
                 imagemReceita: (tipoCadastro) ? req.files.map(obj => obj.filename) : [],
                 usuario_id: req.user.id,
-                categorias: req.body.categorias
+                categorias: req.body.categorias,
             });
 
-            if (categorias && categorias.length > 0) {
-                receita.setCategorias(categorias);
-            }
+            await receita.addCategorias(categorias, { 
+                through: { 
+                    receitaId: receita.id,
+                    categoriaId: categorias, 
+                } 
+            })
+
             return resp.redirect('/receitas/' + receita.id);
 
         } catch (error) {

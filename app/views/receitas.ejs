@@ -24,10 +24,10 @@
                         <div class="d-none d-sm-block">
                             <div class="btn-toolbar mb-3 justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                                 <div class="input-group" role="group" aria-label="First group">
-                                    <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">A-Z</a>
-                                    <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">Z-A</a>
-                                    <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">Data de inclusão</a>
-                                    <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" type="" class="btn btn-outline-secondary ml-1">Data de atualização</a>
+                                    <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" type="" class="btn btn-outline-secondary ml-1">A-Z</a>
+                                    <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" type="" class="btn btn-outline-secondary ml-1">Z-A</a>
+                                    <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" type="" class="btn btn-outline-secondary ml-1">Data de inclusão</a>
+                                    <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" type="" class="btn btn-outline-secondary ml-1">Data de atualização</a>
                                     <a class="btn btn-outline-secondary ml-1" href="/receitas-cadastro">Cadastrar nova receita</a>
                                 </div>
                                 <form action='/receitas?' class="search input-group w-25 pl-3">
@@ -45,10 +45,10 @@
                                 Ordenar receitas
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" class="dropdown-item" type="button">A-Z</a>
-                                <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" class="dropdown-item" type="button">Z-A</a>
-                                <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" class="dropdown-item" type="button">Data de inclusão</a>
-                                <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" class="dropdown-item" type="button">Data de atualização</a>
+                                <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" class="dropdown-item" type="button">A-Z</a>
+                                <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" class="dropdown-item" type="button">Z-A</a>
+                                <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" class="dropdown-item" type="button">Data de inclusão</a>
+                                <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" class="dropdown-item" type="button">Data de atualização</a>
                             </div>
 
                             <!-- busca no mobile -->
@@ -91,24 +91,24 @@
             </div>
 
             <div class="row">
+                <!-- MSG RECEITA EXCLUÍDA -->
                 <div class="col-sm-8 col-lg-9">
                     <% if (mensagem) { %>
                         <div class="alert alert-success" role="alert">
                             <strong><%= mensagem %></strong>
                         </div>
                     <% } %>
-                        
+
+                    <!-- CARDS DE RECEITAS     -->
                     <div class="row row-cols-md-2 row-cols-lg-3">
                         <% receitas.forEach(function(receita) { %>
                         <article class="col-12 mb-3 ">
                             <div class="card d-flex justify-content-center">
-
                                 <% if(receita.imagem.length == 0 && receita.imagemReceita.length == 0) { %>
                                     <img src="/uploads/sem-imagem.jpg" class="card-img-top">
                                 <% } else { %>
                                     <img src="/uploads/<%= receita.imagem.length > 0 ? receita.imagem[0] : `cadastroFoto3.jpg` %>" class="card-img-top">
                                 <% } %>    
-
                                 <div class="card-body">
                                     <h5 class="card-title"><%= receita.nome %></h5>
                                 </div>
@@ -118,16 +118,17 @@
                         <% }) %>
                     </div>
 
+                    <!-- PAGINAÇÃO -->
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
                             <li class="page-item">
                                 <% if(totalPaginas > 1) { %>      
-                                <a class="page-link" href="/receitas?paginaAtual=<%=paginaAnterior%>" tabindex="-1" aria-disabled="true">Anterior</a>
+                                <a class="page-link" href="/receitas?paginaAtual=<%=paginaAnterior%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>" tabindex="-1" aria-disabled="true">Anterior</a>
                             </li>
                             <% for (let i=1; i < (totalPaginas + 1); i++) { %>
-                                <li class="page-item <%=(paginaAtual == i) ? "active" : "" %>"><a class="page-link " href="/receitas?paginaAtual=<%=i%>"><%=i%></a></li>
+                                <li class="page-item <%=(paginaAtual == i) ? "active" : "" %>"><a class="page-link " href="/receitas?paginaAtual=<%=i%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>"><%=i%></a></li>
                             <% } %>
-                                <a class="page-link" href="/receitas?paginaAtual=<%=proximaPagina%>">Próxima</a>
+                                <a class="page-link" href="/receitas?paginaAtual=<%=proximaPagina%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>">Próxima</a>
                             <% } %>  
                           </li>
                         </ul>
