@@ -10,10 +10,17 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'usuario_id'
       });
 
-      Receitas.belongsToMany(models.Categorias, {
-        through: 'ReceitasCategorias',
-        as: 'categorias',
+      //super muitos para muitos
+      Receitas.belongsToMany(models.Categorias, { 
+        as: 'categorias', 
+        through:'ReceitasCategorias',
         foreignKey: 'receitaId'
+      });
+
+      Receitas.hasMany(models.ReceitasCategorias, {
+        as: 'ReceitasCategorias',
+        foreignKey: 'receitaId'
+
       });
     };
 
