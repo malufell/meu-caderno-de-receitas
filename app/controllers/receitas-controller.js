@@ -101,13 +101,12 @@ class Receitas {
                 });
 
             //atualiza tabela de junção    
-            await receitaAtualizada.addCategorias(categorias, { 
+            await receitaAtualizada.setCategorias(categorias, { 
                 through: { 
                     receitaId: receitaAtualizada.id,
                     categoriaId: categorias, 
                 } 
             })
-
 
             return resp.redirect('/receitas/' + id)
 
