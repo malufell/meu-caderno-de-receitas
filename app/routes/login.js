@@ -19,7 +19,7 @@ router.post('/login', passport.authenticate('local', {
 
 router.get('/logout', function (req, res) {
     req.session.destroy(function (err) {
-        res.redirect('/')
+        res.redirect('/produto')
     })
 });
 

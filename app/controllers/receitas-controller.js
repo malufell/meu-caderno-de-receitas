@@ -55,11 +55,15 @@ class Receitas {
                 ],
             });
 
+            const ingredientesFormatados = (receita.ingredientes).split("\n")
+            const preparoFormatado = (receita.preparo).split("\n")
             const video = ("https://www.youtube.com/embed/" + receita.video);
             const categorias = await database.Categorias.findAll();
 
             return resp.render('receitas-cadastro', {
                 receita: receita,
+                ingredientes: ingredientesFormatados,
+                preparo: preparoFormatado,
                 categorias: categorias,
                 video: video,
                 usuario: req.user.id,
@@ -197,6 +201,8 @@ class Receitas {
                 offset: offset,
             });
 
+
+
             return resp.render('receitas', { 
                 receitas: receitas,
                 contagemTotal: contagemTotal.count, 
@@ -210,7 +216,8 @@ class Receitas {
                 busca: busca,
                 mensagem: msgs.receitaExcluida,
                 ordenacaoNome: ordenacaoNome,
-                ordenacaoDirecao: ordenacaoDirecao
+                ordenacaoDirecao: ordenacaoDirecao,
+                usuario: req.user
             });
 
         } catch (error) {
@@ -236,12 +243,16 @@ class Receitas {
                 ],
             });
 
+            const ingredientesFormatados = (receita.ingredientes).split("\n")
+            const preparoFormatado = (receita.preparo).split("\n")
             const video = ("https://www.youtube.com/embed/" + receita.video);
             const dataCriacao = receita.createdAt.toLocaleDateString().split('-').reverse().join("/");
             const dataEdicao = receita.updatedAt.toLocaleDateString().split('-').reverse().join("/");
             
             return resp.render('receitas-id', {
                 receita: receita,
+                ingredientes: ingredientesFormatados,
+                preparo: preparoFormatado,
                 video: video,
                 usuario: req.user.id,
                 dataCriacao: dataCriacao,

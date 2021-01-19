@@ -90,19 +90,38 @@
                         <!-- INGREDIENTES  -->
                         <div>
                             <div class="form-group mt-5" <%= cadastroFoto == true ? "hidden" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "hidden" : "" %>>
-                                <label>Lista de ingredientes</label>
-                                <textarea class="form-control" name="ingredientes" rows="5" placeholder="Exemplo: 1 colher de sopa de fermento"
-                                ><%= receita.ingredientes %></textarea>
+                                <label class="mb-0">Lista de ingredientes</label>
+                                <div class="mt-0 mb-0">
+                                    <small>Separe os ingredientes em linhas (pressionando Enter)</small>
+                                </div>
+                                <textarea class="form-control ingredientes" id="ingredientes" name="ingredientes" rows="5" placeholder="Exemplo: 1 colher de sopa de fermento"><%=receita.ingredientes%></textarea>
+                                <div class="mt-2">
+                                    <small id="titulo-previa-ingredientes" hidden>Prévia da formatação:</small>
+                                    <small>
+                                        <ul id="previa-ingredientes"></ul>
+                                    </small>
+                                </div>
                             </div>
                         </div>
 
                         <!-- MODO DE PREPARO  -->
                         <div>
                             <div class="form-group mt-5" <%= cadastroFoto == true ? "hidden" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "hidden" : "" %>>
-                                <label>Modo de preparo</label>
-                                <textarea class="form-control" name="preparo" rows="5"
+                                <label class="mb-0">Modo de preparo</label>
+                                <div class="mt-0 mb-0">
+                                    <small>Separe as etapas em linhas (pressionando Enter)</small>
+                                </div>
+                                <textarea class="form-control preparo" id="preparo" name="preparo" rows="5"
                                 placeholder="Exemplo: Bater no liquidificador os ingredientes líquidos por 3 minutos"
-                                ><%= receita.preparo %></textarea>
+                                ><%=receita.preparo %></textarea>
+                                <div class="mt-2">
+                                    <small id="titulo-previa-preparo" hidden>Prévia da formatação:</small>
+                                    <small>
+                                        <ol id="previa-preparo"></ol>
+                                    </small>
+                                </div>
+
+
                             </div>
                         </div>
                         
@@ -250,9 +269,6 @@
                     image.src = URL.createObjectURL(file);
                     list.appendChild(image);
                 }
-
-            
-
             }                
         }  
         
@@ -295,6 +311,31 @@
             document.getElementById('categoriasSelecionadas').value = values;
             return values;
         }
+
+        // formatação do texto - ingredientes e modo de preparo
+        document.getElementById('ingredientes').addEventListener('keyup', function() {
+            exibePreview("ingredientes");
+        });
+
+        document.getElementById('preparo').addEventListener('keyup', function() {
+            exibePreview("preparo");
+        });
+
+        function exibePreview(tipo) {
+            const textoBase = document.getElementById(tipo).value
+            const textoBaseFormatado = (textoBase).split("\n")
+            const lista = document.querySelector("#previa-" + tipo);
+            lista.innerHTML = "";
+
+            textoBaseFormatado.forEach(item => {
+                const li = document.createElement("li")
+                li.textContent = item
+                lista.appendChild(li);
+            });
+            
+            document.getElementById("titulo-previa-" + tipo).hidden = false;
+        };
+
     </script>
 
 </body>
