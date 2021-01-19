@@ -169,7 +169,7 @@ class Receitas {
 
             // paginação
             const paginaAtual = req.query.paginaAtual ? req.query.paginaAtual : 1;
-            const limite = 4;
+            const limite = 6;
             const offset = paginaAtual == 1 ? 0 : (Number(paginaAtual) - 1) * limite; 
             let totalPaginas = Math.ceil(contagemTotal.count / limite);
             const categoriasComRegitros = totalReceitasPorCategoria.map(obj => obj.id);

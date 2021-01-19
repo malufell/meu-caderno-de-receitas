@@ -1,0 +1,15 @@
+.overflow-hidden { 
+  overflow: hidden; 
+}
+
+.img-livro-na-cozinha, .img-ipad-na-cozinha { 
+  background-size: cover;
+  background-color: black;
+  opacity: 0.8; 
+}
+
+.img-livro-na-cozinha:hover, .img-ipad-na-cozinha:hover {
+    opacity: 1;
+    transition: 300ms;
+}
+

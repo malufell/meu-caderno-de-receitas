@@ -30,6 +30,10 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/produto', (req, res, next) => {
+    res.render('produto-pag-inicial')
+});
+
 //caderno de receitas
 router.get('/receitas/', Receitas.buscaTodasReceitas);
 
