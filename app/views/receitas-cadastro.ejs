@@ -77,9 +77,9 @@
                                             <% receita.categorias.forEach(function(categoriaSalva) {  %>
                                                 <% if (categoria.id == categoriaSalva.id) { %>
                                                     <%  categoriaExiste = true %>
-                                                    <% } %>
-                                                    <% }) %>
-                                                    <%  } %>
+                                                <% } %>
+                                        <% }) %>
+                                    <% } %>
                                                     <label class="form-check-label categoria mr-4">
                                                         <input type="checkbox" name="categorias" class="form-check-input" <%= categoriaExiste ? 'checked' : ""%> value="<%= categoria.id %>"> <%= categoria.categoria %> </label>
                                                         <% }) %>
