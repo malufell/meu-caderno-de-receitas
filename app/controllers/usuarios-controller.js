@@ -9,7 +9,7 @@ class Usuarios {
     }
 
     static async buscaUmUsuario(req, resp) {
-        const { id } = req.params;
+        const id  = req.user.id;
         try {
             const usuario = await database.Usuarios.findOne({ where: { id: id } });
             return resp.render('usuario-id', { usuario: usuario });
