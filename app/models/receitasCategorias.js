@@ -21,18 +21,23 @@ module.exports = (sequelize, DataTypes) => {
 };
 
     ReceitasCategorias.init({
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false
-          },
-        receitaId: DataTypes.INTEGER,
-        categoriaId: DataTypes.INTEGER,
-    }, {
+      id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+          allowNull: false
+      },
+      receitaId: {
+        type: DataTypes.INTEGER,
+      },
+      categoriaId: { 
+      type: DataTypes.INTEGER,
+      allowNull: true
+      },
+     }, {
       sequelize,
       modelName: 'ReceitasCategorias',
-    });
+  });
 
     return ReceitasCategorias;
 };
