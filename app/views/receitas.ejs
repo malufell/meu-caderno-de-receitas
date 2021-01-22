@@ -94,9 +94,16 @@
                 <!-- MSG RECEITA EXCLUÍDA -->
                 <div class="col-sm-8 col-lg-9">
                     <% if (mensagem) { %>
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-success w-75" role="alert">
                             <strong><%= mensagem %></strong>
                         </div>
+                    <% } %>
+
+                    <!-- MSG NÃO HÁ RECEITA CADASTRADA -->
+                    <% if(receitas.length == 0) { %> 
+                        <div class="alert alert-secondary w-75 mt-3" role="alert">
+                           Ainda não há nenhuma receita cadastrada
+                          </div>
                     <% } %>
 
                     <!-- CARDS DE RECEITAS     -->

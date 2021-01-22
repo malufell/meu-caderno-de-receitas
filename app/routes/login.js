@@ -13,13 +13,13 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true,
     failureRedirect: '/login',
 }), (req, res, next) => {
-    res.redirect('/');
+    res.redirect('/receitas');
 })
 
 
 router.get('/logout', function (req, res) {
     req.session.destroy(function (err) {
-        res.redirect('/produto')
+        res.redirect('/')
     })
 });
 
