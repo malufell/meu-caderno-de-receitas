@@ -22,15 +22,7 @@ const upload = multer({
     limits: { fileSize: tamanhoMaximoFile }
 });
 
-
 router.get('/', (req, res, next) => {
-    res.render('index', {
-        title:"Servidor express",
-        product: "Meu Caderno de Receitas",
-    });
-});
-
-router.get('/produto', (req, res, next) => {
     res.render('produto-pag-inicial')
 });
 
