@@ -26,7 +26,7 @@ module.exports = (app) => {
                 if (!usuario) {
                     return done(null, false, { message: 'Usuário não encontrado' });
                 }
-                if (usuario.senha != senha) {
+                if (!usuario.validPassword(senha, usuario.senha)) {
 
                     return done(null, false, { message: 'Senha inválida' });
                 }
