@@ -1,13 +1,9 @@
 'use strict';
 const { Model } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   class Usuarios extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
 
     static associate(models) {
       Usuarios.hasMany(models.Receitas, {
@@ -54,11 +50,23 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Usuarios',
   });
 
-  Usuarios.beforeSave('validaSenha', (usuario) => {
+  Usuarios.beforeCreate('validaSenha', (usuario) => {
     if (usuario.senha !== usuario.confirmaSenha) {
       throw new Error('As senhas digitadas estão diferentes'); 
     }
   })
+
+  Usuarios.beforeCreate('criptografaSenha', (usuario) => {
+    usuario.senha = Usuarios.generateHash(usuario.senha)
+  })
+
+  Usuarios.generateHash = function(senhaCadastro) {
+    return bcrypt.hashSync(senhaCadastro, bcrypt.genSaltSync (10), null);
+  };
+
+  Usuarios.prototype.validPassword = function(senhaDigitada, senhaCadastro) { 
+    return bcrypt.compareSync(senhaDigitada, senhaCadastro);
+  }
 
   return Usuarios;
 };
