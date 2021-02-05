@@ -23,20 +23,32 @@
                    
                     <!-- CONFIG FORM -->
                     <% if(receita.id) { %>
-                        <form method="POST" action="/receitas/<%= receita.id %>/edicao?_method=PUT" encType="multipart/form-data">
+                        <form method="POST"  action="/receitas/<%= receita.id %>/edicao?_method=PUT" encType="multipart/form-data" id="form">
                     <% }  else { %>
-                        <form action='/receitas-cadastro' method='post' encType="multipart/form-data">
+                        <form method='post' action='/receitas-cadastro' encType="multipart/form-data" id="form">
                     <% } %>
 
                     <!-- ENVIO DE DADOS PARA BACKEND  -->
                         <input type="hidden" name="video" id="video">
-                        <input type="hidden" name="categoriasSelecionadas" id="categoriasSelecionadas"> 
+                        <input type="hidden" name="nomeImagem" id="nomeImagem" 
+                        value="<%=receita.imagem%>">
                         <input type="hidden" name="tipoCadastro" value="<%= cadastroFoto == true ? "cadastroFoto" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "cadastroFoto" : "" %>">
 
-                      
+                    <!-- MENSAGENS VALIDAÇÃO -->
+                        <% if(erroCadastro) { %>
+                            <div>
+                                <% erroCadastro.forEach(function(erro) { %>
+                                <p><div class="alert alert-danger" role="alert"><%= erro %></div></p>
+                                <% }) %>
+                            </div>
+                            <% } %>
+
                         <div class="form-group mt-5">
                             <label for="nomeReceita">Nome da receita</label>
-                                <input id="nomeReceita" type="text" name="nome" class="form-control" maxlength="50" value="<%= receita.nome %>" required /> 
+                            <small class="text-muted mb-4">
+                                (obrigatório)
+                            </small>
+                            <input id="nomeReceita" type="text" name="nome" class="form-control" maxlength="50" value="<%= receita.nome %>"  /> 
                         </div>
 
                         <!-- OPÇÕES DE CADASTRO  -->
@@ -64,26 +76,33 @@
                             <div id="preview-video" hidden>
                                 <iframe  class="mt-3 pr-5"  width="400" height="300" id="video-youtube"  frameborder="0" allowfullscreen></iframe>
                             </div>
-                            </div>
+                        </div>
                         
                         <!-- CATEGORIAS  -->
                         <div class="form-group mt-5">
                             <label>Selecionar Categorias</label>
+                            <small class="text-muted mb-4">
+                                (obrigatório)
+                            </small>
                             <div class="categorias mt-2 mb-2">                
                                 <div class="form-check">
+
                                     <% categorias.forEach(function(categoria) { %>
-                                        <% let categoriaExiste = false %>
-                                        <% if (receita.categorias) { %>
-                                            <% receita.categorias.forEach(function(categoriaSalva) {  %>
-                                                <% if (categoria.id == categoriaSalva.id) { %>
-                                                    <%  categoriaExiste = true %>
+                                        <% let categoriaSelecionada = false %>
+                                        <% if (receita.categorias.length > 0) { %>
+                                            <% receita.categorias.forEach(function(categoriaCadastrada) { %>
+                                                <% if (categoria.id == categoriaCadastrada.id) { %>
+                                                    <%  categoriaSelecionada = true %>
                                                 <% } %>
-                                        <% }) %>
-                                    <% } %>
-                                                    <label class="form-check-label categoria mr-4">
-                                                        <input type="checkbox" name="categorias" class="form-check-input" <%= categoriaExiste ? 'checked' : ""%> value="<%= categoria.id %>"> <%= categoria.categoria %> </label>
-                                                        <% }) %>
-                                                    </div>
+                                             <% }) %>
+                                        <% } %>
+                                        <label class="form-check-label categoria mr-4">
+                                            <input type="checkbox" name="categorias" 
+                                            class="form-check-input"
+                                            <%= categoriaSelecionada ? 'checked' : ""%> value="<%= categoria.id %>"> <%= categoria.categoria %> 
+                                        </label>
+                                    <% }) %>
+                                </div>
                             </div>
                         </div>
 
@@ -149,11 +168,11 @@
                             <div class="preview-img">
                                 <% if(receita.imagem || receita.imagemReceita) { %>
                                     <% if(receita.imagem.length > 0) { %>
-                                        <% for (let i = 0 ; i < receita.imagem.length; i++) { %>
+                                        <% for (let i=0; i < receita.imagem.length; i++) { %>
                                             <img class="w-50 mb-1" src="<%= (receita.imagem.length > 0) ? `/uploads/${receita.imagem[i]}` : " " %>">
                                             <% } %>
                                     <% } else if (receita.imagemReceita.length > 0) { %>
-                                        <% for (let i = 0 ; i < receita.imagemReceita.length; i++) { %>
+                                        <% for (let i=0; i < receita.imagemReceita.length; i++) { %>
                                             <img class="w-50 mb-1" src="<%= (receita.imagemReceita.length > 0) ? `/uploads/${receita.imagemReceita[i]}` : " " %>">
                                             <% } %>
                                     <% } %>
@@ -269,7 +288,7 @@
                     image.src = URL.createObjectURL(file);
                     list.appendChild(image);
                 }
-            }                
+            }       
         }  
         
         //video da receita - url youtube
@@ -300,18 +319,6 @@
             return urlEmbed;
         }
 
-        //categorias selecionadas
-        function getCategorias(event) {
-            
-            const categorias = document.querySelectorAll('[name=categorias]:checked');
-            let values = [];
-            for (let i = 0; i < categorias.length; i++) {
-                values.push(categorias[i].value);
-            }
-            document.getElementById('categoriasSelecionadas').value = values;
-            return values;
-        }
-
         // formatação do texto - ingredientes e modo de preparo
         document.getElementById('ingredientes').addEventListener('keyup', function() {
             exibePreview("ingredientes");
@@ -335,6 +342,18 @@
             
             document.getElementById("titulo-previa-" + tipo).hidden = false;
         };
+
+        // desabilita botão submit se não houver categoria selecionada
+        const botaoSumbit = document.getElementById("botao");
+        const form = document.getElementById("form");
+        const checkbox = document.querySelectorAll("input[type=checkbox][name=categorias]");
+        checkbox.forEach(function(check) {
+            form.addEventListener("change", function(event){
+                const categoriasSelecionadas = document.querySelectorAll("input[name='categorias']:checked").length;
+                botaoSumbit.disabled = categoriasSelecionadas ? false : true;
+            })
+        });
+
 
     </script>
 

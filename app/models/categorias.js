@@ -22,10 +22,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Categorias.init({
-    categoria: DataTypes.STRING
+    categoria: {
+      type: DataTypes.STRING,
+    }
   }, {
     sequelize,
     modelName: 'Categorias',
   });
   return Categorias;
 };
+
+
+
