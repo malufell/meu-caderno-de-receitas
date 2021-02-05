@@ -1,6 +1,5 @@
 const database = require('../models');
-// const Sequelize = require('sequelize');
-const { Op } = require("sequelize");
+const { Op, ValidationError } = require("sequelize");
 
 class Receitas {
 
@@ -12,7 +11,6 @@ class Receitas {
 
     static async exibeFormularioReceita(req, resp) {
         let cadastroFoto = false;
-        
         if(req.query.cadastro) {
             cadastroFoto = true;
         };
@@ -25,21 +23,25 @@ class Receitas {
                 video: "",
                 ingredientes: "",
                 preparo: "",
-                dicas: ""
+                dicas: "",
+                categoriasId: ""
             });
-
+            
+            receita.categorias = [];
             return resp.render('receitas-cadastro', {
                 receita: receita,
                 categorias: categorias,
                 usuario: req.user.id,
-                cadastroFoto: cadastroFoto
+                cadastroFoto: cadastroFoto,
+                erroCadastro: false,
             });
 
         } catch (error) {
             return resp.render('error', { error, message: error.message });
         }
     };
-
+    
+    //traz os dados do BD para edição
     static async editaReceita(req, resp) {
         const { id } = req.params;
 
@@ -67,7 +69,9 @@ class Receitas {
                 categorias: categorias,
                 video: video,
                 usuario: req.user.id,
-                cadastroFoto: false
+                cadastroFoto: false,
+                erroCadastro: false, 
+
             });
 
         } catch (error) {
@@ -75,13 +79,19 @@ class Receitas {
         };
     };
 
+    //atualiza os dados alterados no BD    
     static async atualizaReceita(req, resp) {
         const { id } = req.params;
         const tipoCadastro = req.body.tipoCadastro;
-        const novaInformacao = req.body;
-        novaInformacao.video = req.body.video;
         const categorias = req.body.categorias;
-        
+        const novaInformacao = req.body;
+        novaInformacao.categoriasId = req.body.categorias;
+
+        //validação das categorias
+        if(novaInformacao.categoriasId === undefined) {
+            novaInformacao.categoriasId = null
+        }
+
         if (req.files.length > 0) {
             if(tipoCadastro) {
                 novaInformacao.imagemReceita = req.files.map(obj => obj.filename)
@@ -98,11 +108,7 @@ class Receitas {
                 } 
             });
 
-            const receitaAtualizada = await database.Receitas.findOne({
-                 where: { 
-                     id: id 
-                    } 
-                });
+            const receitaAtualizada = await database.Receitas.findOne({ where: { id: id } });
 
             //atualiza tabela de junção    
             await receitaAtualizada.setCategorias(categorias, { 
@@ -111,11 +117,46 @@ class Receitas {
                     categoriaId: categorias, 
                 } 
             })
-
             return resp.redirect('/receitas/' + id)
 
         } catch (error) {
-            return resp.render('error', { error, message: error.message });
+
+            if(error instanceof ValidationError) {
+                const errors = error.message.split(',');
+                const mensagemErro = [];
+                errors.forEach(function(error) {
+                    if(error == '\nValidation error: Informe o nome da receita' || error == 'Validation error: Informe o nome da receita') {
+                        mensagemErro.push(error.replace(/Validation error: /i, ""))
+                    } else if(error == 'notNull Violation: Selecione uma ou mais categorias') {
+                        mensagemErro.push(error.replace(/notNull Violation: /i, ""))
+                    }    
+                });
+
+                const categorias = await database.Categorias.findAll();
+                const receita = req.body;
+                receita.id = id;
+                receita.imagem = req.body.nomeImagem ? [req.body.nomeImagem] : null;
+
+                let idCategoriasSelecionadas = req.body.categorias;
+                if(!(idCategoriasSelecionadas instanceof Object)) {
+                    idCategoriasSelecionadas = [req.body.categorias];
+                }
+
+                receita.categorias = idCategoriasSelecionadas.map(function(idCategoria) {
+                    return { id: idCategoria } });
+               
+                return resp.render('receitas-cadastro', { 
+                    erroCadastro: mensagemErro, 
+                    receita: receita,
+                    video: req.body.videoURL,
+                    usuario: req.user.id,
+                    cadastroFoto: tipoCadastro,
+                    categorias: categorias
+                });
+            } else {
+                return resp.render('error', { error, message: error.message });
+            }
+
         };
     };
 
@@ -267,7 +308,7 @@ class Receitas {
     static async cadastraReceita(req, resp) {
         const categorias = req.body.categorias;
         const tipoCadastro = req.body.tipoCadastro;
-
+        console.log(req.body)
         try {
             const receita = await database.Receitas.create({
                 nome: req.body.nome,
@@ -278,7 +319,7 @@ class Receitas {
                 dicas: req.body.dicas,
                 imagemReceita: (tipoCadastro) ? req.files.map(obj => obj.filename) : [],
                 usuario_id: req.user.id,
-                categorias: req.body.categorias,
+                categoriasId: req.body.categorias
             });
 
             await receita.addCategorias(categorias, { 
@@ -289,9 +330,43 @@ class Receitas {
             })
 
             return resp.redirect('/receitas/' + receita.id);
-
+            
         } catch (error) {
-            return resp.render('error', { error, message: error.message });
+
+            if(error instanceof ValidationError) {
+                const errors = error.message.split(',');
+                const mensagemErro = [];
+                errors.forEach(function(error) {
+                    if(error == '\nValidation error: Informe o nome da receita' || error == 'Validation error: Informe o nome da receita') {
+                        mensagemErro.push(error.replace(/Validation error: /i, ""))
+                    } else if(error == 'notNull Violation: Selecione uma ou mais categorias') {
+                        mensagemErro.push(error.replace(/notNull Violation: /i, ""))
+                    }    
+                });
+
+                const categorias = await database.Categorias.findAll();
+                const receita = req.body;
+
+                let idCategoriasSelecionadas = req.body.categorias;
+                if(!(idCategoriasSelecionadas instanceof Object)) {
+                    idCategoriasSelecionadas = [req.body.categorias];
+                };
+
+                receita.categorias = idCategoriasSelecionadas.map(function(idCategoria) {
+                    return { id: idCategoria } });
+
+                return resp.render('receitas-cadastro', { 
+                    erroCadastro: mensagemErro, 
+                    receita: receita,
+                    video: req.body.video,
+                    usuario: req.user.id,
+                    cadastroFoto: tipoCadastro,
+                    categorias: categorias
+                });
+                
+            } else {
+                return resp.render('error', { error, message: error.message });
+            }
         };
     };
 

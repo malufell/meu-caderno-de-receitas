@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       categoriaId: { 
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
       },
      }, {
       sequelize,

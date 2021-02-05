@@ -26,13 +26,30 @@ module.exports = (sequelize, DataTypes) => {
 
     };
     Receitas.init({
-      nome: DataTypes.STRING(50),
+      nome: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Informe o nome da receita'
+          }
+        }
+      },  
       imagem: DataTypes.JSON,
       video: DataTypes.STRING,
       ingredientes: DataTypes.TEXT,
       preparo: DataTypes.TEXT,
       dicas: DataTypes.TEXT,
       imagemReceita: DataTypes.JSON,
+      categoriasId: {
+        type: DataTypes.VIRTUAL,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Selecione uma ou mais categorias'
+          }
+        }
+      }   
     }, {
       sequelize,
       modelName: 'Receitas',
@@ -40,4 +57,3 @@ module.exports = (sequelize, DataTypes) => {
 
     return Receitas;
 };
-

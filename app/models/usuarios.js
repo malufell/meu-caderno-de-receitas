@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     nome: {
       type: DataTypes.STRING,
       validate: {
-        validaNome: function (dado) {
-          if (dado.length < 3) throw new Error('O campo nome deve conter 3 ou mais caracteres')
+        validaNome: function (nome) {
+          if (nome.length < 3) throw new Error('O campo nome deve conter 3 ou mais caracteres')
         }
       }
     },
@@ -40,8 +40,8 @@ module.exports = (sequelize, DataTypes) => {
     senha: {
       type: DataTypes.STRING,
       validate: {
-        validaTamanhoSenha: function (dado) {
-          if (dado.length < 6) throw new Error('O campo senha deve conter 6 ou mais caracteres')
+        validaTamanhoSenha: function (senha) {
+          if (senha.length < 6) throw new Error('O campo senha deve conter 6 ou mais caracteres')
         }
       }
     },
