@@ -4,10 +4,11 @@ const Strategy = require('passport-local').Strategy;
 const database = require('../models')
 const sessao = require('express-session');
 const flash = require('connect-flash')
+require('dotenv').config();
 
 module.exports = (app) => {
     app.use(sessao({
-        secret: "aguiareal",
+        secret: process.env.SECRET,
         resave: false,
         saveUninitialized: false,
         cookie: { secure: false },
