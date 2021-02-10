@@ -128,13 +128,9 @@
                                 <h4>Fonte</h4>
                             </div>
                             <div class="text-break row d-flex justify-content-center mt-3" id="fonte">
-                          
-                                <% if receita.start_with('http')? %>                          
-                                    <a><%= receita.fonte %></a>
-                                <% else %>
-                                 ....
-                                <%>
-                                
+                                <a>
+                                    <%= receita.fonte %>
+                                </a>
                             </div>
                         </div>
                     </div>
