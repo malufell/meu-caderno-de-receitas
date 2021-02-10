@@ -14,13 +14,11 @@
 
 <body>
     <%- include('../views/partials/nav-user.ejs') %>
-
     <main>
 
         <div class="container centered">
             <div class="row">
                 <div class="col-md-8">
-
                     <div class="container-fluid d-flex justify-content-center">
                         <div class="row mb-1 mt-2">
                             <h3 class='text-center'><%= receita.nome %></h3>
@@ -111,16 +109,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="container-fluid mt-3" <%= receita.fonte ? " " : "hidden"%>>
-                        <div class="row d-flex justify-content-center">
-                            <h4>Fonte</h4>
-                        </div>
-                        <div class="row d-flex justify-content-center mt-3" id="fonte">
-                            <a>
-                                <%= receita.fonte %>
-                            </a>
-                        </div>
-                    </div>
+
 
                     <% if (receita.video) { %>  
                         <div class="container-fluid">
@@ -133,7 +122,24 @@
                         </div>
                     <% } %>
 
+                    <div class="container-fluid ">
+                        <div class="container-fluid mt-3" <%= receita.fonte ? " " : "hidden"%>>
+                            <div class="row d-flex justify-content-center">
+                                <h4>Fonte</h4>
+                            </div>
+                            <div class="text-break row d-flex justify-content-center mt-3" id="fonte">
+                          
+                                <% if receita.start_with('http')? %>                          
+                                    <a><%= receita.fonte %></a>
+                                <% else %>
+                                 ....
+                                <%>
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
 
 
                 <div class="col-md-4">
