@@ -32,7 +32,7 @@ class Receitas {
             return resp.render('receitas-cadastro', {
                 receita: receita,
                 categorias: categorias,
-                usuario: req.user.id,
+                usuario: req.user,
                 cadastroFoto: cadastroFoto,
                 erroCadastro: false,
             });
@@ -69,7 +69,7 @@ class Receitas {
                 preparo: preparoFormatado,
                 categorias: categorias,
                 video: video,
-                usuario: req.user.id,
+                usuario: req.user,
                 cadastroFoto: false,
                 erroCadastro: false, 
 
@@ -150,7 +150,7 @@ class Receitas {
                     erroCadastro: mensagemErro, 
                     receita: receita,
                     video: req.body.videoURL,
-                    usuario: req.user.id,
+                    usuario: req.user,
                     cadastroFoto: tipoCadastro,
                     categorias: categorias
                 });
@@ -249,7 +249,7 @@ class Receitas {
                 receitas: receitas,
                 contagemTotal: contagemTotal.count, 
                 categorias: totalReceitasPorCategoria, 
-                usuario: req.user.id, 
+                usuario: req.user, 
                 categoriaAtiva: categoriaSelecionada,
                 paginaAtual: paginaAtual,
                 paginaAnterior: (paginaAtual == 1) ? paginaAtual : (Number(paginaAtual) - 1),
@@ -296,7 +296,7 @@ class Receitas {
                 ingredientes: ingredientesFormatados,
                 preparo: preparoFormatado,
                 video: video,
-                usuario: req.user.id,
+                usuario: req.user,
                 dataCriacao: dataCriacao,
                 dataEdicao: dataEdicao
             });
@@ -309,7 +309,7 @@ class Receitas {
     static async cadastraReceita(req, resp) {
         const categorias = req.body.categorias;
         const tipoCadastro = req.body.tipoCadastro;
-        console.log(req.body)
+
         try {
             const receita = await database.Receitas.create({
                 nome: req.body.nome,
@@ -361,7 +361,7 @@ class Receitas {
                     erroCadastro: mensagemErro, 
                     receita: receita,
                     video: req.body.video,
-                    usuario: req.user.id,
+                    usuario: req.user,
                     cadastroFoto: tipoCadastro,
                     categorias: categorias
                 });
