@@ -24,7 +24,8 @@ class Receitas {
                 ingredientes: "",
                 preparo: "",
                 dicas: "",
-                categoriasId: ""
+                categoriasId: "",
+                fonte: ""
             });
             
             receita.categorias = [];
@@ -318,6 +319,7 @@ class Receitas {
                 preparo: req.body.preparo,
                 dicas: req.body.dicas,
                 imagemReceita: (tipoCadastro) ? req.files.map(obj => obj.filename) : [],
+                fonte: req.body.fonte,
                 usuario_id: req.user.id,
                 categoriasId: req.body.categorias
             });

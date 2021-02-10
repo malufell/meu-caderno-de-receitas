@@ -155,6 +155,17 @@
                                 </small>
                             </div>
                         </div>
+
+                        <!-- FONTE  -->
+                        <div>
+                            <div class="form-group mt-5" <%= cadastroFoto == true ? "hidden" : (receita.imagemReceita && receita.imagemReceita.length > 0 ? "hidden" : "") %>>
+                                <label>Fonte</label>
+                                <input id="fonte" type="text" name="fonte" class="form-control" placeholder="Exemplo: https://www.lowcarb-paleo.com.br/2015/09/o-pao-low-carb-mais-facil-do-mundo.html" value="<%= receita.fonte %>"  />
+                                <small class="text-muted mb-4">
+                                    Se quiser, registre a origem da receita ;)
+                                </small>
+                            </div>
+                        </div>
                         
                         <!-- IMAGEM RECEITA  -->
                         <div class="form-group mt-5">
