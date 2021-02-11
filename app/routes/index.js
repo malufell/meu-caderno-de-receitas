@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const receitas = require('./receitas');
+const receitasExemplo = require('./exemplo-receitas')
 const usuarios = require('./usuarios');
 const login = require('./login');
 const Receitas = require('../controllers/receitas-controller');
@@ -29,6 +30,7 @@ app.use(rotasUsuariosAutenticadas.autenticadas, function(req, resp, next) {
     app.use(
         bodyParser.json(),
         receitas,
+        receitasExemplo,
         usuarios,
         login
     );
