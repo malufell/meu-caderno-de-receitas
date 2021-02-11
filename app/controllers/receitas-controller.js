@@ -288,8 +288,16 @@ class Receitas {
             const ingredientesFormatados = (receita.ingredientes).split("\n")
             const preparoFormatado = (receita.preparo).split("\n")
             const video = ("https://www.youtube.com/embed/" + receita.video);
-            const dataCriacao = receita.createdAt.toLocaleDateString().split('-').reverse().join("/");
-            const dataEdicao = receita.updatedAt.toLocaleDateString().split('-').reverse().join("/");
+
+            //formatação de datas
+            function adicionaZero(numero){
+                if (numero <= 9) 
+                    return "0" + numero;
+                else
+                    return numero; 
+            }
+            const dataCriacao = (adicionaZero(receita.createdAt.getDate().toString()) + "/" + (adicionaZero(receita.createdAt.getMonth()+1).toString()) + "/" + receita.createdAt.getFullYear());
+            const dataEdicao = (adicionaZero(receita.updatedAt.getDate().toString()) + "/" + (adicionaZero(receita.updatedAt.getMonth()+1).toString()) + "/" + receita.updatedAt.getFullYear());
             
             return resp.render('receitas-id', {
                 receita: receita,
