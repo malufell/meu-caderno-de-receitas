@@ -112,9 +112,9 @@
                         <article class="col-12  ">
                             <div class="card d-flex justify-content-center">
                                 <% if(receita.imagem.length == 0 && receita.imagemReceita.length == 0) { %>
-                                    <img src="/uploads/sem-imagem.jpg" class="card-img-top">
+                                    <img src="/images/sem-imagem.jpg" class="card-img-top">
                                 <% } else { %>
-                                    <img src="/uploads/<%= receita.imagem.length > 0 ? receita.imagem[0] : `cadastroFoto3.jpg` %>" class="card-img-top">
+                                    <img src="<%= receita.imagem.length > 0 ? receita.imagem[0] : `images/cadastroFoto3.jpg` %>" class="card-img-top">
                                 <% } %>    
                                 <div class="card-body">
                                     <h5 class="card-title"><%= receita.nome %></h5>
