@@ -16,8 +16,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-5 col-sm-12 m-1 align-self-center">
-                <h1 class="logo">Meu Caderno de Receitas</h1>
-                <h3 class="form-group col-sm">Cadastre-se para registrar suas receitas :)</h3><br>
+                <div class="text-center  mt-4">
+                    <a href="/" class="logo text-decoration-none text-center">Meu Caderno de Receitas</a>
+                </div>
+                <h3 class="form-group col-sm mt-4">Cadastre-se para registrar suas receitas :)</h3><br>
 
                 <% if(error) { %>
                 <div>
@@ -69,6 +71,9 @@
                         </div>
                     </div>
                 </form>
+                <div class="d-sm-none mt-4">
+                    <%- include('../views/partials/footer.ejs') %>  
+                </div>
             </div>
 
             <div class="col imagem-cadastro d-none d-sm-block"> </div>
