@@ -45,10 +45,10 @@
                                     <div id="carousel" class="carousel slide" data-ride="carousel">
                                         <div class="carousel-inner">
                                             <div class="carousel-item active" data-interval="10000">
-                                                <img src="/uploads/<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
+                                                <img src="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
                                             </div>
                                             <div class="carousel-item" data-interval="2000">
-                                                <img src="/uploads/<%=receita.imagem.length > 0 ? receita.imagem[1] : receita.imagemReceita[1]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
+                                                <img src="<%=receita.imagem.length > 0 ? receita.imagem[1] : receita.imagemReceita[1]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
                                             </div>
                                     
                                             <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
@@ -67,7 +67,7 @@
                         <% } else { %>
                                 <div class="container-fluid">
                                     <div class="row d-flex justify-content-center">
-                                        <img src="/uploads/<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
+                                        <img src="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
                                     </div>
                                 </div>
                         <% } %>
@@ -126,8 +126,9 @@
                         <div class="container-fluid mt-3" <%= receita.fonte ? " " : "hidden"%>>
                             <div class="row d-flex justify-content-center">
                                 <h4>Fonte</h4>
-                            </div>
+                            </div>    
                             <div class="text-break row d-flex justify-content-center mt-3" id="fonte">
+                                <%= receita.fonte %>
                             </div>
                         </div>
                     </div>

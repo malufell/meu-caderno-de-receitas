@@ -95,9 +95,9 @@ class Receitas {
 
         if (req.files.length > 0) {
             if(tipoCadastro) {
-                novaInformacao.imagemReceita = req.files.map(obj => obj.filename)
+                novaInformacao.imagemReceita = req.files.map(obj => obj.path)
             } else { 
-                novaInformacao.imagem = req.files.map(obj => obj.filename)
+                novaInformacao.imagem = req.files.map(obj => obj.path)
             }
         };
 
@@ -313,12 +313,12 @@ class Receitas {
         try {
             const receita = await database.Receitas.create({
                 nome: req.body.nome,
-                imagem: (tipoCadastro) ? [] : req.files.map(obj => obj.filename),
+                imagem: (tipoCadastro) ? [] : req.files.map(obj => obj.path),
                 video: req.body.video,
                 ingredientes: req.body.ingredientes,
                 preparo: req.body.preparo,
                 dicas: req.body.dicas,
-                imagemReceita: (tipoCadastro) ? req.files.map(obj => obj.filename) : [],
+                imagemReceita: (tipoCadastro) ? req.files.map(obj => obj.path) : [],
                 fonte: req.body.fonte,
                 usuario_id: req.user.id,
                 categoriasId: req.body.categorias
