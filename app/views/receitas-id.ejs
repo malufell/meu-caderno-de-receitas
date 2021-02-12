@@ -45,10 +45,14 @@
                                     <div id="carousel" class="carousel slide" data-ride="carousel">
                                         <div class="carousel-inner">
                                             <div class="carousel-item active" data-interval="10000">
-                                                <img src="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
+                                              <a href="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" target="_blank">
+                                                  <img src="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
+                                              </a>
                                             </div>
                                             <div class="carousel-item" data-interval="2000">
-                                                <img src="<%=receita.imagem.length > 0 ? receita.imagem[1] : receita.imagemReceita[1]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
+                                                <a href="<%=receita.imagem.length > 0 ? receita.imagem[1] : receita.imagemReceita[1]%>" target="_blank">
+                                                    <img src="<%=receita.imagem.length > 0 ? receita.imagem[1] : receita.imagemReceita[1]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
+                                                </a>
                                             </div>
                                     
                                             <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
