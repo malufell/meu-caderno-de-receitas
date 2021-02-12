@@ -18,7 +18,6 @@ const storage = new CloudinaryStorage({
     params: {
         folder: "meuCadernoDeReceitas",
         allowedFormats: ["jpg", "png"],
-        transformation: [{ width: 500, height: 500, crop: "limit" }]
     }
 });
 
