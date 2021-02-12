@@ -36,46 +36,55 @@
                     </div>
 
                     <!-- EXIBE IMAGEM -->
-                    <% if(receita.imagem.length > 0 || receita.imagemReceita.length > 0) { %>
-                        
-                        <% if(receita.imagem.length > 1 || receita.imagemReceita.length > 1) { %>
+                        <% if(receita.imagem.length > 1) { %>
                             <div class="container-fluid">
                                 <div class="row d-flex justify-content-center">
-
                                     <div id="carousel" class="carousel slide" data-ride="carousel">
                                         <div class="carousel-inner">
-                                            <div class="carousel-item active" data-interval="10000">
-                                              <a href="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" target="_blank">
-                                                  <img src="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
-                                              </a>
-                                            </div>
-                                            <div class="carousel-item" data-interval="2000">
-                                                <a href="<%=receita.imagem.length > 0 ? receita.imagem[1] : receita.imagemReceita[1]%>" target="_blank">
-                                                    <img src="<%=receita.imagem.length > 0 ? receita.imagem[1] : receita.imagemReceita[1]%>" class="imagem-carrossel d-block w-100" alt="..." height="<%= receita.imagemReceita.length > 0 ? "" : "400" %>">
+                                            <div class="carousel-item active" data-interval="20000">
+                                                <a href="<%=receita.imagem[0]%>" target="_blank">
+                                                    <img src="<%=receita.imagem[0]%>" class="imagem-carrossel d-block w-100" alt="imagem receita" height="450">
                                                 </a>
                                             </div>
-                                    
+                                            <div class="carousel-item" data-interval="4000">
+                                                <a href="<%=receita.imagem[1]%>" target="_blank">
+                                                    <img src="<%=receita.imagem[1]%>" class="imagem-carrossel d-block w-100" alt="imagem receita" height="450">
+                                                </a>
+                                            </div>
                                             <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="sr-only">Previous</span>
                                             </a>
                                             <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
                                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="sr-only">Next</span>
                                             </a>
                                         </div> 
                                     </div> 
-
                                 </div> 
                             </div> 
-                        <% } else { %>
-                                <div class="container-fluid">
-                                    <div class="row d-flex justify-content-center">
-                                        <img src="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
+                        <% } else if(receita.imagemReceita.length > 1) { %>
+                            <div class="container-fluid">
+                                <div class="row d-flex justify-content-center">
+                                    <div>
+                                        <a href="<%=receita.imagemReceita[0]%>" target="_blank">    
+                                            <img src="<%=receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a href="<%=receita.imagemReceita[1]%>" target="_blank">    
+                                            <img src="<%=receita.imagemReceita[1]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita mt-2">
+                                        </a>
                                     </div>
                                 </div>
+                            </div>
+                        <% } else { %>
+                            <div class="container-fluid">
+                                <div class="row d-flex justify-content-center">
+                                    <a href="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" target="_blank">
+                                        <img src="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
+                                    </a>
+                                </div>
+                            </div>
                         <% } %>
-                    <% } %>
 
                     <div class="container-fluid mt-3" <%= receita.ingredientes ? " " : "hidden"%>>
                         <div class="row d-flex justify-content-center">
