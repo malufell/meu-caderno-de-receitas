@@ -209,7 +209,7 @@ class Receitas {
 
             // conta o total de receitas do usuário
             const contagemTotal = await database.Receitas.findAndCountAll({
-                where: { usuario_id: req.user.id },
+                where: whereCondicoes,
             });
 
             // paginação
@@ -243,7 +243,7 @@ class Receitas {
                 offset: offset,
             });
 
-
+            const receitaNaoEncontrada = (busca && receitas.length == 0);
 
             return resp.render('receitas', { 
                 receitas: receitas,
@@ -259,7 +259,8 @@ class Receitas {
                 mensagem: msgs.receitaExcluida,
                 ordenacaoNome: ordenacaoNome,
                 ordenacaoDirecao: ordenacaoDirecao,
-                usuario: req.user
+                usuario: req.user,
+                receitaNaoEncontrada: receitaNaoEncontrada,
             });
 
         } catch (error) {

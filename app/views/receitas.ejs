@@ -13,7 +13,7 @@
 
 <body>
     <%- include('../views/partials/nav-user.ejs') %>
-    <main>
+    <main class="content">
 
         <div class="container-fluid">
             <div class="row">
@@ -94,16 +94,30 @@
                 <!-- MSG RECEITA EXCLUÍDA -->
                 <div class="col-sm-8 col-lg-9">
                     <% if (mensagem) { %>
-                        <div class="alert alert-success w-75" role="alert">
+                        <div class="alert alert-success w-100" role="alert">
                             <strong><%= mensagem %></strong>
                         </div>
                     <% } %>
 
                     <!-- MSG NÃO HÁ RECEITA CADASTRADA -->
-                    <% if(receitas.length == 0) { %> 
-                        <div class="alert alert-secondary w-75 mt-3" role="alert">
-                           Ainda não há nenhuma receita cadastrada
+                    <% if(receitas.length == 0 && !receitaNaoEncontrada) { %> 
+                        <div class="alert alert-secondary w-100 mt-3" role="alert">
+                            <div> Oi <%=usuario.nome%>! Que bom ter você por aqui :) </div>
+                           <div>Ainda não há nenhuma receita cadastrada, clique em "Cadastrar nova receita".</div>
                           </div>
+                    <% } %>
+
+                    <!-- MSG RECEITA NÃO ENCONTRADA NA BUSCA -->
+                    <% if(receitaNaoEncontrada) { %> 
+                        <div class="alert alert-secondary w-100 mt-3" role="alert">
+                            <div> <%=usuario.nome%>, não encontramos receitas cadastradas com "<%=busca%>" no nome :( </div>
+                        </div>
+                    <% } %>
+
+                    <% if(busca) { %> 
+                        <div class="ml-2 mt-1 mb-3">
+                            <a href="/receitas">Limpar busca</a>
+                        </div>
                     <% } %>
 
                     <!-- CARDS DE RECEITAS     -->
@@ -130,12 +144,12 @@
                         <ul class="pagination justify-content-center">
                             <li class="page-item">
                                 <% if(totalPaginas > 1) { %>      
-                                <a class="page-link" href="/receitas?paginaAtual=<%=paginaAnterior%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>" tabindex="-1" aria-disabled="true">Anterior</a>
+                                <a class="page-link" href="/receitas?paginaAtual=<%=paginaAnterior%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" tabindex="-1" aria-disabled="true">Anterior</a>
                             </li>
                             <% for (let i=1; i < (totalPaginas + 1); i++) { %>
-                                <li class="page-item <%=(paginaAtual == i) ? "active" : "" %>"><a class="page-link " href="/receitas?paginaAtual=<%=i%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>"><%=i%></a></li>
+                                <li class="page-item <%=(paginaAtual == i) ? "active" : "" %>"><a class="page-link " href="/receitas?paginaAtual=<%=i%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>"><%=i%></a></li>
                             <% } %>
-                                <a class="page-link" href="/receitas?paginaAtual=<%=proximaPagina%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>">Próxima</a>
+                                <a class="page-link" href="/receitas?paginaAtual=<%=proximaPagina%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>">Próxima</a>
                             <% } %>  
                           </li>
                         </ul>
@@ -166,12 +180,6 @@
         </div>
     </main>
     <%- include('../views/partials/footer.ejs') %>
-
-    <script>
-
-    </script>
-
-
 
 </body>
 
