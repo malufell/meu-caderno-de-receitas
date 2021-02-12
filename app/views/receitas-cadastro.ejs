@@ -238,7 +238,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>O tamanho da imagem não pode ser superior a 5 MB!</p>
+                                    <p>O tamanho da imagem não pode ser superior a 6 MB!</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Entendi!</button>
@@ -248,7 +248,7 @@
                         </div>
 
                         <!-- BOTÃO CADASTRAR  -->
-                        <div class=" p-2">
+                        <div class="p-2 mb-5">
                             <button type="submit" id="botao" class="btn btn-dark btn-block" data-toggle="modal" data-target="#modalCarregamento"><%= receita.id ? "Salvar receita atualizada" : "Cadastrar receita"%></button>
                         </div>
 
@@ -258,7 +258,6 @@
         </div>
     </main>
     <%- include('../views/partials/footer.ejs') %>
-
     <script>
 
         //carrega preview do video na edição da receita
