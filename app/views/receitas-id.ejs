@@ -36,6 +36,7 @@
                     </div>
 
                     <!-- EXIBE IMAGEM -->
+                    <% if(receita.imagem.length > 0 || receita.imagemReceita.length > 0) { %>
                         <% if(receita.imagem.length > 1) { %>
                             <div class="container-fluid">
                                 <div class="row d-flex justify-content-center">
@@ -85,12 +86,13 @@
                                 </div>
                             </div>
                         <% } %>
-
+                    <% } %>
+                    
                     <div class="container-fluid mt-3" <%= receita.ingredientes ? " " : "hidden"%>>
                         <div class="row d-flex justify-content-center">
                             <h4>Lista de ingredientes:</h4>
                         </div>
-                        <div class="row d-flex justify-content-center mt-3" >
+                        <div class="row d-flex ml-3 mt-3" >
                             <ul>
                                 <% ingredientes.forEach(function(ingrediente) { %>
                                     <li><%= ingrediente %></li>
@@ -103,7 +105,7 @@
                         <div class="row d-flex justify-content-center">
                             <h4>Modo de preparo:</h4>
                         </div>
-                        <div class="row d-flex justify-content-center mt-3" id="modo-preparo">
+                        <div class="row d-flex ml-3 mt-3" id="modo-preparo">
                             <ol>
                                 <% preparo.forEach(function(etapa) { %>
                                     <li><%= etapa %></li>
