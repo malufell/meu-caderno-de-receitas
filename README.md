@@ -65,7 +65,7 @@ Como pré-requisito, é necessário ter o [Node.js](https://nodejs.org/en/) e o 
 - As informações são privadas, portanto somente o próprio usuário visualiza as suas receitas.
 
 <br>
-:pushpin: Ah! tenho várias ideias para deixar este projeto ainda mais legal e completo! A lista pode ser [consultada aqui.](https://github.com/malufell/meu-caderno-de-receitas/issues)!
+:pushpin: Ah! tenho várias ideias para deixar este projeto ainda mais legal e completo! A lista do que ainda vou implementar pode ser visualizada nas issues aqui do meu repositório :) 
 
 </details>
 
