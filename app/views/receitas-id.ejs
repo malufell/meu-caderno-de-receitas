@@ -14,7 +14,7 @@
 
 <body>
     <%- include('../views/partials/nav-user.ejs') %>
-    <main>
+    <main class="content">
 
         <div class="container centered">
             <div class="row">
@@ -92,7 +92,7 @@
                         <div class="row d-flex justify-content-center">
                             <h4>Lista de ingredientes:</h4>
                         </div>
-                        <div class="row d-flex ml-3 mt-3" >
+                        <div class="row d-flex justify-content-center mt-3 mb-2" >
                             <ul>
                                 <% ingredientes.forEach(function(ingrediente) { %>
                                     <li><%= ingrediente %></li>
@@ -105,7 +105,7 @@
                         <div class="row d-flex justify-content-center">
                             <h4>Modo de preparo:</h4>
                         </div>
-                        <div class="row d-flex ml-3 mt-3" id="modo-preparo">
+                        <div class="row d-flex justify-content-center mt-3 mb-2" id="modo-preparo">
                             <ol>
                                 <% preparo.forEach(function(etapa) { %>
                                     <li><%= etapa %></li>
@@ -118,7 +118,7 @@
                         <div class="row d-flex justify-content-center">
                             <h4>O pulo do gato :)</h4>
                         </div>
-                        <div class="row d-flex justify-content-center mt-3" id="dicas">
+                        <div class="row d-flex justify-content-center mt-3 mb-2" id="dicas">
                             <p>
                                 <%= receita.dicas %>
                             </p>
@@ -131,7 +131,7 @@
                             <div class="row d-flex justify-content-center mt-5">
                                 <h4>Vídeo da receita:</h4>
                             </div>
-                            <div class="row d-flex justify-content-center mt-3">
+                            <div class="row d-flex justify-content-center mt-3 mb-3">
                                 <iframe width="560" height="315" src=<%= video %> frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                             <div class="row d-flex justify-content-center">
                                 <h4>Fonte</h4>
                             </div>    
-                            <div class="text-break row d-flex justify-content-center mt-3" id="fonte">
+                            <div class="text-break row d-flex justify-content-center mt-1 mb-3" id="fonte">
                                 <%= receita.fonte %>
                             </div>
                         </div>

@@ -25,7 +25,8 @@ class Receitas {
                 preparo: "",
                 dicas: "",
                 categoriasId: "",
-                fonte: ""
+                fonte: "",
+                imagemReceita: ""
             });
             
             receita.categorias = [];
@@ -70,7 +71,7 @@ class Receitas {
                 categorias: categorias,
                 video: video,
                 usuario: req.user,
-                cadastroFoto: false,
+                cadastroFoto: receita.cadastroPorFoto,
                 erroCadastro: false, 
 
             });
@@ -91,14 +92,21 @@ class Receitas {
         //validação das categorias
         if(novaInformacao.categoriasId === undefined) {
             novaInformacao.categoriasId = null
-        }
+        };
 
+        //edição de imagem
         if (req.files.length > 0) {
             if(tipoCadastro) {
                 novaInformacao.imagemReceita = req.files.map(obj => obj.path)
             } else { 
                 novaInformacao.imagem = req.files.map(obj => obj.path)
-            }
+            };
+        } else if (req.body.removeImagem) {
+            if(tipoCadastro) {
+                novaInformacao.imagemReceita = [];
+            } else { 
+                novaInformacao.imagem = [];
+            };
         };
 
         try {
@@ -329,6 +337,7 @@ class Receitas {
                 dicas: req.body.dicas,
                 imagemReceita: (tipoCadastro) ? req.files.map(obj => obj.path) : [],
                 fonte: req.body.fonte,
+                cadastroPorFoto: (tipoCadastro) ? true : false,
                 usuario_id: req.user.id,
                 categoriasId: req.body.categorias
             });

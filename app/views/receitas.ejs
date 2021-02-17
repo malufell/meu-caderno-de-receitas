@@ -102,7 +102,7 @@
                     <!-- MSG NÃO HÁ RECEITA CADASTRADA -->
                     <% if(receitas.length == 0 && !receitaNaoEncontrada) { %> 
                         <div class="alert alert-secondary w-100 mt-3" role="alert">
-                            <div> Oi <%=usuario.nome%>! Que bom ter você por aqui :) </div>
+                            <div> Oi, <%=usuario.nome%>! Que bom ter você por aqui :) </div>
                            <div>Ainda não há nenhuma receita cadastrada, clique em "Cadastrar nova receita".</div>
                           </div>
                     <% } %>
@@ -123,7 +123,7 @@
                     <!-- CARDS DE RECEITAS     -->
                     <div class="row row-cols-md-2 row-cols-lg-3">
                         <% receitas.forEach(function(receita) { %>
-                        <article class="col-12  ">
+                        <article class="col-12">
                             <div class="card d-flex justify-content-center">
                                 <% if(receita.imagem.length == 0 && receita.imagemReceita.length == 0) { %>
                                     <img src="/images/sem-imagem.jpg" class="card-img-top">

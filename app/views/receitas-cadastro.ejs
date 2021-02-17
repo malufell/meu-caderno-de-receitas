@@ -12,7 +12,7 @@
 
 <body>
     <%- include('../views/partials/nav-user.ejs') %>
-    <main>
+    <main class="content">
         <div class="container">
             <div class="container-fluid">
                 <div class="row-1">
@@ -30,8 +30,8 @@
 
                     <!-- ENVIO DE DADOS PARA BACKEND  -->
                         <input type="hidden" name="video" id="video">
-                        <input type="hidden" name="nomeImagem" id="nomeImagem" 
-                        value="<%=receita.imagem%>">
+                        <input type="hidden" name="nomeImagem" id="nomeImagem">
+                        <input type="hidden" name="statusImagem" id="removeImagem">
                         <input type="hidden" name="tipoCadastro" value="<%= cadastroFoto == true ? "cadastroFoto" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "cadastroFoto" : "" %>">
 
                     <!-- MENSAGENS VALIDAÇÃO -->
@@ -61,7 +61,6 @@
                                 <a class="linkCadastroFoto" href="/receitas-cadastro">Clique aqui se deseja digitar os dados da receita</a>
                             </small>
                         </div>
-
                         
                         <!-- VIDEO DO YOUTUBE  -->
                         <div class="form-group mt-5" <%= cadastroFoto == true ? "hidden" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "hidden" : "" %>>
@@ -72,9 +71,11 @@
                                     <button class="btn btn-sm btn-outline-secondary" type="button" id="btn-incluir-video" onclick="return montaEmbed();">Incluir!</button>
                                 </div>
                             </div>
+
                             <div id="preview-video" hidden>
-                                <iframe  class="mt-3 pr-5"  width="400" height="300" id="video-youtube"  frameborder="0" allowfullscreen></iframe>
+                                <iframe class="mt-3 pr-5"  width="400" height="300" id="video-youtube"  frameborder="0" allowfullscreen></iframe>
                             </div>
+                            <button hidden class="btn btn-sm btn-link" type="button" id="btn-excluir-video" onclick="return limpaVideo();">Excluir vídeo</button>
                         </div>
                         
                         <!-- CATEGORIAS  -->
@@ -169,25 +170,26 @@
                             </label>
                             <div class="">
                                 <small class="text-muted mb-4">
-                                    Até 2 imagens e cada arquivo pode ter no máximo 5 MB de tamanho :)
+                                    Até 2 imagens e cada arquivo pode ter no máximo 6 MB de tamanho :)
                                 </small>
                             </div>
                             <div class="preview-img">
                                 <% if(receita.imagem || receita.imagemReceita) { %>
                                     <% if(receita.imagem.length > 0) { %>
                                         <% for (let i=0; i < receita.imagem.length; i++) { %>
-                                            <img class="w-50 mb-1" src="<%= (receita.imagem.length > 0) ? `${receita.imagem[i]}` : " " %>">
+                                            <img class="w-50 mb-1" name="preview-imagens" src="<%= (receita.imagem.length > 0) ? `${receita.imagem[i]}` : " " %>">
                                             <% } %>
                                     <% } else if (receita.imagemReceita.length > 0) { %>
                                         <% for (let i=0; i < receita.imagemReceita.length; i++) { %>
-                                            <img class="w-50 mb-1" src="<%= (receita.imagemReceita.length > 0) ? `${receita.imagemReceita[i]}` : " " %>">
+                                            <img class="w-50 mb-1" name="preview-imagens" src="<%= (receita.imagemReceita.length > 0) ? `${receita.imagemReceita[i]}` : " " %>">
                                         <% } %>
                                     <% } %>
                                 <% } %>
                             </div>
                             <div>
-                                <input class="file-chooser" type="file" name="file" accept="image/*" multiple />
+                                <input class="file-chooser" type="file" name="file" id="file" accept="image/*" multiple />
                             </div>
+                            <button <%=(receita.imagem.length > 0 || receita.imagemReceita.length > 0) ? "" : "hidden"%> class="btn btn-sm btn-link" type="button" id="btn-excluir-imagens" onclick="return limpaImagens();"><%=(receita.imagem.length > 1 || receita.imagemReceita.length > 1) ? "Excluir imagens" : "Excluir imagem" %></button>
                         </div>
 
                         <!-- MODAL CARREGAMENTO -->
@@ -264,8 +266,32 @@
         const videoCadastrado = document.getElementById('url-youtube').value   
         if (videoCadastrado.length > 0) {
             document.getElementById('btn-incluir-video').click();
-        }
+        };
 
+        //faz a exclusão do vídeo
+        function limpaVideo () {
+            document.getElementById('url-youtube').value = "";
+            document.getElementById('video').value = "";
+            document.getElementById('video-youtube').hidden = true;
+            document.getElementById('btn-excluir-video').hidden = true;
+        };
+
+        //faz a exclusão de imagens
+        function limpaImagens () {
+            //esconde link com a opção de excluir imagem
+            document.getElementById('btn-excluir-imagens').hidden = true;
+            //limpa os dados da imagem que vão para o backend
+            document.getElementById('nomeImagem').value = "";
+            //informa que houve exclusão de imagem - pra saber que não foi edição
+            document.getElementById('removeImagem').value = "remove";
+            //remove imagens do preview
+            const imagens = document.getElementsByName('preview-imagens');
+            for (let i=0; i<imagens.length; ++i) {
+                imagens[i].src = "";
+            };
+            //remove req.files
+            document.querySelector('.file-chooser').value = "";
+        };
         
         //PREVIEW DE MÚLTIPLAS IMAGENS
         const input = document.querySelector('.file-chooser');
@@ -277,7 +303,7 @@
 
             while(preview.firstChild) {
                 preview.removeChild(preview.firstChild);
-            }
+            };
             
             const curFiles = input.files;
             const tamanhoMaximoFile = 6000000;
@@ -289,13 +315,13 @@
                     input.value = "";
                     imagemValida = false;
                } 
-            } 
+            };
                
             if (curFiles.length > 2) {
                 $('#modalQuantidade').modal('show');
                 input.value = "";
                 imagemValida = false;
-            } 
+            };
                 
             if (imagemValida) {
                 const list = document.createElement('div');
@@ -305,11 +331,14 @@
                     const image = document.createElement('img');
                     image.classList.add("w-50");
                     image.classList.add("p-1");
+                    image.setAttribute("name", "preview-imagens")
                     image.src = URL.createObjectURL(file);
                     list.appendChild(image);
                 }
+
+                document.getElementById('btn-excluir-imagens').hidden = false;
             }       
-        }  
+        };
         
         //video da receita - url youtube
         function montaEmbed(event) {
@@ -332,6 +361,13 @@
          
             //exibe a div com o vídeo
             document.getElementById('preview-video').hidden = false;
+
+            //exibe botão para excluir video
+            document.getElementById('btn-excluir-video').hidden = false;
+
+            //exibe video
+            document.getElementById('video-youtube').hidden = false;
+
 
             //inclui o ID no hidden pra salvar no bd
             document.getElementById('video').value = ID;

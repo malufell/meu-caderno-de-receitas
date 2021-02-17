@@ -42,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       dicas: DataTypes.TEXT,
       imagemReceita: DataTypes.JSON,
       fonte: DataTypes.TEXT,
+      cadastroPorFoto: DataTypes.BOOLEAN,
       categoriasId: {
         type: DataTypes.VIRTUAL,
         allowNull: false,
