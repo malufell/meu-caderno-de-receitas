@@ -1,0 +1,20 @@
+{
+    "name": "Meu caderno de receitas",
+    "short_name": "Meu caderno de receitas",
+    "icons": [
+        {
+            "src": "/images/android-chrome-192x192.png?v=OmrqxozNlY",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/android-chrome-512x512.png?v=OmrqxozNlY",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "start_url": "http://www.meucadernodereceitas.net/",
+    "display": "standalone"
+}
