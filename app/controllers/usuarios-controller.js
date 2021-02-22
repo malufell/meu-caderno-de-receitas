@@ -68,13 +68,14 @@ class Usuarios {
             });
 
             const nome = usuario.nome;
+            const host = process.env.HOST;
 
             smtpTransport.sendMail({
                 to: email,
                 from: process.env.SMTP_USERNAME,
                 subject: 'Recuperação de senha',
                 template: 'usuario-recupera-senha',
-                context: { token, nome },
+                context: { token, nome, host },
             }, (error) => {
                 if (error) {
                     return resp.render('usuario-recupera-senha', { error: "O email não pode ser enviado, tente novamente. ", usuario: false })
