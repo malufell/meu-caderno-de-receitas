@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel='stylesheet' href='/styles/main.css' />
+    <%- include('../views/partials/head.ejs') %>
+</head>
+
+<body>
+  <main class="content">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col imagem-recupera-senha d-none d-sm-block"> 
+        </div>
+
+        <div class="col-md-5 col-sm-12 align-self-center">
+
+        <div class="text-center mt-4 mb-5">
+          <a href="/" class="logo text-decoration-none text-center">Meu Caderno de Receitas</a>
+        </div>
+
+        <% if(!usuario) { %>
+          <div class="text-center mt-4  mr-3 ml-3">
+            <h3 class="form-group col-sm mt-5">Redefinição de senha</h3>
+            <div class="d-flex justify-content-center">
+                <p>Informe o email que você utiliza para acessar o <strong>Meu Caderno de Receitas</strong> e logo te enviaremos um link para que você possa alterar a senha:</p>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-center mt-3">
+            <% if(error) { %>
+                  <p class="alert alert-danger mr-4 ml-4" role="alert">
+                  <%= error %><br>
+                  ou <a href="/usuario-cadastro">clique aqui</a> caso não possua cadastro!
+                  </p>
+            <% } %>
+          </div>
+
+          <div class="d-flex justify-content-center mr-4 ml-4">
+            <form action="/senha" method="POST" class="input-group w-100">
+                <input type="email" id="email" name="email" class="form-control" placeholder="nome@dominio.com" required>
+                <div class="input-group-append">
+                  <button class="btn btn-dark" data-toggle="modal" data-target="#modalCarregamentoEmail">Enviar</button>
+                </div>
+            </form>
+          </div>
+        <% } %>
+
+        <!-- MODAL CARREGAMENTO -->
+        <div class="modal fade" id="modalCarregamentoEmail"  data-keyboard="false" tabindex="-1" aria-labelledby="modalCarregamentoEmailLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="d-flex align-items-center">
+                  <strong class="mr-3">Enviando email... </strong><br>
+                  <div class="spinner-grow text-primary mr-3" role="status"></div>
+                  <div class="spinner-grow text-secondary mr-3" role="status"></div>
+                  <div class="spinner-grow text-success mr-3" role="status"></div>
+                </div>  
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-center mr-4 ml-4">
+          <% if(usuario) { %>
+            <p class="text-center">
+              <%= usuario %>, tudo certo! Enviamos para o seu email um link para redefinição da senha.
+              <br><br>
+              Ah! Não esqueça de verificar se o e-mail não foi para sua caixa de spam, pois o link irá expirar em 24 horas ;)
+            </p>
+          <% } %>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div class="d-sm-none mt-4">
+    <%- include('../views/partials/footer.ejs') %>  
+  </div>
+
+  <%- include('../views/partials/script-bootstrap.ejs') %>
+</body>
+</html>

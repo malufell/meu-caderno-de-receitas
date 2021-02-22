@@ -10,5 +10,17 @@ router.get('/usuario-cadastro', (req, res, next) => {
 
 router.post('/usuario-cadastro', Usuarios.cadastraUsuario);
 
+router.get('/senha', (req, res, next) => {
+    res.render('usuario-recupera-senha', { error: false, usuario: false })
+});
+
+router.post('/senha', Usuarios.recuperaSenha);
+
+router.get('/nova-senha', (req, res, next) => {
+    res.render('usuario-nova-senha', { token: req.query.token, error: false, email: "" })
+});
+
+router.post('/nova-senha', Usuarios.novaSenha);
+
 
 module.exports = router;

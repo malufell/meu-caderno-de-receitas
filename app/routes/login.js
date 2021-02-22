@@ -5,7 +5,7 @@ const passport = require('passport');
 router.get('/login', (req, res, next) => {
     const msgs = req.flash();
     const errors = msgs.error || [];
-    res.render('login', { errors, cadastro: msgs.cadastroEfetuado }); 
+    res.render('login', { errors, cadastro: msgs.cadastroEfetuado, senha: msgs.senhaAlterada }); 
 });
 
 

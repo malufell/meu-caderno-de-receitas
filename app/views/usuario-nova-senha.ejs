@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel='stylesheet' href='/styles/main.css' />
+    <%- include('../views/partials/head.ejs') %>
+</head>
+
+<body>
+  <main class="content">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-md-5 col-sm-12 align-self-center">
+          <div class="text-center mt-4 mb-5">
+            <a href="/" class="logo text-decoration-none text-center">Meu Caderno de Receitas</a>
+          </div>
+          
+          <div class="text-center mt-4  mr-3 ml-3">
+            <h3 class="form-group col-sm mt-5">Cadastrar nova senha</h3>
+            <div class="d-flex justify-content-center">
+              <p>Preencha as informações abaixo para cadastrar uma nova senha :)</p>
+            </div>
+          </div>
+          
+          <% if(error && token) { %>
+            <p class="alert alert-danger" role="alert"><%= error %><br>
+            </p>
+          <% } %>
+            
+          <% if(error && !token) { %>
+            <p class="alert alert-danger" role="alert"><%= error %>
+            <a href="/senha">Clique aqui</a> para solicitar um novo link para redefinir sua senha!
+            </p>
+          <% } %>  
+
+            
+          <form action="/nova-senha" method="POST">
+            <input type="hidden" name="token" id="token" value="<%=token%>">
+
+            <div class="form-group col-sm">
+              <label for="email" class="col-sm col-form-label">Email:</label>
+              <div class="col-sm">
+                <input type="email" id="email" name="email" class="form-control"  value="<%=email%>" placeholder="nome@dominio.com"  required>
+              </div>
+            </div>
+
+            <div class="form-group col-sm">
+              <label for="senha" class="col-sm col-form-label">Senha:</label>
+              <div class="col-sm">
+                  <input type="password" name="senha" class="form-control" id="senha"
+                      aria-describedby="passwordHelpInline" required>
+                  <small id="passwordHelpInline" class="text-muted">
+                      Deve conter mais de 6 caracteres
+                  </small>
+              </div>
+            </div>
+      
+            <div class="form-group col-sm">
+              <label for="confirmaSenha" class="col-sm col-form-label">Digite a senha
+                  novamente:</label>
+              <div class="col-sm">
+                  <input type="password" name="confirmaSenha" class="form-control" id="confirmaSenha"
+                      required>
+              </div>
+            </div>
+
+            <div class="form-group col">
+              <div class="col-sm">
+                  <button type="submit" class="btn btn-dark btn-block">Enviar</button>
+              </div>
+            </div>
+          </form>
+
+          <!-- MODAL CARREGAMENTO EMAIL -->
+          <div class="modal fade" id="modalCarregamentoEmail"  data-keyboard="false" tabindex="-1" aria-labelledby="modalCarregamentoEmailLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div class="d-flex align-items-center">
+                    <strong class="mr-3">Enviando email... </strong><br>
+                    <div class="spinner-grow text-primary mr-3" role="status"></div>
+                    <div class="spinner-grow text-secondary mr-3" role="status"></div>
+                    <div class="spinner-grow text-success mr-3" role="status"></div>
+                  </div>  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col imagem-nova-senha d-none d-sm-block"> 
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="d-sm-none mt-4">
+    <%- include('../views/partials/footer.ejs') %>  
+  </div>
+
+  <%- include('../views/partials/script-bootstrap.ejs') %>
+</body>
+</html>
