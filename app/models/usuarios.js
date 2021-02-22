@@ -44,21 +44,38 @@ module.exports = (sequelize, DataTypes) => {
     confirmaSenha: {
       type: DataTypes.VIRTUAL,
     }, 
+    tokenRecuperaSenha: {
+      type: DataTypes.STRING,
+    },
+    tokenPrazoRecuperaSenha: {
+      type: DataTypes.DATE,
+    }
   },
     {
     sequelize,
     modelName: 'Usuarios',
   });
 
+  Usuarios.beforeUpdate('validaNovaSenha', (usuario) => {
+    if (usuario.senha !== usuario.confirmaSenha) {
+      throw new Error('As senhas digitadas estão diferentes'); 
+
+    }
+  });
+  Usuarios.beforeUpdate('criptografaNovaSenha', (usuario) => {
+    usuario.senha = Usuarios.generateHash(usuario.senha)
+  });
+
   Usuarios.beforeCreate('validaSenha', (usuario) => {
     if (usuario.senha !== usuario.confirmaSenha) {
       throw new Error('As senhas digitadas estão diferentes'); 
     }
-  })
+  });
 
   Usuarios.beforeCreate('criptografaSenha', (usuario) => {
     usuario.senha = Usuarios.generateHash(usuario.senha)
-  })
+  });
+
 
   Usuarios.generateHash = function(senhaCadastro) {
     return bcrypt.hashSync(senhaCadastro, bcrypt.genSaltSync (10), null);
@@ -66,7 +83,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Usuarios.prototype.validPassword = function(senhaDigitada, senhaCadastro) { 
     return bcrypt.compareSync(senhaDigitada, senhaCadastro);
-  }
+  };
 
   return Usuarios;
 };

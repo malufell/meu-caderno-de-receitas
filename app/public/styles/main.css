@@ -34,9 +34,24 @@ label {
     height: 100vh;    
 }
 
-.imagem-cadastro:hover {
+.imagem-recupera-senha {
+    background: url("../images/tela-redefine-senha.jpg");
+    background-size: cover;
+    background-color: black;
+    opacity: 0.8;
+    height: 100vh;    
+}
+
+.imagem-nova-senha {
+    background: url("../images/nova-senha.jpg");
+    background-size: cover;
+    background-color: black;
+    opacity: 0.9;
+    height: 100vh;    
+}
+
+.imagem-cadastro:hover, .imagem-recupera-senha:hover, .imagem-nova-senha:hover {
     opacity: 1;
-    cursor: pointer;
     transition: 300ms;
 }
 

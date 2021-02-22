@@ -10,9 +10,15 @@
     <form action="/login" method="post" class="form-signin">
 
         <% if (cadastro) { %>
-        <div class="alert alert-success" role="alert">
-            <strong><%= cadastro[0] %></strong>
-        </div>
+            <div class="alert alert-success" role="alert">
+                <strong><%= cadastro[0] %></strong>
+            </div>
+        <% } %>
+
+        <% if (senha) { %>
+            <div class="alert alert-success" role="alert">
+                <strong><%= senha %></strong>
+            </div>
         <% } %>
 
         <img class="mb-4" src="images/user.png" alt="usuario" width="90" height="90">
@@ -26,7 +32,10 @@
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
         <label for="inputPassword" class="sr-only">Senha</label>
         <input type="password" name="senha" id="inputPassword" class="form-control" placeholder="Senha" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <button class="btn btn-lg btn-primary btn-block mb-4" type="submit">Login</button>
+        <small>
+            <a href="/senha">Esqueceu sua senha?</a>
+        </small>
         <p class="mt-5 mb-3 text-muted">&copy; 2021 · <strong><a href="/" class="text-reset">Meu caderno de Receitas</a></strong> </p>
     </form>
 </body>
