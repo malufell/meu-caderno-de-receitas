@@ -2,78 +2,77 @@
 <html lang="pt-br">
 
 <head>
-    <link rel='stylesheet' href='/styles/main.css' />
-    <%- include('../views/partials/head.ejs') %>
+  <link rel='stylesheet' href='/styles/main.css' />
+  <%- include('../views/partials/head.ejs') %>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-5 col-sm-12 m-0 p-0 align-self-center">
-                <div class="text-center  mt-4">
-                    <a href="/" class="logo text-decoration-none text-center">Meu Caderno de Receitas</a>
-                </div>
-                <h3 class="form-group col-sm mt-4">Cadastre-se para registrar suas receitas :)</h3><br>
-
-                <% if(error) { %>
-                <div>
-                    <% error.forEach(function(erro) { %>
-                    <p><div class="alert alert-danger" role="alert"><%= erro %></div></p>
-                    <% }) %>
-                </div>
-                <% } %>
-
-                <form action="/usuario-cadastro" method="post">
-                    <div class="form-group col-sm">
-                        <label for="nome" class="col-sm-6 col-form-label">Nome:</label>
-                        <div class="col-sm">
-                            <input type="text" id="nome" name="nome" class="form-control" value="<%=dados.nome%>" required autofocus>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-sm">
-                        <label for="email" class="col-sm col-form-label">Email:</label>
-                        <div class="col-sm">
-                            <input type="email" id="email" name="email" class="form-control" value="<%=dados.email%>" placeholder="nome@dominio.com"
-                                required>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-sm">
-                        <label for="senha" class="col-sm col-form-label">Senha:</label>
-                        <div class="col-sm">
-                            <input type="password" name="senha" class="form-control" id="senha"
-                                aria-describedby="passwordHelpInline" required>
-                            <small id="passwordHelpInline" class="text-muted">
-                                Deve conter mais de 6 caracteres
-                            </small>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-sm">
-                        <label for="confirmaSenha" class="col-sm col-form-label">Digite a senha
-                            novamente:</label>
-                        <div class="col-sm">
-                            <input type="password" name="confirmaSenha" class="form-control" id="confirmaSenha"
-                                required>
-                        </div>
-                    </div>
-
-                    <div class="form-group col">
-                        <div class="col-sm">
-                            <button type="submit" class="btn btn-dark btn-block">Enviar</button>
-                        </div>
-                    </div>
-                </form>
-                <div class="d-sm-none mt-4">
-                    <%- include('../views/partials/footer.ejs') %>  
-                </div>
-            </div>
-
-            <div class="col imagem-cadastro d-none d-sm-block"> </div>
-
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-5 col-sm-12 m-0 p-0 align-self-center">
+        <div class="text-center  mt-4">
+          <a href="/" class="logo text-decoration-none text-center">Meu Caderno de Receitas</a>
         </div>
+        <h3 class="form-group col-sm mt-4">Cadastre-se para registrar suas receitas :)</h3><br>
+
+        <% if(error) { %>
+          <% error.forEach(function(erro) { %>
+            <div class="alert alert-danger mr-3 ml-3" role="alert">
+              <%= erro %>
+            </div>
+          <% }) %>
+        <% } %>
+
+        <form action="/usuario-cadastro" method="post">
+
+          <div class="form-group col-sm">
+            <label for="nome" class="col-sm-6 col-form-label">Nome:</label>
+            <div class="col-sm">
+              <input type="text" id="nome" name="nome" class="form-control" value="<%=dados.nome%>" required autofocus>
+            </div>
+          </div>
+
+          <div class="form-group col-sm">
+            <label for="email" class="col-sm col-form-label">Email:</label>
+            <div class="col-sm">
+              <input type="email" id="email" name="email" class="form-control" value="<%=dados.email%>" placeholder="nome@dominio.com" required>
+            </div>
+          </div>
+
+          <div class="form-group col-sm">
+            <label for="senha" class="col-sm col-form-label">Senha:</label>
+            <div class="col-sm">
+              <input type="password" name="senha" class="form-control" id="senha" aria-describedby="passwordHelpInline" required>
+              <small id="passwordHelpInline" class="text-muted">
+                Deve conter mais de 6 caracteres
+              </small>
+            </div>
+          </div>
+
+          <div class="form-group col-sm">
+            <label for="confirmaSenha" class="col-sm col-form-label">Digite a senha novamente:</label>
+            <div class="col-sm">
+              <input type="password" name="confirmaSenha" class="form-control" id="confirmaSenha" required>
+            </div>
+          </div>
+
+          <div class="form-group col">
+            <div class="col-sm">
+              <button type="submit" class="btn btn-dark btn-block">Enviar</button>
+            </div>
+          </div>
+
+        </form>
+
+        <div class="d-sm-none mt-4">
+          <%- include('../views/partials/footer.ejs') %>
+        </div>
+      </div>
+      <div class="col imagem-cadastro d-none d-sm-block"> </div>
     </div>
-    <%- include('../views/partials/script-bootstrap.ejs') %>
+  </div>
+
+  <%- include('../views/partials/script-bootstrap.ejs') %>
 </body>
+
 </html>

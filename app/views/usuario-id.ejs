@@ -2,33 +2,33 @@
 <html lang="pt-br">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel='stylesheet' href='/styles/main.css' />
-    <%- include('../views/partials/head.ejs') %>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel='stylesheet' href='/styles/main.css' />
+  <%- include('../views/partials/head.ejs') %>
 
 </head>
 
 <body>
-    <%- include('../views/partials/nav-user.ejs') %>
-    <main class="content m-3" >
-        <h4>Dados cadastrais</h4>
-        <table class="table table-sm mt-3">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td scope="row"><%= usuario.nome %></td>
-                    <td scope="row"><%= usuario.email %></td>
-                </tr>
-            </tbody>
-        </table>
-        <br><br>
+  <%- include('../views/partials/nav-user.ejs') %>
+    <main class="content m-3">
+      <h4>Dados cadastrais</h4>
+      <table class="table table-sm mt-3">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row"><%= usuario.nome %></td>
+            <td scope="row"><%= usuario.email %></td>
+          </tr>
+        </tbody>
+      </table>
     </main>
+
     <%- include('../views/partials/footer.ejs') %>
     <%- include('../views/partials/script-bootstrap.ejs') %>
-</body>
+  </body>
 </html>

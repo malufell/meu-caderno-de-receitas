@@ -2,41 +2,45 @@
 <html lang="pt-br">
 
 <head>
-    <link href="styles/signin.css" rel="stylesheet">
-    <%- include('../views/partials/head.ejs') %>
+  <link href="styles/signin.css" rel="stylesheet">
+  <%- include('../views/partials/head.ejs') %>
 </head>
 
 <body class="text-center">
-    <form action="/login" method="post" class="form-signin">
+  
+  <form action="/login" method="post" class="form-signin">
+    <% if (cadastro) { %>
+      <div class="alert alert-success" role="alert">
+        <strong><%= cadastro[0] %></strong>
+      </div>
+    <% } %>
 
-        <% if (cadastro) { %>
-            <div class="alert alert-success" role="alert">
-                <strong><%= cadastro[0] %></strong>
-            </div>
-        <% } %>
+    <% if (senha) { %>
+      <div class="alert alert-success" role="alert">
+        <strong><%= senha %></strong>
+      </div>
+    <% } %>
 
-        <% if (senha) { %>
-            <div class="alert alert-success" role="alert">
-                <strong><%= senha %></strong>
-            </div>
-        <% } %>
+    <img class="mb-4" src="images/user.png" alt="usuario" width="90" height="90">
+    <h1 class="h3 mb-3 font-weight-normal">Insira seus dados:</h1>
 
-        <img class="mb-4" src="images/user.png" alt="usuario" width="90" height="90">
-        <h1 class="h3 mb-3 font-weight-normal">Insira seus dados:</h1>
-        <div>
-            <% for (let i=0; i<errors.length; i++) { %>
-            <div class="alert alert-danger" role="alert"><%= errors[i]%></div>
-            <% } %>
-        </div>
-        <label for="inputEmail" class="sr-only">Email</label>
-        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-        <label for="inputPassword" class="sr-only">Senha</label>
-        <input type="password" name="senha" id="inputPassword" class="form-control" placeholder="Senha" required>
-        <button class="btn btn-lg btn-primary btn-block mb-4" type="submit">Login</button>
-        <small>
-            <a href="/senha">Esqueceu sua senha?</a>
-        </small>
-        <p class="mt-5 mb-3 text-muted">&copy; 2021 · <strong><a href="/" class="text-reset">Meu caderno de Receitas</a></strong> </p>
-    </form>
+    <% for (let i=0; i<errors.length; i++) { %>
+      <div class="alert alert-danger" role="alert">
+        <%= errors[i]%>
+      </div>
+    <% } %>
+
+    <label for="inputEmail" class="sr-only">Email</label>
+    <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+    <label for="inputPassword" class="sr-only">Senha</label>
+    <input type="password" name="senha" id="inputPassword" class="form-control" placeholder="Senha" required>
+    <button class="btn btn-lg btn-primary btn-block mb-4" type="submit">Login</button>
+    <small>
+      <a href="/senha">Esqueceu sua senha?</a>
+    </small>
+    <p class="mt-5 mb-3 text-muted">&copy; 2021 · <strong><a href="/" class="text-reset">Meu caderno de Receitas</a></strong> 
+    </p>
+  </form>
+
 </body>
 </html>
