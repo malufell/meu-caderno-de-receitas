@@ -2,214 +2,218 @@
 <html lang="pt-br">
 
 <head>
-    <link rel='stylesheet' href='/styles/main.css' />
-    <link rel='stylesheet' href='/styles/receita.css' />
-    <%- include('../views/partials/head.ejs') %>
+  <link rel='stylesheet' href='/styles/main.css' />
+  <link rel='stylesheet' href='/styles/receita.css' />
+  <%- include('../views/partials/head.ejs') %>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar navbar-light bg-light">
-        <a class="navbar-brand logo" href="/">Meu Caderno de Receitas</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end align-items-start" id="navbarNavDropdown">
-            <div class="bd-highlight ">
-                <ul class="nav justify-content-end">
-                    <li class="nav-item dropdown align-baseline">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<%process.env.HOST%>/images/user.png"
-                                alt="usuario" width="30" height="30"></img> </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                            <span class="dropdown-item">Logado como <strong>Exemplo</strong></span>
-                            <div role="none" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Meus dados</a>
-                            <a class="dropdown-item" href="#">Sair</a>
-                        </div>
-                    </li>
-                </ul>
+
+  <nav class="navbar navbar-expand-sm navbar navbar-light bg-light">
+    <a class="navbar-brand logo" href="/">Meu Caderno de Receitas</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end align-items-start" id="navbarNavDropdown">
+      <div class="bd-highlight ">
+        <ul class="nav justify-content-end">
+          <li class="nav-item dropdown align-baseline">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<%process.env.HOST%>/images/user.png" alt="usuario" width="30" height="30"></img>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <span class="dropdown-item">Logado como <strong>Exemplo</strong></span>
+              <div role="none" class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Meus dados</a>
+              <a class="dropdown-item" href="#">Sair</a>
             </div>
-        </div>
-    </nav>
-    <main class="content">
-        <div class="container centered">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="container-fluid d-flex justify-content-center">
-                        <div class="row mb-1 mt-2">
-                            <h3 class='text-center'><%= receita.nome %></h3>
-                        </div>
-                    </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-                    <div class="container-fluid d-flex justify-content-center">
-                        <div class="row mb-3">
-                            <h5>
-                                <% receita.categorias.forEach(function(categoria) { %>
-                                    <span class="badge badge-secondary"><%= categoria.categoria %></span>
-                                <% }) %>
-                            </h5>
-                        </div>
-                    </div>
+  <main class="content">
+    <div class="container centered">
+      <div class="row">
+        <div class="col-md-8">
 
-                    <!-- EXIBE IMAGEM -->
-                    <% if(receita.imagem.length > 0 || receita.imagemReceita.length > 0) { %>
-                        <% if(receita.imagem.length > 1) { %>
-                            <div class="container-fluid">
-                                <div class="row d-flex justify-content-center">
-                                    <div id="carousel" class="carousel slide" data-ride="carousel">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active" data-interval="20000">
-                                                <a href="<%=receita.imagem[0]%>" target="_blank">
-                                                    <img src="<%=receita.imagem[0]%>" class="imagem-carrossel d-block w-100" alt="imagem receita" height="450">
-                                                </a>
-                                            </div>
-                                            <div class="carousel-item" data-interval="4000">
-                                                <a href="<%=receita.imagem[1]%>" target="_blank">
-                                                    <img src="<%=receita.imagem[1]%>" class="imagem-carrossel d-block w-100" alt="imagem receita" height="450">
-                                                </a>
-                                            </div>
-                                            <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            </a>
-                                            <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            </a>
-                                        </div> 
-                                    </div> 
-                                </div> 
-                            </div> 
-                        <% } else if(receita.imagemReceita.length > 1) { %>
-                            <div class="container-fluid">
-                                <div class="row d-flex justify-content-center">
-                                    <div>
-                                        <a href="<%=receita.imagemReceita[0]%>" target="_blank">    
-                                            <img src="<%=receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <a href="<%=receita.imagemReceita[1]%>" target="_blank">    
-                                            <img src="<%=receita.imagemReceita[1]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita mt-2">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        <% } else { %>
-                            <div class="container-fluid">
-                                <div class="row d-flex justify-content-center">
-                                    <a href="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" target="_blank">
-                                        <img src="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
-                                    </a>
-                                </div>
-                            </div>
-                        <% } %>
-                    <% } %>
-
-                    <div class="container-fluid mt-3" <%= receita.ingredientes ? " " : "hidden"%>>
-                        <div class="row d-flex justify-content-center">
-                            <h4>Lista de ingredientes:</h4>
-                        </div>
-                        <div class="row d-flex justify-content-center mt-3" >
-                            <ul>
-                                <% ingredientes.forEach(function(ingrediente) { %>
-                                    <li><%= ingrediente %></li>
-                                <% }) %>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="container-fluid mt-3" <%= receita.preparo ? " " : "hidden"%>>
-                        <div class="row d-flex justify-content-center">
-                            <h4>Modo de preparo:</h4>
-                        </div>
-                        <div class="row d-flex justify-content-center mt-3" id="modo-preparo">
-                            <ol>
-                                <% preparo.forEach(function(etapa) { %>
-                                    <li><%= etapa %></li>
-                                <% }) %>
-                            </ol>                        
-                        </div>
-                    </div>
-
-                    <div class="container-fluid mt-3" <%= receita.dicas ? " " : "hidden"%>>
-                        <div class="row d-flex justify-content-center">
-                            <h4>O pulo do gato :)</h4>
-                        </div>
-                        <div class="row d-flex justify-content-center mt-3" id="dicas">
-                            <p>
-                                <%= receita.dicas %>
-                            </p>
-                        </div>
-                    </div>
-
-
-                    <% if (receita.video) { %>  
-                        <div class="container-fluid">
-                            <div class="row d-flex justify-content-center mt-5">
-                                <h4>Vídeo da receita:</h4>
-                            </div>
-                            <div class="row d-flex justify-content-center mt-3">
-                                <iframe width="560" height="315" src=<%= video %> frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            </div>
-                        </div>
-                    <% } %>
-
-                    <div class="container-fluid ">
-                        <div class="container-fluid mt-3" <%= receita.fonte ? " " : "hidden"%>>
-                            <div class="row d-flex justify-content-center">
-                                <h4>Fonte</h4>
-                            </div>
-                            <div class="text-break row d-flex justify-content-center mt-3" id="fonte">
-                                <a>
-                                    <%= receita.fonte %>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="container-fluid mt-5 pt-5">
-                        <div class="mt-3">
-                            <i class="fas fa-book"></i>
-                            <a href="/exemplo">Voltar ao caderno de receitas</a>
-                        </div>
-
-                        <div class="mt-3">
-                            <i class="far fa-plus-square"></i>
-                            <span>Cadastrar outra receita</span>
-                        </div>
-
-                        <div class="mt-3">
-                            <i class="far fa-edit"></i>
-                            <span>Editar receita</span>
-                        </div>
-                        
-                        <div class="mt-3">
-                            <i class="far fa-trash-alt"></i>
-                            <span>Excluir receita</span>                              
-                        </div>               
-
-                        <small>
-                            <ul class="list-unstyled mb-0 mt-3">
-                                <li class="d-flex mb-2">
-                                    <h6 class="mb-0">Última atualização:</h6>
-                                    <p class="ml-3 text-muted mb-0"><%=dataEdicao%></p>
-                                </li>
-                                <li class="d-flex mb-2">
-                                    <h6 class="mb-0">Receita cadastrada em:</h6>
-                                    <p class="ml-3 text-muted mb-0"><%=dataCriacao%></p>
-                                </li>
-                            </ul>    
-                        </small>
-
-                    </div>
-                </div>
-
+          <div class="container-fluid d-flex justify-content-center">
+            <div class="row mb-1 mt-2">
+              <h3 class='text-center'>
+                <%= receita.nome %>
+              </h3>
             </div>
+          </div>
+
+          <div class="container-fluid d-flex justify-content-center">
+            <div class="row mb-3">
+              <h5>
+                <% receita.categorias.forEach(function(categoria) { %>
+                  <span class="badge badge-secondary"><%= categoria.categoria %></span>
+                <% }) %>
+              </h5>
+            </div>
+          </div>
+
+          <!-- EXIBE IMAGEM -->
+          <% if(receita.imagem.length> 0 || receita.imagemReceita.length > 0) { %>
+            <% if(receita.imagem.length> 1) { %>
+              <div class="container-fluid">
+                <div class="row d-flex justify-content-center">
+
+                  <div id="carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active" data-interval="20000">
+                        <a href="<%=receita.imagem[0]%>" target="_blank">
+                          <img src="<%=receita.imagem[0]%>" class="imagem-carrossel d-block w-100" alt="imagem receita" height="450">
+                        </a>
+                      </div>
+                      <div class="carousel-item" data-interval="4000">
+                        <a href="<%=receita.imagem[1]%>" target="_blank">
+                          <img src="<%=receita.imagem[1]%>" class="imagem-carrossel d-block w-100" alt="imagem receita" height="450">
+                        </a>
+                      </div>
+                      <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      </a>
+                      <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            <% } else if(receita.imagemReceita.length> 1) { %>
+              <div class="container-fluid">
+                <div class="row d-flex justify-content-center">
+                  <a href="<%=receita.imagemReceita[0]%>" target="_blank">
+                    <img src="<%=receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
+                  </a>
+                <div>
+                    <a href="<%=receita.imagemReceita[1]%>" target="_blank">
+                      <img src="<%=receita.imagemReceita[1]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita mt-2">
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <% } else { %>
+                <div class="container-fluid">
+                  <div class="row d-flex justify-content-center">
+                    <a href="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" target="_blank">
+                      <img src="<%=receita.imagem.length > 0 ? receita.imagem[0] : receita.imagemReceita[0]%>" alt="imagem receita" class="img-fluid border rounded-lg imagem-receita">
+                    </a>
+                  </div>
+                </div>
+              <% } %>
+          <% } %>
+
+          <div class="container-fluid mt-3" <%=receita.ingredientes ? " " : "hidden" %>>
+            <div class="row d-flex justify-content-center">
+              <h4>Lista de ingredientes:</h4>
+            </div>
+            <div class="row d-flex justify-content-center mt-3">
+              <ul>
+                <% ingredientes.forEach(function(ingrediente) { %>
+                  <li><%= ingrediente %></li>
+                <% }) %>
+              </ul>
+            </div>
+          </div>
+
+          <div class="container-fluid mt-3" <%=receita.preparo ? " " : "hidden" %>>
+            <div class="row d-flex justify-content-center">
+              <h4>Modo de preparo:</h4>
+            </div>
+            <div class="row d-flex justify-content-center mt-3" id="modo-preparo">
+              <ol>
+                <% preparo.forEach(function(etapa) { %>
+                  <li><%= etapa %></li>
+                <% }) %>
+              </ol>
+            </div>
+          </div>
+
+          <div class="container-fluid mt-3" <%=receita.dicas ? " " : "hidden" %>>
+            <div class="row d-flex justify-content-center">
+              <h4>O pulo do gato :)</h4>
+            </div>
+            <div class="row d-flex justify-content-center mt-3" id="dicas">
+              <p><%= receita.dicas %></p>
+            </div>
+          </div>
+
+          <% if (receita.video) { %>
+            <div class="container-fluid">
+              <div class="row d-flex justify-content-center mt-5">
+                <h4>Vídeo da receita:</h4>
+              </div>
+              <div class="row d-flex justify-content-center mt-3">
+                <iframe width="560" height="315" src=<%=video %> frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
+          <% } %>
+
+          <div class="container-fluid ">
+            <div class="container-fluid mt-3" <%=receita.fonte ? " " : "hidden" %>>
+              <div class="row d-flex justify-content-center">
+                <h4>Fonte</h4>
+              </div>
+              <div class="text-break row d-flex justify-content-center mt-3" id="fonte">
+                <a><%= receita.fonte %></a>
+              </div>
+            </div>
+          </div>
         </div>
-    </main>
-    <%- include('../views/partials/footer.ejs') %>
-    <%- include('../views/partials/script-bootstrap.ejs') %>
+
+        <div class="col-md-4">
+          <div class="container-fluid mt-5 pt-5">
+            <div class="mt-3">
+              <i class="fas fa-book"></i>
+              <a href="/exemplo">Voltar ao caderno de receitas</a>
+            </div>
+
+            <div class="mt-3">
+              <i class="far fa-plus-square"></i>
+              <span>Cadastrar outra receita</span>
+            </div>
+
+            <div class="mt-3">
+              <i class="far fa-edit"></i>
+              <span>Editar receita</span>
+            </div>
+
+            <div class="mt-3">
+              <i class="far fa-trash-alt"></i>
+              <span>Excluir receita</span>
+            </div>
+
+            <small>
+              <ul class="list-unstyled mb-0 mt-3">
+                <li class="d-flex mb-2">
+                  <h6 class="mb-0">Última atualização:</h6>
+                  <p class="ml-3 text-muted mb-0">
+                    <%=dataEdicao%>
+                  </p>
+                </li>
+                <li class="d-flex mb-2">
+                  <h6 class="mb-0">Receita cadastrada em:</h6>
+                  <p class="ml-3 text-muted mb-0">
+                    <%=dataCriacao%>
+                  </p>
+                </li>
+              </ul>
+            </small>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <%- include('../views/partials/footer.ejs') %>
+  <%- include('../views/partials/script-bootstrap.ejs') %>
 </body>
 </html>

@@ -2,411 +2,345 @@
 <html lang="pt-br">
 
 <head>
-    <link rel='stylesheet' href='/styles/main.css' />
-    <link rel='stylesheet' href='/styles/receita.css' />
-    <%- include('../views/partials/head.ejs') %>
+  <link rel='stylesheet' href='/styles/main.css' />
+  <link rel='stylesheet' href='/styles/receita.css' />
+  <%- include('../views/partials/head.ejs') %>
 </head>
 
 <body>
-    <%- include('../views/partials/nav-user.ejs') %>
+  <%- include('../views/partials/nav-user.ejs') %>
     <main class="content">
-        <div class="container">
-            <div class="container-fluid">
-                <div class="row-1">
+      <div class="container">
+        <div class="container-fluid">
+          <div class="row-1">
 
-                    <div class=" p-2">
-                        <h4 class="mb-0 text-center"><%= receita.id ? "Editar" : "Cadastrar"%> Receita</h4>
-                    </div>
-                   
-                    <!-- CONFIG FORM -->
-                    <% if(receita.id) { %>
-                        <form method="POST"  action="/receitas/<%= receita.id %>/edicao?_method=PUT" encType="multipart/form-data" id="form">
-                    <% }  else { %>
-                        <form method='post' action='/receitas-cadastro' encType="multipart/form-data" id="form">
-                    <% } %>
-
-                    <!-- ENVIO DE DADOS PARA BACKEND  -->
-                        <input type="hidden" name="video" id="video">
-                        <input type="hidden" name="nomeImagem" id="nomeImagem">
-                        <input type="hidden" name="removeImagem" id="removeImagem">
-                        <input type="hidden" name="tipoCadastro" value="<%= cadastroFoto == true ? "cadastroFoto" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "cadastroFoto" : "" %>">
-
-                    <!-- MENSAGENS VALIDAÇÃO -->
-                        <% if(erroCadastro) { %>
-                            <div>
-                                <% erroCadastro.forEach(function(erro) { %>
-                                <p><div class="alert alert-danger" role="alert"><%= erro %></div></p>
-                                <% }) %>
-                            </div>
-                            <% } %>
-
-                        <div class="form-group mt-5">
-                            <label for="nomeReceita">Nome da receita</label>
-                            <small class="text-muted mb-4">
-                                (obrigatório)
-                            </small>
-                            <input id="nomeReceita" type="text" name="nome" class="form-control" maxlength="50" value="<%= receita.nome %>"  /> 
-                        </div>
-
-                        <!-- OPÇÕES DE CADASTRO  -->
-                        <div>
-                            <small class="mt-0" <%= cadastroFoto == true || receita.id ? "hidden" : " "%>>
-                                <a class="linkCadastroFoto" href="/receitas-cadastro?cadastro=foto">Clique aqui se deseja cadastrar a receita através de foto</a>
-                            </small>
-    
-                            <small class="mt-0" <%= cadastroFoto == false || receita.id ? "hidden" : " "%>>
-                                <a class="linkCadastroFoto" href="/receitas-cadastro">Clique aqui se deseja digitar os dados da receita</a>
-                            </small>
-                        </div>
-                        
-                        <!-- VIDEO DO YOUTUBE  -->
-                        <div class="form-group mt-5" <%= cadastroFoto == true ? "hidden" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "hidden" : "" %>>
-                            <label for="url-youtube">Incluir link do youtube com vídeo da receita</label>
-                            <div class="input-group">
-                                <input id="url-youtube" type="url" name="videoURL" class="url-video-youtube form-control" value="<%= receita.video ? video : " " %>" placeholder="Exemplo: https://www.youtube.com/watch?v=91VC1OnjZi8">
-                                <div class="input-group-append">
-                                    <button class="btn btn-sm btn-outline-secondary" type="button" id="btn-incluir-video" onclick="return montaEmbed();">Incluir!</button>
-                                </div>
-                            </div>
-
-                            <div id="preview-video" hidden>
-                                <iframe class="mt-3 pr-5"  width="400" height="300" id="video-youtube"  frameborder="0" allowfullscreen></iframe>
-                            </div>
-                            <button hidden class="btn btn-sm btn-link" type="button" id="btn-excluir-video" onclick="return limpaVideo();">Excluir vídeo</button>
-                        </div>
-                        
-                        <!-- CATEGORIAS  -->
-                        <div class="form-group mt-5">
-                            <label>Selecionar Categorias</label>
-                            <small class="text-muted mb-4">
-                                (obrigatório)
-                            </small>
-                            <div class="categorias mt-2 mb-2">                
-                                <div class="form-check">
-                                    <% categorias.forEach(function(categoria) { %>
-                                        <% let categoriaSelecionada = false %>
-                                        <% if (receita.categorias.length > 0) { %>
-                                            <% receita.categorias.forEach(function(categoriaCadastrada) { %>
-                                                <% if (categoria.id == categoriaCadastrada.id) { %>
-                                                    <%  categoriaSelecionada = true %>
-                                                <% } %>
-                                             <% }) %>
-                                        <% } %>
-                                        <label class="form-check-label categoria mr-4">
-                                            <input type="checkbox" name="categorias" 
-                                            class="form-check-input"
-                                            <%= categoriaSelecionada ? 'checked' : ""%> value="<%= categoria.id %>"> <%= categoria.categoria %> 
-                                        </label>
-                                    <% }) %>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- INGREDIENTES  -->
-                        <div>
-                            <div class="form-group mt-5" <%= cadastroFoto == true ? "hidden" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "hidden" : "" %>>
-                                <label class="mb-0">Lista de ingredientes</label>
-                                <div class="mt-0 mb-0">
-                                    <small>Separe os ingredientes em linhas (pressionando Enter)</small>
-                                </div>
-                                <textarea class="form-control ingredientes" id="ingredientes" name="ingredientes" rows="5" placeholder="Exemplo: 1 colher de sopa de fermento"><%=receita.ingredientes%></textarea>
-                                <div class="mt-2">
-                                    <small id="titulo-previa-ingredientes" hidden>Prévia da formatação:</small>
-                                    <small>
-                                        <ul id="previa-ingredientes"></ul>
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- MODO DE PREPARO  -->
-                        <div>
-                            <div class="form-group mt-5" <%= cadastroFoto == true ? "hidden" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "hidden" : "" %>>
-                                <label class="mb-0">Modo de preparo</label>
-                                <div class="mt-0 mb-0">
-                                    <small>Separe as etapas em linhas (pressionando Enter)</small>
-                                </div>
-                                <textarea class="form-control preparo" id="preparo" name="preparo" rows="5"
-                                placeholder="Exemplo: Bater no liquidificador os ingredientes líquidos por 3 minutos"
-                                ><%=receita.preparo %></textarea>
-                                <div class="mt-2">
-                                    <small id="titulo-previa-preparo" hidden>Prévia da formatação:</small>
-                                    <small>
-                                        <ol id="previa-preparo"></ol>
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- DICAS  -->
-                        <div>
-                            <div class="form-group mt-5" <%= cadastroFoto == true ? "hidden" : (receita.imagemReceita && receita.imagemReceita.length > 0 ? "hidden" : "") %>>
-                                <label>O pulo do gato ;)</label>
-                                <textarea class="form-control" name="dicas" rows="2"
-                                placeholder="Exemplo: Adicionar canela na cobertura fica ótimo!"><%= receita.dicas %></textarea>
-                                <small class="text-muted mb-4">
-                                    Aquela dica que faz toda a diferença!
-                                </small>
-                            </div>
-                        </div>
-
-                        <!-- FONTE  -->
-                        <div>
-                            <div class="form-group mt-5" <%= cadastroFoto == true ? "hidden" : (receita.imagemReceita && receita.imagemReceita.length > 0 ? "hidden" : "") %>>
-                                <label>Fonte</label>
-                                <input id="fonte" type="text" name="fonte" class="form-control" placeholder="Exemplo: https://www.lowcarb-paleo.com.br/2015/09/o-pao-low-carb-mais-facil-do-mundo.html" value="<%= receita.fonte %>"  />
-                                <small class="text-muted mb-4">
-                                    Se quiser, registre a origem da receita ;)
-                                </small>
-                            </div>
-                        </div>
-                        
-                        <!-- IMAGEM RECEITA  -->
-                        <div class="form-group mt-5">
-                            <label><%= cadastroFoto == true ? "Incluir foto com o texto da receita" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "Incluir foto com o texto da receita" : "Selecionar imagem da receita pronta"%>
-                            </label>
-                            <div class="">
-                                <small class="text-muted mb-4">
-                                    Até 2 imagens e cada arquivo pode ter no máximo 6 MB de tamanho :)
-                                </small>
-                            </div>
-                            <div class="preview-img">
-                                <% if(receita.imagem || receita.imagemReceita) { %>
-                                    <% if(receita.imagem.length > 0) { %>
-                                        <% for (let i=0; i < receita.imagem.length; i++) { %>
-                                            <img class="w-50 mb-1" name="preview-imagens" src="<%= (receita.imagem.length > 0) ? `${receita.imagem[i]}` : " " %>">
-                                            <% } %>
-                                    <% } else if (receita.imagemReceita.length > 0) { %>
-                                        <% for (let i=0; i < receita.imagemReceita.length; i++) { %>
-                                            <img class="w-50 mb-1" name="preview-imagens" src="<%= (receita.imagemReceita.length > 0) ? `${receita.imagemReceita[i]}` : " " %>">
-                                        <% } %>
-                                    <% } %>
-                                <% } %>
-                            </div>
-                            <div>
-                                <input class="file-chooser" type="file" name="file" id="file" accept="image/*" multiple />
-                            </div>
-                            <button <%=(receita.imagem.length > 0 || receita.imagemReceita.length > 0) ? "" : "hidden"%> class="btn btn-sm btn-link" type="button" id="btn-excluir-imagens" onclick="return limpaImagens();"><%=(receita.imagem.length > 1 || receita.imagemReceita.length > 1) ? "Excluir imagens" : "Excluir imagem" %></button>
-                        </div>
-
-                        <!-- MODAL CARREGAMENTO -->
-                        <div class="modal fade" id="modalCarregamento" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modalCarregamentoLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <div class="d-flex align-items-center">
-                                            <strong class="mr-3">Salvando... </strong>
-                                            <div class="spinner-grow text-primary mr-3" role="status"></div>
-                                            <div class="spinner-grow text-secondary mr-3" role="status"></div>
-                                            <div class="spinner-grow text-success mr-3" role="status"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- MODAL LIMITE DE IMAGENS -->
-                        <div class="modal" tabindex="-1" id="modalQuantidade">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title">Atenção!</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <p>Selecione no máximo 2 imagens!</p>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-primary" data-dismiss="modal">Entendi!</button>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
-
-
-                        <!-- MODAL LIMITE DE TAMANHO DE UPLOAD -->
-                        <div class="modal" tabindex="-1" id="modalTamanho">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Atenção!</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>O tamanho da imagem não pode ser superior a 6 MB!</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Entendi!</button>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- BOTÃO CADASTRAR  -->
-                        <div class="p-2 mb-5">
-                            <button type="submit" id="botao" class="btn btn-dark btn-block" data-toggle="modal" data-target="#modalCarregamento"><%= receita.id ? "Salvar receita atualizada" : "Cadastrar receita"%></button>
-                        </div>
-
-                    </form>
-                </div>
+            <div class=" p-2">
+              <h4 class="mb-0 text-center">
+                <%= receita.id ? "Editar" : "Cadastrar" %> Receita
+              </h4>
             </div>
-        </div>
+
+            <!-- CONFIG FORM -->
+            <% if(receita.id) { %>
+              <form method="POST" action="/receitas/<%= receita.id %>/edicao?_method=PUT" encType="multipart/form-data" id="form">
+            <% } else { %>
+              <form method='post' action='/receitas-cadastro' encType="multipart/form-data" id="form">
+            <% } %>
+
+            <!-- ENVIO DE DADOS PARA BACKEND  -->
+            <input type="hidden" name="video" id="video">
+            <input type="hidden" name="nomeImagem" id="nomeImagem">
+            <input type="hidden" name="removeImagem" id="removeImagem">
+            <input type="hidden" name="tipoCadastro" value="<%= cadastroFoto == true ? " cadastroFoto" : receita.imagemReceita && receita.imagemReceita.length> 0 ? "cadastroFoto" : "" %>">
+
+            <!-- MENSAGENS VALIDAÇÃO -->
+            <% if(erroCadastro) { %>
+                <% erroCadastro.forEach(function(erro) { %>
+                  <div class="alert alert-danger" role="alert">
+                    <%= erro %>
+                  </div>
+                <% }) %>
+            <% } %>
+
+            <div class="form-group mt-5">
+              <label for="nomeReceita">Nome da receita</label>
+              <small class="text-muted mb-4">(obrigatório)</small>
+              <input id="nomeReceita" type="text" name="nome" class="form-control" maxlength="50" value="<%= receita.nome %>" />
+            </div>
+
+            <!-- OPÇÕES DE CADASTRO  -->
+            <div>
+              <small class="mt-0" <%=cadastroFoto==true || receita.id ? "hidden" : " " %>>
+                <a class="linkCadastroFoto" href="/receitas-cadastro?cadastro=foto">Clique aqui se deseja cadastrar a receita através de foto</a>
+              </small>
+              <small class="mt-0" <%=cadastroFoto==false || receita.id ? "hidden" : " " %>>
+                <a class="linkCadastroFoto" href="/receitas-cadastro">Clique aqui se deseja digitar os dados da receita</a>
+              </small>
+            </div>
+
+            <!-- VIDEO DO YOUTUBE  -->
+            <div class="form-group mt-5" <%=cadastroFoto==true ? "hidden" : receita.imagemReceita && receita.imagemReceita.length> 0 ? "hidden" : "" %>>
+              <label for="url-youtube">Incluir link do youtube com vídeo da receita</label>
+              <div class="input-group">
+                <input id="url-youtube" type="url" name="videoURL" class="url-video-youtube form-control" value="<%= receita.video ? video : " " %>" placeholder="Exemplo: https://www.youtube.com/watch?v=91VC1OnjZi8">
+                <div class="input-group-append">
+                  <button class="btn btn-sm btn-outline-secondary" type="button" id="btn-incluir-video" onclick="return montaEmbed();">Incluir!</button>
+                </div>
+              </div>
+
+              <div id="preview-video" hidden>
+                <iframe class="mt-3 pr-5" width="400" height="300" id="video-youtube" frameborder="0" allowfullscreen></iframe>
+              </div>
+              <button hidden class="btn btn-sm btn-link" type="button" id="btn-excluir-video" onclick="return limpaVideo();">Excluir vídeo</button>
+            </div>
+
+            <!-- CATEGORIAS  -->
+            <div class="form-group mt-5">
+              <label>Selecionar Categorias</label>
+              <small class="text-muted mb-4">(obrigatório)</small>
+              <div class="categorias mt-2 mb-2">
+                <div class="form-check">
+
+                  <% categorias.forEach(function(categoria) { %>
+                    <% let categoriaSelecionada = false %>
+                    <% if (receita.categorias.length> 0) { %>
+                      <% receita.categorias.forEach(function(categoriaCadastrada) { %>
+                        <% if (categoria.id==categoriaCadastrada.id) { %>
+                          <% categoriaSelecionada=true %>
+                        <% } %>
+                      <% }) %>
+                    <% } %>
+                    <label class="form-check-label categoria mr-4">
+                      <input type="checkbox" name="categorias" class="form-check-input" <%=categoriaSelecionada ? 'checked' : "" %> value="<%=categoria.id %>"> <%= categoria.categoria %>
+                    </label>
+                  <% }) %>
+                </div>
+              </div>
+            </div>
+
+            <!-- INGREDIENTES  -->
+            <div class="form-group mt-5" <%=cadastroFoto==true ? "hidden" : receita.imagemReceita && receita.imagemReceita.length> 0 ? "hidden" : "" %>>
+              <label class="mb-0">Lista de ingredientes</label>
+              <div class="mt-0 mb-0">
+                <small>Separe os ingredientes em linhas (pressionando Enter)</small>
+              </div>
+              <textarea class="form-control ingredientes" id="ingredientes" name="ingredientes" rows="5" placeholder="Exemplo: 1 colher de sopa de fermento"><%=receita.ingredientes%></textarea>
+              <div class="mt-2">
+                <small id="titulo-previa-ingredientes" hidden>Prévia da formatação:</small>
+                <small>
+                  <ul id="previa-ingredientes"></ul>
+                </small>
+              </div>
+            </div>
+
+            <!-- MODO DE PREPARO  -->
+            <div class="form-group mt-5" <%=cadastroFoto==true ? "hidden" : receita.imagemReceita && receita.imagemReceita.length> 0 ? "hidden" : "" %>>
+              <label class="mb-0">Modo de preparo</label>
+              <div class="mt-0 mb-0">
+                <small>Separe as etapas em linhas (pressionando Enter)</small>
+              </div>
+              <textarea class="form-control preparo" id="preparo" name="preparo" rows="5" placeholder="Exemplo: Bater no liquidificador os ingredientes líquidos por 3 minutos"><%=receita.preparo %></textarea>
+              <div class="mt-2">
+                <small id="titulo-previa-preparo" hidden>Prévia da formatação:</small>
+                <small>
+                  <ol id="previa-preparo"></ol>
+                </small>
+              </div>
+            </div>
+
+            <!-- DICAS  -->
+            <div class="form-group mt-5" <%=cadastroFoto==true ? "hidden" : (receita.imagemReceita && receita.imagemReceita.length> 0 ? "hidden" : "") %>>
+              <label>O pulo do gato ;)</label>
+              <textarea class="form-control" name="dicas" rows="2" placeholder="Exemplo: Adicionar canela na cobertura fica ótimo!"><%= receita.dicas %></textarea>
+              <small class="text-muted mb-4">Aquela dica que faz toda a diferença!</small>
+            </div>
+
+            <!-- FONTE  -->
+            <div class="form-group mt-5" <%=cadastroFoto==true ? "hidden" : (receita.imagemReceita && receita.imagemReceita.length> 0 ? "hidden" : "") %>>
+              <label>Fonte</label>
+              <input id="fonte" type="text" name="fonte" class="form-control" placeholder="Exemplo: https://www.lowcarb-paleo.com.br/2015/09/o-pao-low-carb-mais-facil-do-mundo.html" value="<%= receita.fonte %>" />
+              <small class="text-muted mb-4">Se quiser, registre a origem da receita ;) </small>
+            </div>
+
+            <!-- IMAGEM RECEITA  -->
+            <div class="form-group mt-5">
+              <label><%= cadastroFoto == true ? "Incluir foto com o texto da receita" : receita.imagemReceita && receita.imagemReceita.length > 0 ? "Incluir foto com o texto da receita" : "Selecionar imagem da receita pronta" %>
+              </label>
+              <div>
+                <small class="text-muted mb-4">Até 2 imagens e cada arquivo pode ter no máximo 6 MB de tamanho :)</small>
+              </div>
+              <div class="preview-img">
+                <% if(receita.imagem || receita.imagemReceita) { %>
+                  <% if(receita.imagem.length> 0) { %>
+                    <% for (let i=0; i < receita.imagem.length; i++) { %>
+                      <img class="w-50 mb-1" name="preview-imagens" src="<%= (receita.imagem.length > 0) ? `${receita.imagem[i]}` : " " %>">
+                    <% } %>
+                  <% } else if (receita.imagemReceita.length> 0) { %>
+                    <% for (let i=0; i < receita.imagemReceita.length; i++) { %>
+                      <img class="w-50 mb-1" name="preview-imagens" src="<%= (receita.imagemReceita.length > 0) ? `${receita.imagemReceita[i]}` : " " %>">
+                    <% } %>
+                  <% } %>
+                <% } %>
+              </div>
+
+              <div>
+                <input class="file-chooser" type="file" name="file" id="file" accept="image/*" multiple />
+              </div>
+
+              <button <%=(receita.imagem.length> 0 || receita.imagemReceita.length > 0) ? "" : "hidden"%> class="btn btn-sm btn-link" type="button" id="btn-excluir-imagens" onclick="return limpaImagens();"><%=(receita.imagem.length> 1 || receita.imagemReceita.length > 1) ? "Excluir imagens" : "Excluir imagem" %></button>
+            </div>
+
+            <!-- BOTÃO CADASTRAR  -->
+            <div class="p-2 mb-5">
+              <button type="submit" id="botao" class="btn btn-dark btn-block" data-toggle="modal" data-target="#modalCarregamento"> <%= receita.id ? "Salvar receita atualizada" : "Cadastrar receita" %>
+              </button>
+            </div>
+          </form>
+
+          </div>
+          </div>
+       </div>
+
+      <!-- MODAL CARREGAMENTO -->
+      <%- include('../views/partials/modal-salvando.ejs') %>
+      <!-- MODAL LIMITE DE IMAGENS -->
+      <%- include('../views/partials/modal-limite-imagens.ejs') %>
+      <!-- MODAL LIMITE DE TAMANHO DE UPLOAD -->
+      <%- include('../views/partials/modal-tamanho-imagens.ejs') %>
     </main>
+
     <%- include('../views/partials/footer.ejs') %>
     <%- include('../views/partials/script-bootstrap.ejs') %>
+
     <script>
 
-        //carrega preview do video na edição da receita
-        const videoCadastrado = document.getElementById('url-youtube').value   
-        if (videoCadastrado.length > 0) {
-            document.getElementById('btn-incluir-video').click();
+      //carrega preview do video na edição da receita
+      const videoCadastrado = document.getElementById('url-youtube').value
+      if (videoCadastrado.length > 0) {
+        document.getElementById('btn-incluir-video').click();
+      };
+
+      //faz a exclusão do vídeo
+      function limpaVideo() {
+        document.getElementById('url-youtube').value = "";
+        document.getElementById('video').value = "";
+        document.getElementById('video-youtube').hidden = true;
+        document.getElementById('btn-excluir-video').hidden = true;
+      };
+
+      //faz a exclusão de imagens
+      function limpaImagens() {
+        //esconde link com a opção de excluir imagem
+        document.getElementById('btn-excluir-imagens').hidden = true;
+        //limpa os dados da imagem que vão para o backend
+        document.getElementById('nomeImagem').value = "";
+        //informa que houve exclusão de imagem - pra saber que não foi edição
+        document.getElementById('removeImagem').value = "remove";
+        //remove imagens do preview
+        const imagens = document.getElementsByName('preview-imagens');
+        for (let i = 0; i < imagens.length; ++i) {
+          imagens[i].src = "";
+        };
+        //remove req.files
+        document.querySelector('.file-chooser').value = "";
+      };
+
+      //PREVIEW DE MÚLTIPLAS IMAGENS
+      const input = document.querySelector('.file-chooser');
+      const preview = document.querySelector('.preview-img');
+
+      input.addEventListener('change', uploadImagens);
+
+      function uploadImagens() {
+
+        while (preview.firstChild) {
+          preview.removeChild(preview.firstChild);
         };
 
-        //faz a exclusão do vídeo
-        function limpaVideo () {
-            document.getElementById('url-youtube').value = "";
-            document.getElementById('video').value = "";
-            document.getElementById('video-youtube').hidden = true;
-            document.getElementById('btn-excluir-video').hidden = true;
+        const curFiles = input.files;
+        const tamanhoMaximoFile = 6000000;
+        let imagemValida = true;
+
+        for (const file of curFiles) {
+          if (file.size > tamanhoMaximoFile) {
+            $('#modalTamanho').modal('show');
+            input.value = "";
+            imagemValida = false;
+          };
         };
 
-        //faz a exclusão de imagens
-        function limpaImagens () {
-            //esconde link com a opção de excluir imagem
-            document.getElementById('btn-excluir-imagens').hidden = true;
-            //limpa os dados da imagem que vão para o backend
-            document.getElementById('nomeImagem').value = "";
-            //informa que houve exclusão de imagem - pra saber que não foi edição
-            document.getElementById('removeImagem').value = "remove";
-            //remove imagens do preview
-            const imagens = document.getElementsByName('preview-imagens');
-            for (let i=0; i<imagens.length; ++i) {
-                imagens[i].src = "";
-            };
-            //remove req.files
-            document.querySelector('.file-chooser').value = "";
+        if (curFiles.length > 2) {
+          $('#modalQuantidade').modal('show');
+          input.value = "";
+          imagemValida = false;
         };
-        
-        //PREVIEW DE MÚLTIPLAS IMAGENS
-        const input = document.querySelector('.file-chooser');
-        const preview = document.querySelector('.preview-img');
-        
-        input.addEventListener('change', uploadImagens);
 
-        function uploadImagens() {
+        if (imagemValida) {
+          const list = document.createElement('div');
+          preview.appendChild(list);
 
-            while(preview.firstChild) {
-                preview.removeChild(preview.firstChild);
-            };
-            
-            const curFiles = input.files;
-            const tamanhoMaximoFile = 6000000;
-            let imagemValida = true;
+          for (const file of curFiles) {
+            const image = document.createElement('img');
+            image.classList.add("w-50");
+            image.classList.add("p-1");
+            image.setAttribute("name", "preview-imagens")
+            image.src = URL.createObjectURL(file);
+            list.appendChild(image);
+          };
 
-            for (const file of curFiles) {
-                if(file.size > tamanhoMaximoFile) {
-                    $('#modalTamanho').modal('show');
-                    input.value = "";
-                    imagemValida = false;
-               } 
-            };
-               
-            if (curFiles.length > 2) {
-                $('#modalQuantidade').modal('show');
-                input.value = "";
-                imagemValida = false;
-            };
-                
-            if (imagemValida) {
-                const list = document.createElement('div');
-                preview.appendChild(list);
-            
-                for (const file of curFiles) {
-                    const image = document.createElement('img');
-                    image.classList.add("w-50");
-                    image.classList.add("p-1");
-                    image.setAttribute("name", "preview-imagens")
-                    image.src = URL.createObjectURL(file);
-                    list.appendChild(image);
-                }
-
-                document.getElementById('btn-excluir-imagens').hidden = false;
-            }       
+          document.getElementById('btn-excluir-imagens').hidden = false;
         };
-        
-        //video da receita - url youtube
-        function montaEmbed(event) {
+      };
 
-            let url = document.querySelector('.url-video-youtube').value;
-            let ID = '';
-            //pega o ID do video do youtube  
-            url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-            if(url[2] !== undefined) {
-                ID = url[2].split(/[^0-9a-z_\-]/i);
-                ID = ID[0];
-            } else {
-                ID = url;
-            }
-            //monta link embed 
-            const urlEmbed = "https://www.youtube.com/embed/" + ID;
+      //video da receita - url youtube
+      function montaEmbed(event) {
 
-            //inclui link no source do iframe  
-            document.getElementById('video-youtube').src = urlEmbed;
-         
-            //exibe a div com o vídeo
-            document.getElementById('preview-video').hidden = false;
+        let url = document.querySelector('.url-video-youtube').value;
+        let ID = '';
+        //pega o ID do video do youtube  
+        url = url.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+        if (url[2] !== undefined) {
+          ID = url[2].split(/[^0-9a-z_\-]/i);
+          ID = ID[0];
+        } else {
+          ID = url;
+        };
 
-            //exibe botão para excluir video
-            document.getElementById('btn-excluir-video').hidden = false;
+        //monta link embed 
+        const urlEmbed = "https://www.youtube.com/embed/" + ID;
 
-            //exibe video
-            document.getElementById('video-youtube').hidden = false;
+        //inclui link no source do iframe  
+        document.getElementById('video-youtube').src = urlEmbed;
 
+        //exibe a div com o vídeo
+        document.getElementById('preview-video').hidden = false;
 
-            //inclui o ID no hidden pra salvar no bd
-            document.getElementById('video').value = ID;
+        //exibe botão para excluir video
+        document.getElementById('btn-excluir-video').hidden = false;
 
-            return urlEmbed;
-        }
+        //exibe video
+        document.getElementById('video-youtube').hidden = false;
 
-        // formatação do texto - ingredientes e modo de preparo
-        document.getElementById('ingredientes').addEventListener('keyup', function() {
-            exibePreview("ingredientes");
+        //inclui o ID no hidden pra salvar no bd
+        document.getElementById('video').value = ID;
+
+        return urlEmbed;
+      };
+
+      // formatação do texto - ingredientes e modo de preparo
+      document.getElementById('ingredientes').addEventListener('keyup', function () {
+        exibePreview("ingredientes");
+      });
+
+      document.getElementById('preparo').addEventListener('keyup', function () {
+        exibePreview("preparo");
+      });
+
+      function exibePreview(tipo) {
+        const textoBase = document.getElementById(tipo).value
+        const textoBaseFormatado = (textoBase).split("\n")
+        const lista = document.querySelector("#previa-" + tipo);
+        lista.innerHTML = "";
+
+        textoBaseFormatado.forEach(item => {
+          const li = document.createElement("li")
+          li.textContent = item
+          lista.appendChild(li);
         });
 
-        document.getElementById('preparo').addEventListener('keyup', function() {
-            exibePreview("preparo");
+        document.getElementById("titulo-previa-" + tipo).hidden = false;
+      };
+
+      // desabilita botão submit se não houver categoria selecionada
+      const botaoSumbit = document.getElementById("botao");
+      const form = document.getElementById("form");
+      const checkbox = document.querySelectorAll("input[type=checkbox][name=categorias]");
+      checkbox.forEach(function (check) {
+        form.addEventListener("change", function (event) {
+          const categoriasSelecionadas = document.querySelectorAll("input[name='categorias']:checked").length;
+          botaoSumbit.disabled = categoriasSelecionadas ? false : true;
         });
-
-        function exibePreview(tipo) {
-            const textoBase = document.getElementById(tipo).value
-            const textoBaseFormatado = (textoBase).split("\n")
-            const lista = document.querySelector("#previa-" + tipo);
-            lista.innerHTML = "";
-
-            textoBaseFormatado.forEach(item => {
-                const li = document.createElement("li")
-                li.textContent = item
-                lista.appendChild(li);
-            });
-            
-            document.getElementById("titulo-previa-" + tipo).hidden = false;
-        };
-
-        // desabilita botão submit se não houver categoria selecionada
-        const botaoSumbit = document.getElementById("botao");
-        const form = document.getElementById("form");
-        const checkbox = document.querySelectorAll("input[type=checkbox][name=categorias]");
-        checkbox.forEach(function(check) {
-            form.addEventListener("change", function(event){
-                const categoriasSelecionadas = document.querySelectorAll("input[name='categorias']:checked").length;
-                botaoSumbit.disabled = categoriasSelecionadas ? false : true;
-            })
-        });
+      });
     </script>
 
 </body>

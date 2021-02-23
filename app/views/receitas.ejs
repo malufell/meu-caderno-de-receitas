@@ -2,179 +2,209 @@
 <html lang="pt-br">
 
 <head>
-    <link rel='stylesheet' href='/styles/caderno-receitas.css' />
-    <link rel='stylesheet' href='/styles/main.css' />
-    <%- include('../views/partials/head.ejs') %>
+  <link rel='stylesheet' href='/styles/caderno-receitas.css' />
+  <link rel='stylesheet' href='/styles/main.css' />
+  <%- include('../views/partials/head.ejs') %>
 </head>
 
 <body>
-    <%- include('../views/partials/nav-user.ejs') %>
+  <%- include('../views/partials/nav-user.ejs') %>
     <main class="content">
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="container-fluid p-0 ordenacao">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="container-fluid p-0 ordenacao">
 
-                        <!-- ordenação no desktop e ipad com botões -->
-                        <div class="d-none d-sm-block">
-                            <div class="btn-toolbar mb-3 justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                                <div class="input-group" role="group" aria-label="First group">
-                                    <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" type="" class="btn btn-outline-secondary ml-1">A-Z</a>
-                                    <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" type="" class="btn btn-outline-secondary ml-1">Z-A</a>
-                                    <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" type="" class="btn btn-outline-secondary ml-1">Data de inclusão</a>
-                                    <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" type="" class="btn btn-outline-secondary ml-1">Data de atualização</a>
-                                    <a class="btn btn-primary ml-1" href="/receitas-cadastro">Cadastrar nova receita</a>
-                                </div>
-                                <form action='/receitas?' class="search input-group w-25 pl-3">
-                                    <input type="search" id="search" name="q" class="form-control" placeholder="Ex.: brownie">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary">Buscar</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <!-- ordenação no mobile com dropdown -->
-                        <menu class="dropdown d-block d-sm-none mt-1 p-0">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle col-12" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Ordenar receitas
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" class="dropdown-item" type="button">A-Z</a>
-                                <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" class="dropdown-item" type="button">Z-A</a>
-                                <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" class="dropdown-item" type="button">Data de inclusão</a>
-                                <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>" class="dropdown-item" type="button">Data de atualização</a>
-                            </div>
-
-                            <!-- busca no mobile -->
-                            <div class="d-block d-sm-none mt-1 p-0">
-                                <form action='/receitas?' class="search input-group">
-                                    <input type="search" id="search" name="q" class="form-control" placeholder="Ex.: brownie">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary btn-sm">Buscar</button>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <!-- categorias no mobilie com dropdown -->
-                            <div class="dropdown d-block d-sm-none mt-1">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle col-12" type="button"
-                                    id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Filtrar por categoria
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <a class="dropdown-item" type="button" href="/receitas">Todas as receitas
-                                        <span class="badge badge-secondary badge-pill"><%= contagemTotal %></span></a>
-                                    <div class="dropdown-divider"></div>
-
-                                    <% categorias.forEach(function(categoria) { %>
-                                        <% if (categoria.id != null) { %>
-                                            <a class="dropdown-item" type="button" href="/receitas?categoriaSelecionada=<%=categoria.id%>"><%= categoria.categoria %>
-                                            <span class="badge badge-secondary badge-pill"><%=categoria.count %></span></a>
-                                        <% } %>
-                                    <% }) %>
-                                </div>
-                            </div>
-
-                            <!-- cadastro no mobile -->
-                            <div class="p-0 col-12">
-                                <a class="btn btn-sm btn-primary col-12 mt-1" href="/receitas-cadastro">Cadastrar nova receita</a>
-                            </div>
-                        </menu>
+              <!-- ordenação no desktop e ipad com botões -->
+              <div class="d-none d-sm-block">
+                <div class="btn-toolbar mb-3 justify-content-between" role="toolbar"
+                  aria-label="Toolbar with button groups">
+                  <div class="input-group" role="group" aria-label="First group">
+                    <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>"
+                      type="" class="btn btn-outline-secondary ml-1">A-Z</a>
+                    <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>"
+                      type="" class="btn btn-outline-secondary ml-1">Z-A</a>
+                    <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>"
+                      type="" class="btn btn-outline-secondary ml-1">Data de inclusão</a>
+                    <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>"
+                      type="" class="btn btn-outline-secondary ml-1">Data de atualização</a>
+                    <a class="btn btn-primary ml-1" href="/receitas-cadastro">Cadastrar nova receita</a>
+                  </div>
+                  <form action='/receitas?' class="search input-group w-25 pl-3">
+                    <input type="search" id="search" name="q" class="form-control" placeholder="Ex.: brownie">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary">Buscar</button>
                     </div>
+                  </form>
                 </div>
+              </div>
+
+              <!-- ordenação no mobile com dropdown -->
+              <menu class="dropdown d-block d-sm-none mt-1 p-0">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle col-12" type="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Ordenar receitas
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <a href="/receitas?order=nome&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>"
+                    class="dropdown-item" type="button">A-Z</a>
+                  <a href="/receitas?order=nome&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>"
+                    class="dropdown-item" type="button">Z-A</a>
+                  <a href="/receitas?order=createdAt&order=ASC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>"
+                    class="dropdown-item" type="button">Data de inclusão</a>
+                  <a href="/receitas?order=updatedAt&order=DESC&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>&paginaAtual=<%=paginaAtual%>"
+                    class="dropdown-item" type="button">Data de atualização</a>
+                </div>
+
+                <!-- busca no mobile -->
+                <div class="d-block d-sm-none mt-1 p-0">
+                  <form action='/receitas?' class="search input-group">
+                    <input type="search" id="search" name="q" class="form-control" placeholder="Ex.: brownie">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary btn-sm">Buscar</button>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- categorias no mobilie com dropdown -->
+                <div class="dropdown d-block d-sm-none mt-1">
+                  <button class="btn btn-sm btn-outline-secondary dropdown-toggle col-12" type="button"
+                    id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filtrar por categoria
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <a class="dropdown-item" type="button" href="/receitas">Todas as receitas
+                      <span class="badge badge-secondary badge-pill">
+                        <%= contagemTotal %>
+                      </span></a>
+                    <div class="dropdown-divider"></div>
+
+                    <% categorias.forEach(function(categoria) { %>
+                      <% if (categoria.id !=null) { %>
+                        <a class="dropdown-item" type="button" href="/receitas?categoriaSelecionada=<%=categoria.id%>">
+                          <%= categoria.categoria %>
+                            <span class="badge badge-secondary badge-pill">
+                              <%=categoria.count %>
+                            </span>
+                        </a>
+                      <% } %>
+                    <% }) %>
+                  </div>
+                </div>
+
+                <!-- cadastro no mobile -->
+                <div class="p-0 col-12">
+                  <a class="btn btn-sm btn-primary col-12 mt-1" href="/receitas-cadastro">Cadastrar nova receita</a>
+                </div>
+              </menu>
             </div>
-
-            <div class="row">
-                <!-- MSG RECEITA EXCLUÍDA -->
-                <div class="col-sm-8 col-lg-9">
-                    <% if (mensagem) { %>
-                        <div class="alert alert-success w-100" role="alert">
-                            <strong><%= mensagem %></strong>
-                        </div>
-                    <% } %>
-
-                    <!-- MSG NÃO HÁ RECEITA CADASTRADA -->
-                    <% if(receitas.length == 0 && !receitaNaoEncontrada) { %> 
-                        <div class="alert alert-secondary w-100 mt-3" role="alert">
-                            <div> Oi, <%=usuario.nome%>! Que bom ter você por aqui :) </div>
-                           <div>Ainda não há nenhuma receita cadastrada, clique em "Cadastrar nova receita".</div>
-                          </div>
-                    <% } %>
-
-                    <!-- MSG RECEITA NÃO ENCONTRADA NA BUSCA -->
-                    <% if(receitaNaoEncontrada) { %> 
-                        <div class="alert alert-secondary w-100 mt-3" role="alert">
-                            <div> <%=usuario.nome%>, não encontramos receitas cadastradas com "<%=busca%>" no nome :( </div>
-                        </div>
-                    <% } %>
-
-                    <% if(busca) { %> 
-                        <div class="ml-2 mt-1 mb-3">
-                            <a href="/receitas">Limpar busca</a>
-                        </div>
-                    <% } %>
-
-                    <!-- CARDS DE RECEITAS     -->
-                    <div class="row row-cols-md-2 row-cols-lg-3">
-                        <% receitas.forEach(function(receita) { %>
-                        <article class="col-12">
-                            <div class="card d-flex justify-content-center">
-                                <% if(receita.imagem.length == 0 && receita.imagemReceita.length == 0) { %>
-                                    <img src="/images/sem-imagem.jpg" class="card-img-top">
-                                <% } else { %>
-                                    <img src="<%= receita.imagem.length > 0 ? receita.imagem[0] : `images/cadastroFoto3.jpg` %>" class="card-img-top">
-                                <% } %>    
-                                <div class="card-body">
-                                    <h5 class="card-title"><%= receita.nome %></h5>
-                                </div>
-                                <a href="/receitas/<%= receita.id %>" class="btn btn-secondary mt-3">Ver receita</a>
-                            </div>
-                        </article>
-                        <% }) %>
-                    </div>
-
-                    <!-- PAGINAÇÃO -->
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item">
-                                <% if(totalPaginas > 1) { %>      
-                                <a class="page-link" href="/receitas?paginaAtual=<%=paginaAnterior%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" tabindex="-1" aria-disabled="true">Anterior</a>
-                            </li>
-                            <% for (let i=1; i < (totalPaginas + 1); i++) { %>
-                                <li class="page-item <%=(paginaAtual == i) ? "active" : "" %>"><a class="page-link " href="/receitas?paginaAtual=<%=i%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>"><%=i%></a></li>
-                            <% } %>
-                                <a class="page-link" href="/receitas?paginaAtual=<%=proximaPagina%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>">Próxima</a>
-                            <% } %>  
-                          </li>
-                        </ul>
-                    </nav>
-                </div>
-
-                <div class="col-sm-4 col-lg-3">
-                    <!-- categorias no desktop com lista -->
-                    <h4 class="d-none d-sm-block categorias mt-1 mb-3">Categorias</h4>
-                    <div class="row d-none d-sm-block">
-                        <div class="col-12 ">
-                            <div class="list-group" role="tablist">
-                                <a class="list-group-item list-group-item-action <%= categoriaAtiva ? "" : "active" %>" href="/receitas" role="tab">Todas as receitas
-                                    <span class="badge badge-secondary badge-pill"><%= contagemTotal %></span></a>
-
-                                <% categorias.forEach(function(categoria) { %>
-                                    <% if (categoria.id != null) { %>
-                                    <a href="/receitas?categoriaSelecionada=<%=categoria.id%>" role="tab" class="list-group-item list-group-item-action <%= (categoriaAtiva == categoria.id) ? "active" : ""%>"><%= categoria.categoria %>
-                                        <span class="badge badge-secondary badge-pill"><%=categoria.count %></span></a> 
-                                    <% } %>
-                                <% }) %>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+          </div>
         </div>
+
+        <div class="row">
+          <!-- MSG RECEITA EXCLUÍDA -->
+          <div class="col-sm-8 col-lg-9">
+            <% if (mensagem) { %>
+              <div class="alert alert-success w-100" role="alert">
+                <strong>
+                  <%= mensagem %>
+                </strong>
+              </div>
+            <% } %>
+
+          <!-- MSG NÃO HÁ RECEITA CADASTRADA -->
+          <% if(receitas.length==0 && !receitaNaoEncontrada) { %>
+            <div class="alert alert-secondary w-100 mt-3" role="alert">
+              <div> Oi, <%=usuario.nome%>! Que bom ter você por aqui :) </div>
+              <div>Ainda não há nenhuma receita cadastrada, clique em "Cadastrar nova receita".</div>
+            </div>
+          <% } %>
+
+          <!-- MSG RECEITA NÃO ENCONTRADA NA BUSCA -->
+          <% if(receitaNaoEncontrada) { %>
+            <div class="alert alert-secondary w-100 mt-3" role="alert">
+              <div>
+                <%=usuario.nome%>, não encontramos receitas cadastradas com "<%=busca%>" no nome :(
+              </div>
+            </div>
+          <% } %>
+
+          <% if(busca) { %>
+            <div class="ml-2 mt-1 mb-3">
+              <a href="/receitas">Limpar busca</a>
+            </div>
+          <% } %>
+
+          <!-- CARDS DE RECEITAS     -->
+          <div class="row row-cols-md-2 row-cols-lg-3">
+            <% receitas.forEach(function(receita) { %>
+              <article class="col-12">
+                <div class="card d-flex justify-content-center">
+                  <% if(receita.imagem.length==0 && receita.imagemReceita.length==0) { %>
+                    <img src="/images/sem-imagem.jpg" class="card-img-top">
+                  <% } else { %>
+                    <img
+                      src="<%= receita.imagem.length > 0 ? receita.imagem[0] : `images/cadastroFoto3.jpg` %>"
+                      class="card-img-top">
+                  <% } %>
+                  <div class="card-body">
+                    <h5 class="card-title"><%= receita.nome %></h5>
+                  </div>
+                  <a href="/receitas/<%= receita.id %>" class="btn btn-secondary mt-3">Ver
+                    receita</a>
+                </div>
+              </article>
+            <% }) %>
+          </div>
+
+          <!-- PAGINAÇÃO -->
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+              <% if(totalPaginas> 1) { %>
+                <li class="page-item">
+                <a class="page-link"
+                    href="/receitas?paginaAtual=<%=paginaAnterior%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>" tabindex="-1" aria-disabled="true">Anterior</a>
+                </li>
+                <% for (let i=1; i < (totalPaginas + 1); i++) { %>
+                  <li class="page-item <%=(paginaAtual == i) ? " active" : "" %>">
+                    <a class="page-link" href="/receitas?paginaAtual=<%=i%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>"><%=i%></a>
+                  </li>
+                <% } %>
+                <li class="page-item">
+                  <a class="page-link" href="/receitas?paginaAtual=<%=proximaPagina%>&order=<%=ordenacaoNome%>&order=<%=ordenacaoDirecao%>&categoriaSelecionada=<%=categoriaAtiva%>&q=<%=busca%>">Próxima</a>
+                </li>
+              <% } %>
+            </ul>
+          </nav>
+        </div>
+
+          <div class="col-sm-4 col-lg-3">
+            <!-- categorias no desktop com lista -->
+            <h4 class="d-none d-sm-block categorias mt-1 mb-3">Categorias</h4>
+            <div class="row d-none d-sm-block">
+              <div class="col-12 ">
+                <div class="list-group" role="tablist">
+                  <a class="list-group-item list-group-item-action <%= categoriaAtiva ? "" : " active" %>" href="/receitas" role="tab">Todas as receitas
+                    <span class="badge badge-secondary badge-pill"><%= contagemTotal %></span>
+                  </a>
+
+                  <% categorias.forEach(function(categoria) { %>
+                    <% if (categoria.id !=null) { %>
+                      <a href="/receitas?categoriaSelecionada=<%=categoria.id%>" role="tab" class="list-group-item list-group-item-action <%= (categoriaAtiva == categoria.id) ? " active" : "" %>"><%= categoria.categoria %>
+                        <span class="badge badge-secondary badge-pill"><%=categoria.count %></span>
+                      </a>
+                    <% } %>
+                  <% }) %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </main>
+
     <%- include('../views/partials/footer.ejs') %>
     <%- include('../views/partials/script-bootstrap.ejs') %>
 </body>
