@@ -1,5 +1,6 @@
 const database = require('../models');
 const { Op, ValidationError } = require("sequelize");
+const crypto = require('crypto');
 
 class Receitas {
 
@@ -41,6 +42,73 @@ class Receitas {
         } catch (error) {
             return resp.render('error', { error, message: error.message });
         }
+    };
+
+    static async cadastraReceita(req, resp) {
+        const categorias = req.body.categorias;
+        const tipoCadastro = req.body.tipoCadastro;
+
+        try {
+            const receita = await database.Receitas.create({
+                nome: req.body.nome,
+                imagem: (tipoCadastro) ? [] : req.files.map(obj => obj.path),
+                video: req.body.video,
+                ingredientes: req.body.ingredientes,
+                preparo: req.body.preparo,
+                dicas: req.body.dicas,
+                imagemReceita: (tipoCadastro) ? req.files.map(obj => obj.path) : [],
+                fonte: req.body.fonte,
+                cadastroPorFoto: (tipoCadastro) ? true : false,
+                usuario_id: req.user.id,
+                categoriasId: req.body.categorias
+            });
+
+            await receita.addCategorias(categorias, { 
+                through: { 
+                    receitaId: receita.id,
+                    categoriaId: categorias, 
+                } 
+            })
+
+            return resp.redirect('/receitas/' + receita.id);
+            
+        } catch (error) {
+
+            if(error instanceof ValidationError) {
+                const errors = error.message.split(',');
+                const mensagemErro = [];
+                errors.forEach(function(error) {
+                    if(error == '\nValidation error: Informe o nome da receita' || error == 'Validation error: Informe o nome da receita') {
+                        mensagemErro.push(error.replace(/Validation error: /i, ""))
+                    } else if(error == 'notNull Violation: Selecione uma ou mais categorias') {
+                        mensagemErro.push(error.replace(/notNull Violation: /i, ""))
+                    }    
+                });
+
+                const categorias = await database.Categorias.findAll();
+                const receita = req.body;
+
+                let idCategoriasSelecionadas = req.body.categorias;
+                if(!(idCategoriasSelecionadas instanceof Object)) {
+                    idCategoriasSelecionadas = [req.body.categorias];
+                };
+
+                receita.categorias = idCategoriasSelecionadas.map(function(idCategoria) {
+                    return { id: idCategoria } });
+
+                return resp.render('receitas-cadastro', { 
+                    erroCadastro: mensagemErro, 
+                    receita: receita,
+                    video: req.body.video,
+                    usuario: req.user,
+                    cadastroFoto: tipoCadastro,
+                    categorias: categorias
+                });
+                
+            } else {
+                return resp.render('error', { error, message: error.message });
+            }
+        };
     };
     
     //traz os dados do BD para edição
@@ -278,7 +346,7 @@ class Receitas {
 
     static async buscaUmaReceita(req, resp) {
         const { id } = req.params;
-        
+
         try {
             const receita = await database.Receitas.findOne({
                 where: { 
@@ -323,71 +391,83 @@ class Receitas {
         }
     };
 
-    static async cadastraReceita(req, resp) {
-        const categorias = req.body.categorias;
-        const tipoCadastro = req.body.tipoCadastro;
+    static async atualizaCodigoCompartilhamento(req, resp) {
+        const { id } = req.params;
+        const status = req.body.botaoCompartilhar;
+
+        let codigo;
+        status ? codigo = crypto.randomBytes(10).toString('hex') : codigo = null
 
         try {
-            const receita = await database.Receitas.create({
-                nome: req.body.nome,
-                imagem: (tipoCadastro) ? [] : req.files.map(obj => obj.path),
-                video: req.body.video,
-                ingredientes: req.body.ingredientes,
-                preparo: req.body.preparo,
-                dicas: req.body.dicas,
-                imagemReceita: (tipoCadastro) ? req.files.map(obj => obj.path) : [],
-                fonte: req.body.fonte,
-                cadastroPorFoto: (tipoCadastro) ? true : false,
-                usuario_id: req.user.id,
-                categoriasId: req.body.categorias
+            await database.Receitas.update({ 
+                codigoCompartilhamento: codigo,
+                }, {
+                    where: {
+                        id: id,
+                        usuario_id: req.user.id
+                }
+            });
+                        
+            return resp.redirect('/receitas/' + id );
+
+        } catch (error) {
+            return resp.render('error', { error, message: error.message });
+        }
+    };
+
+    static async exibeModoPublico(req, resp) {
+        const { codigoCompartilhamento } = req.params;
+        
+        try {
+            
+            const receita = await database.Receitas.findOne({
+                where: { 
+                    codigoCompartilhamento: codigoCompartilhamento
+                },
+                include: [
+                    {
+                        model: database.Categorias,
+                        as: 'categorias',
+                        through: { attributes: [] },
+                    },
+                ],
             });
 
-            await receita.addCategorias(categorias, { 
-                through: { 
-                    receitaId: receita.id,
-                    categoriaId: categorias, 
-                } 
-            })
+            const usuario = await database.Usuarios.findOne({
+                attributes: ['nome'],
+                where: { 
+                    id: receita.usuario_id,
+                }    
+            });
 
-            return resp.redirect('/receitas/' + receita.id);
-            
-        } catch (error) {
 
-            if(error instanceof ValidationError) {
-                const errors = error.message.split(',');
-                const mensagemErro = [];
-                errors.forEach(function(error) {
-                    if(error == '\nValidation error: Informe o nome da receita' || error == 'Validation error: Informe o nome da receita') {
-                        mensagemErro.push(error.replace(/Validation error: /i, ""))
-                    } else if(error == 'notNull Violation: Selecione uma ou mais categorias') {
-                        mensagemErro.push(error.replace(/notNull Violation: /i, ""))
-                    }    
-                });
+            const ingredientesFormatados = (receita.ingredientes).split("\n")
+            const preparoFormatado = (receita.preparo).split("\n")
+            const video = ("https://www.youtube.com/embed/" + receita.video);
 
-                const categorias = await database.Categorias.findAll();
-                const receita = req.body;
-
-                let idCategoriasSelecionadas = req.body.categorias;
-                if(!(idCategoriasSelecionadas instanceof Object)) {
-                    idCategoriasSelecionadas = [req.body.categorias];
-                };
-
-                receita.categorias = idCategoriasSelecionadas.map(function(idCategoria) {
-                    return { id: idCategoria } });
-
-                return resp.render('receitas-cadastro', { 
-                    erroCadastro: mensagemErro, 
-                    receita: receita,
-                    video: req.body.video,
-                    usuario: req.user,
-                    cadastroFoto: tipoCadastro,
-                    categorias: categorias
-                });
-                
-            } else {
-                return resp.render('error', { error, message: error.message });
+            //formatação de datas
+            function adicionaZero(numero){
+                if (numero <= 9) 
+                    return "0" + numero;
+                else
+                    return numero; 
             }
-        };
+            const dataCriacao = (adicionaZero(receita.createdAt.getDate().toString()) + "/" + (adicionaZero(receita.createdAt.getMonth()+1).toString()) + "/" + receita.createdAt.getFullYear());
+            const dataEdicao = (adicionaZero(receita.updatedAt.getDate().toString()) + "/" + (adicionaZero(receita.updatedAt.getMonth()+1).toString()) + "/" + receita.updatedAt.getFullYear());
+            
+            return resp.render('receitas-id-publico', {
+                receita: receita,
+                ingredientes: ingredientesFormatados,
+                preparo: preparoFormatado,
+                video: video,
+                dataCriacao: dataCriacao,
+                dataEdicao: dataEdicao,
+                autor: usuario.nome
+            });
+
+        } catch (error) {
+            return resp.render('error', { error, message: error.message });
+        }
     };
 
     static async deletaReceita(req, resp) {

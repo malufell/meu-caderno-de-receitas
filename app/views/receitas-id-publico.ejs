@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <%- include('../views/partials/nav-user.ejs') %>
+  <%- include('../views/partials/nav-geral.ejs') %>
     <main class="content">
       <div class="container centered">
         <div class="row">
@@ -147,93 +147,37 @@
             </div>
           </div>
 
-          <div class="col-md-4">
-            <div class="container-fluid mt-5 pt-5">
-              <div class="mt-3">
-                <i class="fas fa-book"></i>
-                <a href="/receitas">Voltar ao caderno de receitas</a>
-              </div>
-
-              <div class="mt-3">
-                <i class="far fa-plus-square"></i>
-                <a href="/receitas-cadastro">Cadastrar outra receita</a>
-              </div>
-
-              <div class="mt-3">
-                <i class="far fa-edit"></i>
-                <a href="/receitas/<%= receita.id %>/edicao">Editar receita</a>
-              </div>
-
-              <div class="mt-3">
-                <i class="far fa-trash-alt"></i>
-                <a href="#" data-toggle="modal" data-target="#modalExclusao">
-                  Excluir receita</a>
-              </div>
-
-              <form method='post' action='/receitas/<%=receita.id%>/compartilhamento' id="form">
-                <div class="custom-control custom-switch mt-3">
-                  <input type="checkbox" class="custom-control-input" id="customSwitch1" name="botaoCompartilhar" value="<%=receita.codigoCompartilhamento ? "true" : "false"%>" <%=receita.codigoCompartilhamento ? "checked" : ""%> onclick="toggle(this);">
-                  <label class="custom-control-label" for="customSwitch1"><%=receita.codigoCompartilhamento ? "Desabilitar" : "Habilitar"%> compartilhamento</label>
-                </div>
-
-                <%if(receita.codigoCompartilhamento) { %>
-                  <a href="#" data-toggle="modal" data-target="#modalCompartilhamentoReceita" type="button" class="btn btn-sm btn-primary mt-3">
-                    Compartilhar receita</a>
-                <% } %>
-              </form>
-
-              <small>
-                <ul class="list-unstyled mb-0 mt-3">
-                  <li class="d-flex mb-2">
-                    <h6 class="mb-0">Última atualização:</h6>
+            <small>
+            <ul class="list-unstyled mb-0 mt-3 ml-3">
+                <li class="d-flex mb-2">
+                <h6 class="mb-0">Última atualização:</h6>
+                <p class="ml-3 text-muted mb-0">
+                    <%=dataEdicao%>
+                </p>
+                </li>
+                <li class="d-flex mb-2">
+                <h6 class="mb-0">Receita cadastrada em:</h6>
+                <p class="ml-3 text-muted mb-0">
+                    <%=dataCriacao%>
+                </p>
+                </li>
+                <li class="d-flex mb-2">
+                    <h6 class="mb-0">Receita cadastrada por:</h6>
                     <p class="ml-3 text-muted mb-0">
-                      <%=dataEdicao%>
+                        <%=autor%>
                     </p>
-                  </li>
-                  <li class="d-flex mb-2">
-                    <h6 class="mb-0">Receita cadastrada em:</h6>
-                    <p class="ml-3 text-muted mb-0">
-                      <%=dataCriacao%>
-                    </p>
-                  </li>
-                </ul>
-              </small>
-            </div>
-          </div>
-
+                    </li>
+            </ul>
+            </small>
         </div>
-      </div>
+        </div>
 
-      <%- include('../views/partials/modal-exclusao.ejs') %>
-      <%- include('../views/partials/modal-compartilhamento-receita.ejs') %>
+    </div>
+    </div>
 
     </main>
 
     <%- include('../views/partials/footer.ejs') %>
     <%- include('../views/partials/script-bootstrap.ejs') %>
-
-    <script>
-
-      //habilitar compartilhamento da receita
-      function toggle(button) {
-        if (button.value == "false") {
-          button.value = "true";
-        } else {
-          button.value = "false";
-        };
-        
-        document.getElementById('form').submit();
-      };
-
-      //copiar link para compartilhar receita
-      document.querySelector(".btn-copiar-link").addEventListener("click", copiaLink);
-      
-      function copiaLink() {
-        const txt = document.querySelector("#link-compartilhamento");
-        txt.select();
-        document.execCommand("copy");
-      };
-
-      </script>
 </body>
 </html>
