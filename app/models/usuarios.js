@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       Usuarios.hasMany(models.Receitas, {
         foreignKey: 'usuario_id'
       });
-    }
+    };
 
   } Usuarios.init({
     nome: {
@@ -44,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
     confirmaSenha: {
       type: DataTypes.VIRTUAL,
     }, 
+    usuario: {
+      type: DataTypes.STRING,
+    },
     tokenRecuperaSenha: {
       type: DataTypes.STRING,
     },
@@ -76,6 +79,9 @@ module.exports = (sequelize, DataTypes) => {
     usuario.senha = Usuarios.generateHash(usuario.senha)
   });
 
+  Usuarios.beforeCreate('criaNomeUsuario', (usuario) => {
+    usuario.usuario = usuario.nome.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, '').toLowerCase();
+  });
 
   Usuarios.generateHash = function(senhaCadastro) {
     return bcrypt.hashSync(senhaCadastro, bcrypt.genSaltSync (10), null);

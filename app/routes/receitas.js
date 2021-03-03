@@ -49,6 +49,10 @@ router.put('/receitas/:id/edicao', upload.array('file', 2), Receitas.atualizaRec
 
 router.delete('/receitas/:id', Receitas.deletaReceita);
 
+//modo público
+router.post('/receitas/:id/compartilhamento', Receitas.atualizaCodigoCompartilhamento);
+router.get('/receitas/:usuario/:codigoCompartilhamento', Receitas.exibeModoPublico);
+
 module.exports = router;
 
 
