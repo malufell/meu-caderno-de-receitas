@@ -51,7 +51,7 @@ router.delete('/receitas/:id', Receitas.deletaReceita);
 
 //modo público
 router.post('/receitas/:id/compartilhamento', Receitas.atualizaCodigoCompartilhamento);
-router.get('/receitas/:usuario/:codigoCompartilhamento', Receitas.exibeModoPublico);
+router.get('/u/:usuario/:codigoCompartilhamento', Receitas.exibeModoPublico);
 
 module.exports = router;
 
