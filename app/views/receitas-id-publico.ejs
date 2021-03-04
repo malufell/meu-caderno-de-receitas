@@ -12,7 +12,7 @@
     <main class="content">
       <div class="container centered">
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-12">
 
             <div class="container-fluid d-flex justify-content-center">
               <div class="row mb-1 mt-2">
@@ -145,36 +145,22 @@
                 </div>
               </div>
             </div>
+            
+            
+            <div class="d-flex justify-content-center">
+              <ul class="list-unstyled mb-0 mt-3 ml-3 font-italic">
+                <li class="d-flex mb-2">
+                  <p class="mb-0">Receita cadastrada por <%=autor%></p>
+                </li>
+                <li class="d-flex mb-2">
+                  <p class="mb-0">Última atualização em <%=dataEdicao%></p>
+                </li>
+              </ul>
+            </div>
           </div>
-
-            <small>
-            <ul class="list-unstyled mb-0 mt-3 ml-3">
-                <li class="d-flex mb-2">
-                <h6 class="mb-0">Última atualização:</h6>
-                <p class="ml-3 text-muted mb-0">
-                    <%=dataEdicao%>
-                </p>
-                </li>
-                <li class="d-flex mb-2">
-                <h6 class="mb-0">Receita cadastrada em:</h6>
-                <p class="ml-3 text-muted mb-0">
-                    <%=dataCriacao%>
-                </p>
-                </li>
-                <li class="d-flex mb-2">
-                    <h6 class="mb-0">Receita cadastrada por:</h6>
-                    <p class="ml-3 text-muted mb-0">
-                        <%=autor%>
-                    </p>
-                    </li>
-            </ul>
-            </small>
         </div>
-        </div>
-
+      </div>
     </div>
-    </div>
-
     </main>
 
     <%- include('../views/partials/footer.ejs') %>
