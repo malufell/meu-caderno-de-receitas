@@ -190,6 +190,46 @@
               <span>Excluir receita</span>
             </div>
 
+            <div class="custom-control custom-switch mt-3">
+              <input disabled type="checkbox" class="custom-control-input" id="customSwitch1" name="botaoCompartilhar" value="<%=receita.codigoCompartilhamento ? "true" : "false"%>" <%=receita.codigoCompartilhamento ? "checked" : ""%> onclick="toggle(this);">
+              <label class="custom-control-label" for="customSwitch1"><%=receita.codigoCompartilhamento ? "Desabilitar" : "Habilitar"%> compartilhamento</label>
+            </div>
+
+              <%if(receita.codigoCompartilhamento) { %>
+                <a href="#" data-toggle="modal" data-target="#modalCompartilhamentoReceita" type="button" class="btn btn-sm btn-primary mt-3">
+                  Compartilhar receita</a>
+              <% } %>
+
+              <!-- MODAL COMPARTILHAMENTO -->
+              <div class="modal fade" id="modalCompartilhamentoReceita" tabindex="-1" aria-labelledby="modalCompartilhamentoReceitaLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalCompartilhamentoReceitaLabel">Compartilhar receita</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      Link para compartilhar receita:
+                    </div>
+                    <input readonly
+                      class="link-compartilhamento input-group-text bg-light ml-3 mr-3 user-select-all text-muted text-truncate"
+                      id="link-compartilhamento"
+                      value="www.meucadernodereceitas.net/u/exemplo/<%=receita.codigoCompartilhamento%>">
+                    <div>
+                      <button class="btn btn-sm btn-link btn-copiar-link ml-2" type="button" id="btn-copiar-link" onclick="return copiaLink();">Copiar link</button>
+                    </div>
+                    <div class="small ml-3 mb-1">
+                      Através deste link, outras pessoas poderão apenas visualizar a sua receita ;)
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             <small>
               <ul class="list-unstyled mb-0 mt-3">
                 <li class="d-flex mb-2">
@@ -214,6 +254,19 @@
   </main>
 
   <%- include('../views/partials/footer.ejs') %>
+  <%- include('../views/partials/modal-compartilhamento-receita.ejs') %>
   <%- include('../views/partials/script-bootstrap.ejs') %>
+
+  <script>
+    //copiar link para compartilhar receita
+    document.querySelector(".btn-copiar-link").addEventListener("click", copiaLink);
+    
+    function copiaLink() {
+      const txt = document.querySelector("#link-compartilhamento");
+      txt.select();
+      document.execCommand("copy");
+    };
+  </script>
+
 </body>
 </html>
