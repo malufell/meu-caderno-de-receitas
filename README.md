@@ -45,7 +45,8 @@ Como pré-requisito, é necessário ter o [Node.js](https://nodejs.org/en/) e o 
 }
 ```
 5. Rodar a migração do Sequelize para criar as tabelas no banco de dados: `npx sequelize-cli db:migrate`
-6. Rodar a aplicação: `npm start`
+6. Rodar o comando `npx sequelize-cli db:seed:all` para popular a tabela de Categorias
+7. Iniciar a aplicação com o comando `npm start`
 
 </details>
 
